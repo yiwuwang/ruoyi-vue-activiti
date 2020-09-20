@@ -107,6 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 ).permitAll()
 //                activiti放行
                 .antMatchers("/modeler/**").permitAll()
+                .antMatchers("/process/**").permitAll()
                 .antMatchers("/profile/**").anonymous()
                 .antMatchers("/common/download**").anonymous()
                 .antMatchers("/common/download/resource**").anonymous()

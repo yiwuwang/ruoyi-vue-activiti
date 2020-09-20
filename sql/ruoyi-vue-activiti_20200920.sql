@@ -1,4 +1,4 @@
--- ----------------------------
+﻿-- ----------------------------
 -- 1、部门表
 -- ----------------------------
 drop table if exists sys_dept;
@@ -157,6 +157,7 @@ insert into sys_menu values('1', '系统管理', '0', '1', 'system',           n
 insert into sys_menu values('2', '系统监控', '0', '2', 'monitor',          null,   1, 'M', '0', '0', '', 'monitor',  'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '系统监控目录');
 insert into sys_menu values('3', '系统工具', '0', '3', 'tool',             null,   1, 'M', '0', '0', '', 'tool',     'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '系统工具目录');
 insert into sys_menu values('4', '若依官网', '0', '4', 'http://ruoyi.vip', null ,  0, 'M', '0', '0', '', 'guide',    'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '若依官网地址');
+insert into sys_menu values('5', '流程菜单', '0', '4', 'activiti',         null,   1, 'M', '0', '0', 'activiti:modeler:list', 'cascader', 'admin', '2020-09-13 21:58:54', '', NULL, '');
 -- 二级菜单
 insert into sys_menu values('100',  '用户管理', '1',   '1', 'user',       'system/user/index',        1, 'C', '0', '0', 'system:user:list',        'user',          'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '用户管理菜单');
 insert into sys_menu values('101',  '角色管理', '1',   '2', 'role',       'system/role/index',        1, 'C', '0', '0', 'system:role:list',        'peoples',       'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '角色管理菜单');
@@ -251,15 +252,6 @@ insert into sys_menu values('1058', '导入代码', '114', '2', '#', '', 1, 'F',
 insert into sys_menu values('1059', '预览代码', '114', '4', '#', '', 1, 'F', '0', '0', 'tool:gen:preview',           '#', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '');
 insert into sys_menu values('1060', '生成代码', '114', '5', '#', '', 1, 'F', '0', '0', 'tool:gen:code',              '#', 'admin', '2018-03-16 11-33-00', 'ry', '2018-03-16 11-33-00', '');
 
---activiti模块
-insert into sys_menu values(1901, '流程菜单', 0, 4, 'activiti', NULL, 1, 'M', '0', '0', 'activiti:modeler:list', 'cascader', 'admin', '2020-09-13 21:58:54', '', NULL, '');
-insert into sys_menu values(1902, '流程模型', 1901,1, 'modeler', 'activiti/modeler/index', 1, 'C', '0', '0', 'activiti:modeler:list', 'build', 'admin', '2020-09-13 21:59:42', 'admin', '2020-09-14 10:39:20', '');
-insert into sys_menu values(1903, '流程定义', 1901, 2, 'definition', 'activiti/definition/index', 1, 'C', '0', '0', 'activiti:modeler:list', 'chart', 'admin', '2020-09-14 23:09:31', '', NULL, '');
-insert into sys_menu values(1904, '流程用户组', 1901, 1, 'actIdGroup', 'activiti/actIdGroup/index', 1, 'C', '0', '0', 'activiti:actIdGroup:list', '#', 'admin', '2018-03-01 00:00:00', 'admin', '2020-09-15 22:22:39', '流程用户组菜单');
-insert into sys_menu values(1905, '流程用户组查询', 1904, 1, '#', '', 1, 'F', '0', '0', 'activiti:actIdGroup:query', '#', 'admin', '2018-03-01 00:00:00', 'ry', '2018-03-01 00:00:00', '');
-insert into sys_menu values(1906, '流程用户', 1901, 1, 'actIdUser', 'activiti/actIdUser/index', 1, 'C', '0', '0', 'activiti:actIdUser:list', '#', 'admin', '2018-03-01 00:00:00', 'ry', '2018-03-01 00:00:00', '流程用户菜单');
-insert into sys_menu values(1907, '流程用户查询', 1906, 1, '#', '', 1, 'F', '0', '0', 'activiti:actIdUser:query', '#', 'admin', '2018-03-01 00:00:00', 'ry', '2018-03-01 00:00:00', '');
--- ----------------------------
 -- 6、用户和角色关联表  用户N-1角色
 -- ----------------------------
 drop table if exists sys_user_role;
@@ -684,6 +676,46 @@ create table gen_table_column (
   primary key (column_id)
 ) engine=innodb auto_increment=1 comment = '代码生成业务表字段';
 
+
+-- ----------------------------
+-- Table structure for biz_todo_item
+-- ----------------------------
+DROP TABLE IF EXISTS `biz_todo_item`;
+CREATE TABLE `biz_todo_item`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键 ID',
+  `item_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '事项标题',
+  `item_content` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '事项内容',
+  `module` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '模块名称 (必须以 uri 一致)',
+  `task_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '任务 ID',
+  `instance_id` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '流程实例 ID',
+  `task_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '任务名称 (必须以表单页面名称一致)',
+  `node_name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '节点名称',
+  `is_view` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '是否查看 default 0 (0 否 1 是)',
+  `is_handle` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '是否处理 default 0 (0 否 1 是)',
+  `todo_user_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '待办人 ID',
+  `todo_user_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '待办人名称',
+  `handle_user_id` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '处理人 ID',
+  `handle_user_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '处理人名称',
+  `todo_time` datetime(0) NULL DEFAULT NULL COMMENT '通知时间',
+  `handle_time` datetime(0) NULL DEFAULT NULL COMMENT '处理时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '待办事项表' ROW_FORMAT = Dynamic;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+-- activiti模块
+
+insert into sys_menu values(1902, '流程模型', 5,1, 'modeler', 'activiti/modeler/index', 1, 'C', '0', '0', 'activiti:modeler:list', 'build', 'admin', '2020-09-13 21:59:42', 'admin', '2020-09-14 10:39:20', '');
+insert into sys_menu values(1903, '流程定义', 5, 2, 'definition', 'activiti/definition/index', 1, 'C', '0', '0', 'activiti:modeler:list', 'chart', 'admin', '2020-09-14 23:09:31', '', NULL, '');
+insert into sys_menu values(1904, '流程用户组', 5, 1, 'actIdGroup', 'activiti/actIdGroup/index', 1, 'C', '0', '0', 'activiti:actIdGroup:list', '#', 'admin', '2018-03-01 00:00:00', 'admin', '2020-09-15 22:22:39', '流程用户组菜单');
+insert into sys_menu values(1905, '流程用户组查询', 1904, 1, '#', '', 1, 'F', '0', '0', 'activiti:actIdGroup:query', '#', 'admin', '2018-03-01 00:00:00', 'ry', '2018-03-01 00:00:00', '');
+insert into sys_menu values(1906, '流程用户', 5, 1, 'actIdUser', 'activiti/actIdUser/index', 1, 'C', '0', '0', 'activiti:actIdUser:list', '#', 'admin', '2018-03-01 00:00:00', 'ry', '2018-03-01 00:00:00', '流程用户菜单');
+insert into sys_menu values(1907, '流程用户查询', 1906, 1, '#', '', 1, 'F', '0', '0', 'activiti:actIdUser:query', '#', 'admin', '2018-03-01 00:00:00', 'ry', '2018-03-01 00:00:00', '');
+-- ----------------------------
+
+
+-- ----------------------------
 -- ----------------------------
 -- View structure for act_id_group
 -- ----------------------------
@@ -700,4 +732,4 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 -- View structure for act_id_user
 -- ----------------------------
 DROP VIEW IF EXISTS `ACT_ID_USER`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ACT_ID_USER` AS select `u`.`login_name` AS `ID_`,0 AS `REV_`,`u`.`user_name` AS `FIRST_`,'' AS `LAST_`,`u`.`email` AS `EMAIL_`,`u`.`password` AS `PWD_`,'' AS `PICTURE_ID_` from `sys_user` `u` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `ACT_ID_USER` AS select `u`.`user_name` AS `ID_`,0 AS `REV_`,`u`.`user_name` AS `FIRST_`,'' AS `LAST_`,`u`.`email` AS `EMAIL_`,`u`.`password` AS `PWD_`,'' AS `PICTURE_ID_` from `sys_user` `u` ;

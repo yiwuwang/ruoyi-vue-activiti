@@ -181,10 +181,16 @@
                 <artifactId>ruoyi-common</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-            <!-- 通用工具-->
+            <!-- activiti模块-->
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-activiti</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+            <!-- 通用工具-->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-workFlow</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
 
@@ -199,6 +205,7 @@
         <module>ruoyi-generator</module>
         <module>ruoyi-common</module>
         <module>ruoyi-activiti</module>
+        <module>ruoyi-workFlow</module>
     </modules>
     <packaging>pom</packaging>
 
