@@ -1,6 +1,5 @@
 package com.ruoyi.activiti.service.impl;
 
-
 import com.ruoyi.activiti.domain.ActivitiBaseEntity;
 import com.ruoyi.activiti.domain.BizTodoItem;
 import com.ruoyi.activiti.domain.HistoricActivity;
@@ -107,27 +106,26 @@ public class ProcessServiceImpl implements IProcessService {
         String comment = null;          // 批注
         boolean agree = true;
         try {
-        for(Map.Entry<String, Object> entry : activitiBaseEntity.getParams().entrySet()){
+        for(Map.Entry<String, Object> entry : activitiBaseEntity.getProcessParams().entrySet()){
             String parameterName = entry.getKey();
-                if (parameterName.startsWith("p_")) {
-                    // 参数结构：p_B_name，p为参数的前缀，B为类型，name为属性名称
+                    // 参数结构：B_name，B为类型，name为属性名称
                     String[] parameter = parameterName.split("_");
-                    if (parameter.length == 3) {
-                        String paramValue = (String) entry.getValue();;
+                    if (parameter.length == 2) {
+                        String paramValue = (String) entry.getValue();
                         Object value = paramValue;
-                        if (parameter[1].equals("B")) {
+                        if (parameter[0].equals("B")) {
                             value = BooleanUtils.toBoolean(paramValue);
                             agree = (boolean) value;
-                        } else if (parameter[1].equals("DT")) {
+                        } else if (parameter[0].equals("DT")) {
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             value = sdf.parse(paramValue);
-                        } else if (parameter[1].equals("COM")) {
+                        } else if (parameter[0].equals("COM")) {
                             comment = paramValue;
                         }
-                        variables.put(parameter[2], value);
+                        variables.put(parameter[1], value);
                     }
                 }
-        }
+
 
 
 

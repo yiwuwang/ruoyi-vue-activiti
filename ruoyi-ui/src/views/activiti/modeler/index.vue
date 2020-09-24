@@ -32,7 +32,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['activiti:modeler:list']"
+          v-hasPermi="['activiti:modeler']"
         >新增</el-button>
       </el-col>
 
@@ -54,28 +54,28 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['activiti:modeler:list']"
+            v-hasPermi="['activiti:modeler']"
           >编辑</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="deployModel(scope.row)"
-            v-hasPermi="['activiti:modeler:list']"
+            v-hasPermi="['activiti:modeler']"
           >部署</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="export2Bpmn(scope.row)"
-            v-hasPermi="['activiti:modeler:list']"
+            v-hasPermi="['activiti:modeler']"
           >导出</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['activiti:modeler:list']"
+            v-hasPermi="['activiti:modeler']"
           >删除</el-button>
         </template>
       </el-table-column>

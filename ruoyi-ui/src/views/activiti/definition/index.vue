@@ -41,7 +41,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleImport"
-          v-hasPermi="['activiti:modeler:list']"
+          v-hasPermi="['activiti:modeler']"
         >部署流程定义</el-button>
       </el-col><span style="color: red;">查看流程图模糊时，可选择 .bpmn 和 .png 一同打成 zip 包部署</span>
 
@@ -66,21 +66,21 @@
             type="text"
             icon="el-icon-edit"
             @click="suspendOrActiveApply(scope.row)"
-            v-hasPermi="['activiti:modeler:list']"
+            v-hasPermi="['activiti:modeler']"
           >{{scope.row.suspendState==='1'?'挂起':'激活'}}</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-edit"
             @click="convert2Model(scope.row)"
-            v-hasPermi="['activiti:modeler:list']"
+            v-hasPermi="['activiti:modeler']"
           >转模型</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['activiti:modeler:list']"
+            v-hasPermi="['activiti:modeler']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -239,13 +239,12 @@ export default {
     },
     /** 删除按钮操作 */
     handleDelete(row) {
-      const ids = row.id || this.ids;
-      this.$confirm('是否确认删除编号为"' + ids + '"的数据项?', "警告", {
+      this.$confirm('是否确认删除编号为"' + row.key + '"的数据项?', "警告", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         }).then(function() {
-          return delDefinition(ids);
+          return delDefinition(row.deploymentId);
         }).then(() => {
           this.getList();
           this.msgSuccess("删除成功");

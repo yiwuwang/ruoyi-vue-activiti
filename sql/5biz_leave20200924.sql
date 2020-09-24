@@ -28,23 +28,25 @@ CREATE TABLE `biz_leave`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 
+
+
 -- ----------------------------
 -- 添加请假流程菜单
 -- ----------------------------
-INSERT INTO sys_menu ( `menu_name`, `parent_id`, `order_num`, `path`, `component`, `is_frame`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ('请假流程', 0, 5, 'leave', NULL, 1, 'M', '0', '0', NULL, 'guide', 'admin', '2020-09-18 10:49:58', '', NULL, '');
+INSERT INTO sys_menu ( `menu_name`, `parent_id`, `order_num`, `path`, `component`, `is_frame`, `is_cache`,`menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ('请假流程', 0, 5, 'leave', NULL, 1, 0,'M', '0', '0', NULL, 'guide', 'admin', '2020-09-18 10:49:58', '', NULL, '');
 
 
 SELECT @parentId := LAST_INSERT_ID();
 
-INSERT INTO sys_menu(`menu_name`, `parent_id`, `order_num`, `path`, `component`, `is_frame`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ('请假流程',  @parentId, 1, 'leave', 'workflow/leave/index', 1, 'C', '0', '0', 'workflow:leave', '#', 'admin', '2018-03-01 00:00:00', 'admin', '2020-09-20 17:34:01', '请假流程菜单');
+INSERT INTO sys_menu(`menu_name`, `parent_id`, `order_num`, `path`, `component`, `is_frame`, `is_cache`,`menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ('请假流程',  @parentId, 1, 'leave/list', 'workflow/leave', 1,0, 'C', '0', '0', 'workflow:leave', '#', 'admin', '2018-03-01 00:00:00', 'admin', '2020-09-20 17:34:01', '请假流程菜单');
 
 SELECT @menuId1 := LAST_INSERT_ID();
 
-INSERT INTO sys_menu(`menu_name`, `parent_id`, `order_num`, `path`, `component`, `is_frame`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ('我的待办',  @parentId, 2, 'leaveTodo', 'workflow/leaveTodo/index', 1, 'C', '0', '0', 'workflow:leave', '#', 'admin', '2020-09-20 00:14:44', 'admin', '2020-09-20 00:32:15', '');
+INSERT INTO sys_menu(`menu_name`, `parent_id`, `order_num`, `path`, `component`, `is_frame`,`is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ('我的待办',  @parentId, 2, 'leave/todo', 'workflow/leave', 1,0, 'C', '0', '0', 'workflow:leave', '#', 'admin', '2020-09-20 00:14:44', 'admin', '2020-09-20 00:32:15', '');
 
 SELECT @menuId2 := LAST_INSERT_ID();
 
-INSERT INTO sys_menu(`menu_name`, `parent_id`, `order_num`, `path`, `component`, `is_frame`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ('我的已办',  @parentId, 3, 'leaveDone', 'workflow/leaveDone/index', 1, 'C', '0', '0', 'workflow:leave', '#', 'admin', '2020-09-20 00:16:24', 'admin', '2020-09-20 00:32:21', '');
+INSERT INTO sys_menu(`menu_name`, `parent_id`, `order_num`, `path`, `component`, `is_frame`,`is_cache`, `menu_type`, `visible`, `status`, `perms`, `icon`, `create_by`, `create_time`, `update_by`, `update_time`, `remark`) VALUES ('我的已办',  @parentId, 3, 'leave/done', 'workflow/leave', 1, 0,'C', '0', '0', 'workflow:leave', '#', 'admin', '2020-09-20 00:16:24', 'admin', '2020-09-20 00:32:21', '');
 
 SELECT @menuId3 := LAST_INSERT_ID();
 
@@ -81,21 +83,10 @@ INSERT INTO sys_user_role(`user_id`, `role_id`) VALUES (@userId1, @roleId);
 INSERT INTO sys_user_role(`user_id`, `role_id`) VALUES (@userId2, @roleId);
 INSERT INTO sys_user_role(`user_id`, `role_id`) VALUES (@userId3, @roleId);
 
-INSERT INTO `test`.`sys_role_menu`(`role_id`, `menu_id`) VALUES (@roleId, @parentId);
-INSERT INTO `test`.`sys_role_menu`(`role_id`, `menu_id`) VALUES (@roleId, @menuId1);
-INSERT INTO `test`.`sys_role_menu`(`role_id`, `menu_id`) VALUES (@roleId, @menuId2);
-INSERT INTO `test`.`sys_role_menu`(`role_id`, `menu_id`) VALUES (@roleId, @menuId3);
-
-
-
-
-
-
-
-
-
-
-
+INSERT INTO `sys_role_menu`(`role_id`, `menu_id`) VALUES (@roleId, @parentId);
+INSERT INTO `sys_role_menu`(`role_id`, `menu_id`) VALUES (@roleId, @menuId1);
+INSERT INTO `sys_role_menu`(`role_id`, `menu_id`) VALUES (@roleId, @menuId2);
+INSERT INTO `sys_role_menu`(`role_id`, `menu_id`) VALUES (@roleId, @menuId3);
 
 
 

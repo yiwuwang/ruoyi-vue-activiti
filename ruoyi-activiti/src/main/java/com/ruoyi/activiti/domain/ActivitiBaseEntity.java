@@ -4,6 +4,8 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ActivitiBaseEntity extends BaseEntity {
 
@@ -35,6 +37,8 @@ public class ActivitiBaseEntity extends BaseEntity {
 
     /** 流程实例状态 1 激活 2 挂起 */
     private String suspendState;
+    private Map<String, Object> processParams;
+
 
     public String getApplyUserName() {
         return applyUserName;
@@ -111,5 +115,17 @@ public class ActivitiBaseEntity extends BaseEntity {
     public String getReason()
     {
         return reason;
+    }
+
+    public Map<String, Object> getProcessParams() {
+        if (processParams == null)
+        {
+            processParams = new HashMap<>();
+        }
+        return processParams;
+    }
+
+    public void setProcessParams(Map<String, Object> processParams) {
+        this.processParams = processParams;
     }
 }

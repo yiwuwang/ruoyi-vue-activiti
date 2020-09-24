@@ -16,12 +16,11 @@ export function suspendOrActiveApply(data) {
   })
 }
 // 历史列表
-export function listHistory(instanceId,query) {
-  console.log(instanceId,query)
+export function listHistory(instanceId) {
+
   return request({
     url: '/process/listHistory/'+instanceId,
-    method: 'get',
-    params: query
+    method: 'get'
   })
 }
 // 查询请假流程详细
