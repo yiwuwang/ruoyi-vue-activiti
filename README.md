@@ -10,6 +10,11 @@
 * 华为云优惠券：[点我进入](https://activity.huaweicloud.com/discount_area_v5/index.html?fromacct=1df8a32b-bfe3-4d98-ba0f-8237d6d09f1a&utm_source=V1g3MDY4NTY=&utm_medium=cps&utm_campaign=201905) 阿里云优惠券：[点我进入](https://www.aliyun.com/minisite/goods?userCode=brki8iof&share_source=copy_link)，腾讯云优惠券：[点我领取](https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console)&nbsp;&nbsp;
 
 
+#### 部署文档与ruoyi-vue一致:https://doc.ruoyi.vip/ruoyi-vue/
+#### 部署文档与ruoyi-vue一致:https://doc.ruoyi.vip/ruoyi-vue/
+#### 部署文档与ruoyi-vue一致:https://doc.ruoyi.vip/ruoyi-vue/
+
+#### 重要的事情说三遍
 >  参考资料👇
 >
 >  1. 若依框架: [http://www.ruoyi.vip](http://www.ruoyi.vip/)
