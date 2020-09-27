@@ -216,6 +216,7 @@ export default {
       const id = row.id
       this.open2 = true;
       this.title = "流程设计模型";
+      localStorage.setItem("VUE_APP_BASE_API",process.env.VUE_APP_BASE_API)
       this.src="/modeler/modeler.html?modelId=" + id;
 
     },
