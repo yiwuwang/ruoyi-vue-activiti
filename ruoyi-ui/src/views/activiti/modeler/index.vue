@@ -90,28 +90,18 @@
     />
 
     <!-- 添加modeler对话框 -->
-    <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入名称" />
-        </el-form-item>
-        <el-form-item label="KEY" prop="key">
-          <el-input v-model="form.key" placeholder="请输入KEY" />
-        </el-form-item>
-        <el-form-item label="描述" prop="description">
-          <el-input v-model="form.description" placeholder="请输入描述" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitForm">确 定</el-button>
-        <el-button @click="cancel">取 消</el-button>
-      </div>
-    </el-dialog>
-    <!-- 添加modeler对话框 -->
-      <el-dialog :title="title" :visible.sync="open2" width="1680px"  append-to-body>
-      <iframe :src="src" frameborder="no" style="width: 100%;height:700px"  />
-<!--      <iframe class="RuoYi_iframe" name="iframe' + '44' + '" width="100%" height="700px" src="/modeler/modeler.html?modelId=5001" frameborder="0" data-id="' + dataUrl + '"  seamless></iframe>-->
-    </el-dialog>
+      <el-dialog :title="title" :visible.sync="open" width="1680px" @close="modelCancel" append-to-body>
+        <div style="position:relative;height: 100%;">
+          <iframe
+            id="iframe"
+            :src="src"
+            frameborder="0"
+            width="100%"
+            height="720px"
+            scrolling="auto"
+          ></iframe>
+        </div>
+   </el-dialog>
   </div>
 </template>
 
@@ -140,8 +130,6 @@ export default {
       title: "",
       // 是否显示弹出层
       open: false,
-      // 是否显示弹出层
-      open2: false,
       src:"",
       // 查询参数
       queryParams: {
@@ -179,11 +167,7 @@ export default {
         this.loading = false;
       });
     },
-    // 取消按钮
-    cancel() {
-      this.open = false;
-      this.reset();
-    },
+
     // 表单重置
     reset() {
       this.form = {
@@ -206,15 +190,19 @@ export default {
 
     /** 新增按钮操作 */
     handleAdd() {
-      this.reset();
-      this.open = true;
-      this.title = "添加modeler";
+      addModeler(this.form).then(response => {
+        if (response.code === 200) {
+          this.open = true;
+          localStorage.setItem("VUE_APP_BASE_API",process.env.VUE_APP_BASE_API)
+          this.src="/modeler/modeler.html?modelId=" + response.data;
+        }
+      });
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
 
       const id = row.id
-      this.open2 = true;
+      this.open = true;
       this.title = "流程设计模型";
       localStorage.setItem("VUE_APP_BASE_API",process.env.VUE_APP_BASE_API)
       this.src="/modeler/modeler.html?modelId=" + id;
@@ -230,20 +218,7 @@ export default {
       });
     },
 
-    /** 提交按钮 */
-    submitForm() {
-      this.$refs["form"].validate(valid => {
-        if (valid) {
-            addModeler(this.form).then(response => {
-              if (response.code === 200) {
-                this.msgSuccess("新增成功");
-                this.open = false;
-                this.getList();
-              }
-            });
-        }
-      });
-    },
+
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
@@ -264,7 +239,11 @@ export default {
          exportModeler(row.id).then(response => {
           this.download(response.msg);
         }).catch(function() {});
-    }
+    },
+    modelCancel () {
+      this.open = false
+      this.getList()
+    },
   }
 };
 </script>

@@ -55,10 +55,16 @@
       <el-table-column label="版本" align="center" prop="version" />
       <el-table-column label="流程描述" align="center" prop="description" />
       <el-table-column label="所属分类" align="center" prop="category" />
-      <el-table-column label="部署时间" align="center" prop="deploymentTime" />
-      <el-table-column label="流程定义" align="center" prop="resourceName" />
-      <el-table-column label="流程图" align="center" prop="diagramResourceName" />
-      <el-table-column label="流程定义状态" align="center" prop="suspendStateName" />
+      <el-table-column label="部署时间" align="center" prop="deploymentTime" >
+      </el-table-column>
+<!--      <el-table-column label="流程定义" align="center" prop="resourceName" />-->
+<!--      <el-table-column label="流程图" align="center" prop="diagramResourceName" />-->
+      <el-table-column label="流程状态" align="center" >
+        <template slot-scope="scope">
+
+        {{scope.row.suspendState==='0'?'挂起':'激活'}}
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button

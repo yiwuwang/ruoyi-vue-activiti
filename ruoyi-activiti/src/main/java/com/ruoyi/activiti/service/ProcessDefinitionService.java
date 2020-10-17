@@ -1,6 +1,7 @@
 package com.ruoyi.activiti.service;
 
 import com.github.pagehelper.Page;
+import com.ruoyi.activiti.domain.ProcessDefinitionVo;
 import com.ruoyi.common.core.page.PageDomain;
 import com.ruoyi.common.core.page.TableSupport;
 import com.ruoyi.common.core.text.Convert;
@@ -36,22 +37,22 @@ public class ProcessDefinitionService {
      * 分页查询流程定义文件
      * @return
      */
-    public Page<com.ruoyi.activiti.domain.ProcessDefinition> listProcessDefinition(com.ruoyi.activiti.domain.ProcessDefinition processDefinition) {
+    public Page<ProcessDefinitionVo> listProcessDefinition(ProcessDefinitionVo processDefinitionVo) {
         PageDomain pageDomain = TableSupport.buildPageRequest();
         Integer pageNum = pageDomain.getPageNum();
         Integer pageSize = pageDomain.getPageSize();
 
-        Page<com.ruoyi.activiti.domain.ProcessDefinition> list = new Page<>();
+        Page<ProcessDefinitionVo> list = new Page<>();
         ProcessDefinitionQuery processDefinitionQuery = repositoryService.createProcessDefinitionQuery();
         processDefinitionQuery.orderByProcessDefinitionId().orderByProcessDefinitionVersion().desc();
-        if (StringUtils.isNotBlank(processDefinition.getName())) {
-            processDefinitionQuery.processDefinitionNameLike("%" + processDefinition.getName() + "%");
+        if (StringUtils.isNotBlank(processDefinitionVo.getName())) {
+            processDefinitionQuery.processDefinitionNameLike("%" + processDefinitionVo.getName() + "%");
         }
-        if (StringUtils.isNotBlank(processDefinition.getKey())) {
-            processDefinitionQuery.processDefinitionKeyLike("%" + processDefinition.getKey() + "%");
+        if (StringUtils.isNotBlank(processDefinitionVo.getKey())) {
+            processDefinitionQuery.processDefinitionKeyLike("%" + processDefinitionVo.getKey() + "%");
         }
-        if (StringUtils.isNotBlank(processDefinition.getCategory())) {
-            processDefinitionQuery.processDefinitionCategoryLike("%" + processDefinition.getCategory() + "%");
+        if (StringUtils.isNotBlank(processDefinitionVo.getCategory())) {
+            processDefinitionQuery.processDefinitionCategoryLike("%" + processDefinitionVo.getCategory() + "%");
         }
 
         List<ProcessDefinition> processDefinitionList;
@@ -65,7 +66,7 @@ public class ProcessDefinitionService {
         }
         for (ProcessDefinition definition: processDefinitionList) {
             ProcessDefinitionEntityImpl entityImpl = (ProcessDefinitionEntityImpl) definition;
-            com.ruoyi.activiti.domain.ProcessDefinition entity = new com.ruoyi.activiti.domain.ProcessDefinition();
+            ProcessDefinitionVo entity = new ProcessDefinitionVo();
             entity.setId(definition.getId());
             entity.setKey(definition.getKey());
             entity.setName(definition.getName());
@@ -80,11 +81,7 @@ public class ProcessDefinitionService {
             entity.setDiagramResourceName(definition.getDiagramResourceName());
             entity.setResourceName(definition.getResourceName());
             entity.setSuspendState(entityImpl.getSuspensionState() + "");
-            if (entityImpl.getSuspensionState() == 1) {
-                entity.setSuspendStateName("已激活");
-            } else {
-                entity.setSuspendStateName("已挂起");
-            }
+
             list.add(entity);
         }
         return list;

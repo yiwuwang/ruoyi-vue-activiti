@@ -1,11 +1,12 @@
 package com.ruoyi.activiti.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 import java.util.Date;
 
-public class ProcessDefinition extends BaseEntity {
+public class ProcessDefinitionVo extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,6 +30,7 @@ public class ProcessDefinition extends BaseEntity {
     private String deploymentId;
 
     @Excel(name = "部署时间", dateFormat = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date deploymentTime;
 
     @Excel(name = "流程图")
@@ -40,7 +42,6 @@ public class ProcessDefinition extends BaseEntity {
     /** 流程实例状态 1 激活 2 挂起 */
     private String suspendState;
 
-    private String suspendStateName;
 
     public String getId() {
         return id;
@@ -130,11 +131,5 @@ public class ProcessDefinition extends BaseEntity {
         this.suspendState = suspendState;
     }
 
-    public String getSuspendStateName() {
-        return suspendStateName;
-    }
 
-    public void setSuspendStateName(String suspendStateName) {
-        this.suspendStateName = suspendStateName;
-    }
 }

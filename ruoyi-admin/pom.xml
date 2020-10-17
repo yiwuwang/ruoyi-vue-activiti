@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ruoyi</artifactId>
         <groupId>com.ruoyi</groupId>
-        <version>3.1.0</version>
+        <version>3.2.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
@@ -72,16 +72,12 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
-        <!-- activiti-->
+      <!-- 代码生成-->
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-activiti</artifactId>
         </dependency>
-        <!-- 工作任务模块-->
-        <dependency>
-            <groupId>com.ruoyi</groupId>
-            <artifactId>ruoyi-workFlow</artifactId>
-        </dependency>
+
     </dependencies>
 
     <build>

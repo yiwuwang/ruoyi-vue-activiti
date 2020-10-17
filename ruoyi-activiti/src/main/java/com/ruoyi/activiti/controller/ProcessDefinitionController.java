@@ -2,7 +2,7 @@ package com.ruoyi.activiti.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.ruoyi.activiti.domain.ProcessDefinition;
+import com.ruoyi.activiti.domain.ProcessDefinitionVo;
 import com.ruoyi.activiti.service.ProcessDefinitionService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.config.RuoYiConfig;
@@ -20,9 +20,6 @@ import org.activiti.editor.language.json.converter.BpmnJsonConverter;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.repository.Model;
 import org.activiti.engine.repository.ProcessDefinitionQuery;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Param;
-import org.aspectj.weaver.loadtime.Aj;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +52,8 @@ public class ProcessDefinitionController extends BaseController {
 
     @GetMapping("/list")
     @ResponseBody
-    public TableDataInfo list(ProcessDefinition processDefinition) {
-        List<ProcessDefinition> list = processDefinitionService.listProcessDefinition(processDefinition);
+    public TableDataInfo list(ProcessDefinitionVo processDefinitionVo) {
+        List<ProcessDefinitionVo> list = processDefinitionService.listProcessDefinition(processDefinitionVo);
         return getDataTable(list);
     }
 
@@ -105,19 +102,12 @@ public class ProcessDefinitionController extends BaseController {
         }
     }
 
-//    @Log(title = "流程定义", businessType = BusinessType.EXPORT)
-//    @PostMapping("/export")
-//    @ResponseBody
-//    public AjaxResult export() {
-//        List<ProcessDefinition> list = processDefinitionService.listProcessDefinition(new ProcessDefinition());
-//        ExcelUtil<ProcessDefinition> util = new ExcelUtil<>(ProcessDefinition.class);
-//        return util.exportExcel(list, "流程定义数据");
-//    }
+
 
     @PostMapping( "/suspendOrActiveApply")
     @ResponseBody
-    public AjaxResult suspendOrActiveApply(@RequestBody ProcessDefinition processDefinition) {
-        processDefinitionService.suspendOrActiveApply(processDefinition.getId(), processDefinition.getSuspendState());
+    public AjaxResult suspendOrActiveApply(@RequestBody ProcessDefinitionVo processDefinitionVo) {
+        processDefinitionService.suspendOrActiveApply(processDefinitionVo.getId(), processDefinitionVo.getSuspendState());
         return AjaxResult.success();
     }
 
