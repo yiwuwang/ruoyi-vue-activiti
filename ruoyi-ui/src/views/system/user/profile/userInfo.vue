@@ -62,7 +62,9 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           updateUserProfile(this.user).then(response => {
-            this.msgSuccess("修改成功");
+            if (response.code === 200) {
+              this.msgSuccess("修改成功");
+            }
           });
         }
       });

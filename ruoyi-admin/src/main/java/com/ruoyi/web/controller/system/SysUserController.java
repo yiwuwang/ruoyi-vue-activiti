@@ -175,7 +175,7 @@ public class SysUserController extends BaseController
     /**
      * 重置密码
      */
-    @PreAuthorize("@ss.hasPermi('system:user:resetPwd')")
+    @PreAuthorize("@ss.hasPermi('system:user:edit')")
     @Log(title = "用户管理", businessType = BusinessType.UPDATE)
     @PutMapping("/resetPwd")
     public AjaxResult resetPwd(@RequestBody SysUser user)

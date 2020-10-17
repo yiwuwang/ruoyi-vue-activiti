@@ -1,5 +1,7 @@
 package com.ruoyi.activiti.domain;
 
+import com.ruoyi.common.core.domain.BaseEntity;
+
 /**
  * 汇讯数码科技(深圳)有限公司
  * 创建日期:2020/9/14-13:57
