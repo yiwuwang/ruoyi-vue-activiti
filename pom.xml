@@ -6,25 +6,24 @@
 	
     <groupId>com.ruoyi</groupId>
     <artifactId>ruoyi</artifactId>
-    <version>3.1.0</version>
+    <version>3.2.0</version>
 
     <name>ruoyi</name>
     <url>http://www.ruoyi.vip</url>
     <description>若依管理系统</description>
     
     <properties>
-        <ruoyi.version>3.1.0</ruoyi.version>
+        <ruoyi.version>3.2.0</ruoyi.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
-        <mybatis.boot.version>1.3.2</mybatis.boot.version>
-        <druid.version>1.1.22</druid.version>
+        <druid.version>1.2.1</druid.version>
         <bitwalker.version>1.19</bitwalker.version>
         <swagger.version>2.9.2</swagger.version>
 		<kaptcha.version>2.3.2</kaptcha.version>
-        <pagehelper.boot.version>1.2.5</pagehelper.boot.version>
-        <fastjson.version>1.2.73</fastjson.version>
+        <pagehelper.boot.version>1.3.0</pagehelper.boot.version>
+        <fastjson.version>1.2.74</fastjson.version>
         <oshi.version>5.2.5</oshi.version>
         <jna.version>5.5.0</jna.version>
         <commons.io.version>2.5</commons.io.version>
@@ -32,7 +31,6 @@
         <poi.version>3.17</poi.version>
         <velocity.version>1.7</velocity.version>
         <jwt.version>0.9.1</jwt.version>
-        <activiti.version>6.0.0</activiti.version>
     </properties>
 	
     <!-- 依赖声明 -->
@@ -79,11 +77,13 @@
             <dependency>
                 <groupId>net.java.dev.jna</groupId>
                 <artifactId>jna</artifactId>
+                <version>${jna.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>net.java.dev.jna</groupId>
                 <artifactId>jna-platform</artifactId>
+                <version>${jna.version}</version>
             </dependency>
 			
             <!-- swagger2-->
@@ -193,16 +193,10 @@
                 <artifactId>ruoyi-common</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
-            <!-- activiti模块-->
+            <!-- activiti-->
             <dependency>
                 <groupId>com.ruoyi</groupId>
                 <artifactId>ruoyi-activiti</artifactId>
-                <version>${ruoyi.version}</version>
-            </dependency>
-            <!-- 通用工具-->
-            <dependency>
-                <groupId>com.ruoyi</groupId>
-                <artifactId>ruoyi-workFlow</artifactId>
                 <version>${ruoyi.version}</version>
             </dependency>
 
@@ -217,7 +211,6 @@
         <module>ruoyi-generator</module>
         <module>ruoyi-common</module>
         <module>ruoyi-activiti</module>
-        <module>ruoyi-workFlow</module>
     </modules>
     <packaging>pom</packaging>
 

@@ -32,7 +32,7 @@ public class MimeTypeUtils
             // 压缩文件
             "rar", "zip", "gz", "bz2",
             // pdf
-            "pdf" ,
+            "pdf",
             //activiti
             "bpmn", "bar" };
 

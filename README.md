@@ -1,58 +1,14 @@
 ## 平台简介
 
 * 前端采用Vue、Element UI。
-* 后端采用Spring Boot、Spring Security、activiti、Redis & Jwt。
+* 后端采用Spring Boot、Spring Security、Redis & Jwt。
 * 权限认证使用Jwt，支持多终端认证系统。
 * 支持加载动态权限菜单，多方式轻松权限控制。
 * 高效率开发，使用代码生成器可以一键生成前后端代码。
-* 不分离版[RuoYi-Process](https://gitee.com/calvinhwang123/RuoYi-Process)。
-* 感谢[RuoYi-Process](https://gitee.com/calvinhwang123/RuoYi-Process)，[RuoYi-Vue](https://github.com/yangzongzhuan/RuoYi-Vue)。
-* 华为云优惠券：[点我进入](https://activity.huaweicloud.com/discount_area_v5/index.html?fromacct=1df8a32b-bfe3-4d98-ba0f-8237d6d09f1a&utm_source=V1g3MDY4NTY=&utm_medium=cps&utm_campaign=201905) 阿里云优惠券：[点我进入](https://www.aliyun.com/minisite/goods?userCode=brki8iof&share_source=copy_link)，腾讯云优惠券：[点我领取](https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console)&nbsp;&nbsp;
-
-
-#### 部署文档与ruoyi-vue一致:https://doc.ruoyi.vip/ruoyi-vue/
-#### 部署文档与ruoyi-vue一致:https://doc.ruoyi.vip/ruoyi-vue/
-#### 部署文档与ruoyi-vue一致:https://doc.ruoyi.vip/ruoyi-vue/
-
-#### 重要的事情说三遍
->  参考资料👇
->
->  1. 若依框架: [http://www.ruoyi.vip](http://www.ruoyi.vip/)
->  2. 咖啡兔：[《Activiti 实战》](https://github.com/henryyan/activiti-in-action-codes)
->  3. Activiti User Guide: <https://www.activiti.org/userguide/index.html#springSpringBoot>
->  4. XBoot: [http://xboot.exrick.cn](http://xboot.exrick.cn/)
->  5. 【闲鹿课堂】2020最新 Activiti6整合Spring Boot2快速入门教程：[https://www.bilibili.com/video/BV1Fp4y19729](https://www.bilibili.com/video/BV1Fp4y19729)
-     
-## 最新更新
-<p>随手 star ⭐是一种美德。 你们的star就是我的动力</p>
-
-v1.1
-1. 优化前端代码
-2. ruoyi-vue升级到3.1.0  详情请看ruoyi-vue官网
-
-v1.0
-
-1.  新增请假流程：请假会签，支持请假列表、新增暂存、编辑、删除；提交申请 (含选择会签参与人)、表单数据、我的待办 (申请详情、审批、调整申请、销假)、我的已办。
-2.  在线绘图部分界面汉化。
-3.  新增流程通用接口：审批历史和进度查看。
-4.  Activiti Modeler 完全汉化。
-5.  流程实例支持挂起和激活、撤销。
-6.  新增流程定义功能，支持流程定义部署、列表、删除和导出。
-7.  新增在线绘图功能，支持拖拽预览、在线绘图、下载 BPMN 文件和 SVG 文件。
-
-
-
-### 测试账号
-
-> 流程管理账号：admin / admin123
->
-> 请假流程测试账号
->
-> 普通员工：chengxy / 123456
->
-> 部门领导：axianlu / 123456
->
-> 人事：rensm / 123456
+* 提供了一个Oracle版本[RuoYi-Vue-Oracle](https://github.com/yangzongzhuan/RuoYi-Vue-Oracle)，保持同步更新。
+* 不分离版本，请移步[RuoYi](https://gitee.com/y_project/RuoYi)，微服务版本，请移步[RuoYi-Cloud](https://gitee.com/y_project/RuoYi-Cloud)
+* 感谢[Vue-Element-Admin](https://github.com/PanJiaChen/vue-element-admin)，[eladmin-web](https://gitee.com/elunez/eladmin-web?_from=gitee_search)。
+* 阿里云优惠券：[点我进入](https://www.aliyun.com/minisite/goods?userCode=brki8iof&share_source=copy_link)，腾讯云优惠券：[点我领取](https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console)&nbsp;&nbsp;
 
 ## 内置功能
 
@@ -77,15 +33,16 @@ v1.0
 ## 在线体验
 
 - admin/admin123  
+- 陆陆续续收到一些打赏，为了更好的体验已用于演示服务器升级。谢谢各位小伙伴。
 
-演示地址：http://www.ruoyichina.com   
-备案中。。。。近期发布  
+演示地址：http://vue.ruoyi.vip  
+文档地址：http://doc.ruoyi.vip
 
 ## 演示图
 
 <table>
     <tr>
-        <td><img src="http://www.ltdigit.cn/img/1600223031.jpg"/></td>
+        <td><img src="https://oscimg.oschina.net/oscnet/cd1f90be5f2684f4560c9519c0f2a232ee8.jpg"/></td>
         <td><img src="https://oscimg.oschina.net/oscnet/1cbcf0e6f257c7d3a063c0e3f2ff989e4b3.jpg"/></td>
     </tr>
     <tr>
@@ -116,13 +73,9 @@ v1.0
         <td><img src="https://oscimg.oschina.net/oscnet/b6115bc8c31de52951982e509930b20684a.jpg"/></td>
         <td><img src="https://oscimg.oschina.net/oscnet/up-6d73c2140ce694e3de4c05035fdc1868d4c.png"/></td>
     </tr>
-     <tr>
-            <td><img src="http://www.ltdigit.cn/img/16002233091.jpg"/></td>
-            <td><img src="http://www.ltdigit.cn/img/16002233292.jpg"/></td>
-     </tr>
 </table>
 
 
-## 若依前后端分离工作流交流群
+## 若依前后端分离交流群
 
-QQ群：  [![加入QQ群](https://img.shields.io/badge/815390100-blue.svg)](https://qm.qq.com/cgi-bin/qm/qr?k=nrV3xrlurpfJp-SNd1TrUr__S8AzgrPH&jump_from=webapi") 815390100 点击按钮入群。
+QQ群： [![加入QQ群](https://img.shields.io/badge/已满-937441-blue.svg)](https://jq.qq.com/?_wv=1027&k=5bVB1og) [![加入QQ群](https://img.shields.io/badge/已满-887144332-blue.svg)](https://jq.qq.com/?_wv=1027&k=5eiA4DH) [![加入QQ群](https://img.shields.io/badge/已满-180251782-blue.svg)](https://jq.qq.com/?_wv=1027&k=5AxMKlC) [![加入QQ群](https://img.shields.io/badge/104180207-blue.svg)](https://jq.qq.com/?_wv=1027&k=51G72yr) 点击按钮入群。
