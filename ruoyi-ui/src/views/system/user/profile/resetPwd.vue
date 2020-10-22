@@ -57,7 +57,9 @@ export default {
         if (valid) {
           updateUserPwd(this.user.oldPassword, this.user.newPassword).then(
             response => {
-              this.msgSuccess("修改成功");
+              if (response.code === 200) {
+                this.msgSuccess("修改成功");
+              }
             }
           );
         }

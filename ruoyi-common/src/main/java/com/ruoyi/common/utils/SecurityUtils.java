@@ -28,6 +28,28 @@ public class SecurityUtils
             throw new CustomException("获取用户账户异常", HttpStatus.UNAUTHORIZED);
         }
     }
+    public static String getNickName()
+    {
+        try
+        {
+            return getLoginUser().getUser().getNickName();
+        }
+        catch (Exception e)
+        {
+            throw new CustomException("获取用户账户异常", HttpStatus.UNAUTHORIZED);
+        }
+    }
+    public static Long getUserId()
+    {
+        try
+        {
+            return getLoginUser().getUser().getUserId();
+        }
+        catch (Exception e)
+        {
+            throw new CustomException("获取用户账户异常", HttpStatus.UNAUTHORIZED);
+        }
+    }
 
     /**
      * 获取用户

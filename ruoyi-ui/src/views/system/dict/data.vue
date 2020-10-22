@@ -304,15 +304,19 @@ export default {
         if (valid) {
           if (this.form.dictCode != undefined) {
             updateData(this.form).then(response => {
-              this.msgSuccess("修改成功");
-              this.open = false;
-              this.getList();
+              if (response.code === 200) {
+                this.msgSuccess("修改成功");
+                this.open = false;
+                this.getList();
+              }
             });
           } else {
             addData(this.form).then(response => {
-              this.msgSuccess("新增成功");
-              this.open = false;
-              this.getList();
+              if (response.code === 200) {
+                this.msgSuccess("新增成功");
+                this.open = false;
+                this.getList();
+              }
             });
           }
         }
@@ -330,7 +334,7 @@ export default {
         }).then(() => {
           this.getList();
           this.msgSuccess("删除成功");
-        })
+        }).catch(function() {});
     },
     /** 导出按钮操作 */
     handleExport() {
@@ -343,7 +347,7 @@ export default {
           return exportData(queryParams);
         }).then(response => {
           this.download(response.msg);
-        })
+        }).catch(function() {});
     }
   }
 };

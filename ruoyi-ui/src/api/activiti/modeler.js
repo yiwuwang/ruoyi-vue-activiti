@@ -12,10 +12,11 @@ export function listModeler(query) {
 
 
 // 新增Modeler
-export function addModeler() {
+export function addModeler(data) {
   return request({
-    url: '/modeler/newModel',
-    method: 'get',
+    url: '/modeler/create',
+    method: 'post',
+    data: data
   })
 }
 
