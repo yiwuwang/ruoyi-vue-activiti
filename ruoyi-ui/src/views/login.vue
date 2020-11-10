@@ -59,7 +59,7 @@
 
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>© 2020 All Rights Reserved. danny</span>
+      <span>© 2020 All Rights Reserved. ruoyiChina</span>
     </div>
   </div>
 </template>

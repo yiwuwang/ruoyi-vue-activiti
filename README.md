@@ -5,9 +5,7 @@
 * 权限认证使用Jwt，支持多终端认证系统。
 * 支持加载动态权限菜单，多方式轻松权限控制。
 * 高效率开发，使用代码生成器可以一键生成前后端代码。
-* 不分离版[RuoYi-Process](https://gitee.com/calvinhwang123/RuoYi-Process)。
 * 感谢[RuoYi-Process](https://gitee.com/calvinhwang123/RuoYi-Process)，[RuoYi-Vue](https://github.com/yangzongzhuan/RuoYi-Vue)。
-* 华为云优惠券：[点我进入](https://activity.huaweicloud.com/discount_area_v5/index.html?fromacct=1df8a32b-bfe3-4d98-ba0f-8237d6d09f1a&utm_source=V1g3MDY4NTY=&utm_medium=cps&utm_campaign=201905) 阿里云优惠券：[点我进入](https://www.aliyun.com/minisite/goods?userCode=brki8iof&share_source=copy_link)，腾讯云优惠券：[点我领取](https://cloud.tencent.com/redirect.php?redirect=1025&cps_key=198c8df2ed259157187173bc7f4f32fd&from=console)&nbsp;&nbsp;
 
 
 #### 部署文档与ruoyi-vue一致:https://doc.ruoyi.vip/ruoyi-vue/
@@ -19,12 +17,26 @@
 >
 >  1. 若依框架: [http://www.ruoyi.vip](http://www.ruoyi.vip/)
 >  2. 咖啡兔：[《Activiti 实战》](https://github.com/henryyan/activiti-in-action-codes)
->  3. Activiti User Guide: <https://www.activiti.org/userguide/index.html#springSpringBoot>
->  4. XBoot: [http://xboot.exrick.cn](http://xboot.exrick.cn/)
->  5. 【闲鹿课堂】2020最新 Activiti6整合Spring Boot2快速入门教程：[https://www.bilibili.com/video/BV1Fp4y19729](https://www.bilibili.com/video/BV1Fp4y19729)
-     
+
 ## 最新更新
 <p>随手 star ⭐是一种美德。 你们的star就是我的动力</p>
+
+v2.0
+
+1. activiti升级到7.1.0.M4
+2. ruoyi-vue升级到3.2.0
+3. 流程设计器更改为bpmn.js
+4. 添加请假部门领导审批，公司人事审批流程
+5. 使用动态表单构建（流程跑通，ui页面暂没优化，近期优化）
+ 
+近期任务：
+1. 优化动态表单页面
+2. 添加审批未通过修改请假流程
+3. 添加请假流程添加附件（使用华为云OBS存储）
+4. 添加销假流程
+5. 添加通知任务监听器
+6. 超时提醒-定时事件
+
 
 v1.1
 1. 优化前端代码
@@ -48,11 +60,13 @@ v1.0
 >
 > 请假流程测试账号
 >
-> 普通员工：chengxy / 123456
+> 普通员工：guanping / 123456
 >
-> 部门领导：axianlu / 123456
+> 部门领导1：guanyu / 123456
 >
-> 人事：rensm / 123456
+> 部门领导2：zhaoyun / 123456
+>
+> 人事：zhugeliang / 123456
 
 ## 内置功能
 
@@ -116,10 +130,7 @@ v1.0
         <td><img src="https://oscimg.oschina.net/oscnet/b6115bc8c31de52951982e509930b20684a.jpg"/></td>
         <td><img src="https://oscimg.oschina.net/oscnet/up-6d73c2140ce694e3de4c05035fdc1868d4c.png"/></td>
     </tr>
-     <tr>
-            <td><img src="http://www.ltdigit.cn/img/16002233091.jpg"/></td>
-            <td><img src="http://www.ltdigit.cn/img/16002233292.jpg"/></td>
-     </tr>
+    
 </table>
 
 

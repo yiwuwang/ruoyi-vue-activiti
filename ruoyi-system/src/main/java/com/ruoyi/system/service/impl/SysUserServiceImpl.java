@@ -186,6 +186,9 @@ public class SysUserServiceImpl implements ISysUserService
         }
         return UserConstants.UNIQUE;
     }
+    public List<String>selectUserNameByPostCodeAndDeptId(String postCode,Long deptId){
+        return userMapper.selectUserNameByPostCodeAndDeptId(postCode,deptId);
+    }
 
     /**
      * 校验用户是否允许操作

@@ -102,6 +102,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="checkEmailUnique" parameterType="String" resultMap="SysUserResult">
 		select user_id, email from sys_user where email = #{email} limit 1
 	</select>
+	<select id="selectUserNameByPostCodeAndDeptId" resultType="String">
+
+		SELECT user_name FROM  sys_post p
+        left join sys_user_post up on p.post_id = up.post_id
+        left join sys_user u on up.user_id= u.user_id
+        where post_code=#{param1} and dept_id=#{param2}
+
+	</select>
 	
 	<insert id="insertUser" parameterType="SysUser" useGeneratedKeys="true" keyProperty="userId">
  		insert into sys_user(

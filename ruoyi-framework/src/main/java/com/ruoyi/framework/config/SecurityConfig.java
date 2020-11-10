@@ -105,9 +105,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                         "/**/*.css",
                         "/**/*.js"
                 ).permitAll()
-//                activiti放行
-                .antMatchers("/modeler/**").permitAll()
-                .antMatchers("/process/**").permitAll()
+                .antMatchers("/common/download/resource/profile/upload/processDefinition/**").permitAll()
+                .antMatchers("/processDefinition/**").permitAll()
                 .antMatchers("/profile/**").anonymous()
                 .antMatchers("/common/download**").anonymous()
                 .antMatchers("/common/download/resource**").anonymous()

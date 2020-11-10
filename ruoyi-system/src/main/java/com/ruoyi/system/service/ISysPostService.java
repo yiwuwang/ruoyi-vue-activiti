@@ -1,6 +1,8 @@
 package com.ruoyi.system.service;
 
 import java.util.List;
+import java.util.Set;
+
 import com.ruoyi.system.domain.SysPost;
 
 /**
@@ -40,6 +42,14 @@ public interface ISysPostService
      * @return 选中岗位ID列表
      */
     public List<Integer> selectPostListByUserId(Long userId);
+
+    /**
+     * 根据用户ID获取PostCode
+     *
+     * @param userId 用户ID
+     * @return 选中岗位PostCode列表
+     */
+    public Set<String> selectPostCodeByUserId(Long userId);
 
     /**
      * 校验岗位名称

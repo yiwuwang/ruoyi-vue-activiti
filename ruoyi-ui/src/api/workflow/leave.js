@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询请假流程列表
+// 查询请假列表
 export function listLeave(query) {
   return request({
     url: '/workflow/leave/list',
@@ -8,24 +8,16 @@ export function listLeave(query) {
     params: query
   })
 }
-
-// 查询请假流程待办列表
-export function taskList(query) {
+// 查询请假列表
+export function listLeaveAll(query) {
   return request({
-    url: '/workflow/leave/taskList',
-    method: 'get',
-    params: query
-  })
-}// 查询请假流程已办列表
-export function taskDoneList(query) {
-  return request({
-    url: '/workflow/leave/taskDoneList',
+    url: '/workflow/leave/listAll',
     method: 'get',
     params: query
   })
 }
 
-// 查询请假流程详细
+// 查询请假详细
 export function getLeave(id) {
   return request({
     url: '/workflow/leave/' + id,
@@ -33,15 +25,15 @@ export function getLeave(id) {
   })
 }
 
-// 提交请假流程
-export function submitApply(id) {
+// 查询请假详细
+export function getLeaveByInstanceId(instanceId) {
   return request({
-    url: '/workflow/leave/submitApply/' + id,
-    method: 'post'
+    url: '/workflow/leave/ByInstanceId/' + instanceId,
+    method: 'get'
   })
 }
 
-// 新增请假流程
+// 新增请假
 export function addLeave(data) {
   return request({
     url: '/workflow/leave',
@@ -50,7 +42,7 @@ export function addLeave(data) {
   })
 }
 
-// 修改请假流程
+// 修改请假
 export function updateLeave(data) {
   return request({
     url: '/workflow/leave',
@@ -59,7 +51,7 @@ export function updateLeave(data) {
   })
 }
 
-// 删除请假流程
+// 删除请假
 export function delLeave(id) {
   return request({
     url: '/workflow/leave/' + id,
@@ -67,7 +59,7 @@ export function delLeave(id) {
   })
 }
 
-// 导出请假流程
+// 导出请假
 export function exportLeave(query) {
   return request({
     url: '/workflow/leave/export',
