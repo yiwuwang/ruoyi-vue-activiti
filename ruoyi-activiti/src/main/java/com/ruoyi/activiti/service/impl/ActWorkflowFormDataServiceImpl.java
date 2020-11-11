@@ -36,8 +36,8 @@ public class ActWorkflowFormDataServiceImpl implements IActWorkflowFormDataServi
     }
 
     @Override
-    public List<ActWorkflowFormData> selectActWorkflowFormDataByInstanceId(String instanceId){
-        return actWorkflowFormDataMapper.selectActWorkflowFormDataByprocInstId(instanceId);
+    public List<ActWorkflowFormData> selectActWorkflowFormDataByBusinessKey(String businessKey){
+        return actWorkflowFormDataMapper.selectActWorkflowFormDataByBusinessKey(businessKey);
     }
 
     /**

@@ -114,7 +114,7 @@
 
     <!-- 查看详细信息话框 -->
     <el-dialog :title="title" :visible.sync="open2" width="500px" append-to-body>
-      <leaveHistoryForm :instanceId="instanceId"  v-if="open2"/>
+      <leaveHistoryForm :businessKey="businessKey"  v-if="open2"/>
       <div slot="footer" class="dialog-footer">
       <el-button @click="open2=!open2">关闭</el-button>
       </div>
@@ -131,7 +131,7 @@
     components:{leaveHistoryForm},
     data() {
       return {
-        instanceId:'',
+        businessKey:'',
         //用户信息
         user: {},
         // 遮罩层
@@ -216,7 +216,7 @@
       /** 审批详情 */
       historyFory(row) {
 
-        this.instanceId = row.instanceId
+        this.businessKey = row.id
           this.open2 = true
           this.title = '审批详情'
 

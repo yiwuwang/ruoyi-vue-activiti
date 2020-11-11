@@ -71,17 +71,6 @@
       </el-col>
       <el-col :span="1.5">
         <el-button
-          type="success"
-          icon="el-icon-edit"
-          size="mini"
-          :disabled="single"
-          @click="handleUpdate"
-          v-hasPermi="['workflow:leave:edit']"
-        >修改
-        </el-button>
-      </el-col>
-      <el-col :span="1.5">
-        <el-button
           type="warning"
           icon="el-icon-download"
           size="mini"
@@ -113,7 +102,7 @@
       <!--      <el-table-column label="创建者" align="center" prop="createName" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
-          <el-button
+          <el-button v-if="2==scope.row.state"
             size="mini"
             type="text"
             icon="el-icon-edit"
@@ -121,6 +110,14 @@
             v-hasPermi="['workflow:leave:edit']"
           >修改
           </el-button>
+<!--          <el-button v-if="1==scope.row.state"-->
+<!--            size="mini"-->
+<!--            type="text"-->
+<!--            icon="el-icon-edit"-->
+<!--            @click="terminateLeave(scope.row)"-->
+<!--            v-hasPermi="['workflow:leave:edit']"-->
+<!--          >销假-->
+<!--          </el-button>-->
           <el-button
             size="mini"
             type="text"
@@ -170,7 +167,7 @@
 
     <!-- 查看详细信息话框 -->
     <el-dialog :title="title" :visible.sync="open2" width="500px" append-to-body>
-      <leaveHistoryForm :instanceId="instanceId" v-if="open2"/>
+      <leaveHistoryForm :businessKey="businessKey"  v-if="open2"/>
       <div slot="footer" class="dialog-footer">
         <el-button @click="open2=!open2">关闭</el-button>
       </div>
@@ -236,7 +233,7 @@
         modelerUrl: '',
 
 
-        instanceId: '',
+        businessKey: '',
         //用户信息
         user: {},
         // 遮罩层
@@ -386,7 +383,7 @@
       },
       /** 审批详情 */
       historyFory(row) {
-        this.instanceId = row.instanceId
+        this.businessKey = row.id
         this.open2 = true
         this.title = '审批详情'
 

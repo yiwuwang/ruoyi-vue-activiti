@@ -59,9 +59,7 @@ public class GlobalExceptionHandler
     @ExceptionHandler(AccessDeniedException.class)
     public AjaxResult handleAuthorizationException(AccessDeniedException e)
     {
-        System.out.println("-------------");
-        System.out.println(e);
-        System.out.println("-------------");
+        log.error(e.getMessage());
         return AjaxResult.error(HttpStatus.FORBIDDEN, "没有权限，请联系管理员授权");
     }
 

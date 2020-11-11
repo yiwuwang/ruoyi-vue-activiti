@@ -102,7 +102,7 @@ public class WorkflowLeaveController extends BaseController {
     @Log(title = "请假", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody WorkflowLeave workflowLeave) {
-        return toAjax(workflowLeaveService.updateWorkflowLeave(workflowLeave));
+        return toAjax(workflowLeaveService.insertWorkflowLeave(workflowLeave));
     }
 
     /**

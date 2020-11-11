@@ -23,7 +23,7 @@ public class ActTaskDTO
     private Date createdDate;
     private String instanceName;
     private String definitionKey;
-    private String processInstanceId;
+    private String businessKey;
 
     public ActTaskDTO() {
     }
@@ -35,7 +35,7 @@ public class ActTaskDTO
         this.createdDate = task.getCreatedDate();
         this.instanceName = processInstance.getName();
         this.definitionKey=processInstance.getProcessDefinitionKey();
-        this.processInstanceId=processInstance.getProcessInstanceId();
+        this.businessKey=task.getBusinessKey();
     }
 
     public String getId() {
@@ -86,11 +86,11 @@ public class ActTaskDTO
         this.definitionKey = definitionKey;
     }
 
-    public String getProcessInstanceId() {
-        return processInstanceId;
+    public String getBusinessKey() {
+        return businessKey;
     }
 
-    public void setProcessInstanceId(String processInstanceId) {
-        this.processInstanceId = processInstanceId;
+    public void setBusinessKey(String businessKey) {
+        this.businessKey = businessKey;
     }
 }

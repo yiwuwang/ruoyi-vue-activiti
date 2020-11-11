@@ -19,7 +19,7 @@ public interface IActWorkflowFormDataService
      */
     public ActWorkflowFormData selectActWorkflowFormDataById(Long id);
 
-    public List<ActWorkflowFormData> selectActWorkflowFormDataByInstanceId(String instanceId);
+    public List<ActWorkflowFormData> selectActWorkflowFormDataByBusinessKey(String businessKey);
 
     /**
      * 查询动态单列表

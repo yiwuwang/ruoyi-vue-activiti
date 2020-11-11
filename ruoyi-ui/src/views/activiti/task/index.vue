@@ -34,7 +34,7 @@
 
     <!-- 审批对话框 -->
     <el-dialog :title="title" :visible.sync="open" v-if="open" width="500px" append-to-body>
-      <leaveHistoryForm :instanceId="instanceId" v-if="'leave'==definitionKey"/>
+      <leaveHistoryForm :businessKey="businessKey" v-if="'leave'==definitionKey"/>
 
       <el-form :model="form" ref="form" label-width="100px" class="demo-dynamic">
         <el-form-item
@@ -77,7 +77,7 @@
       return {
         id:'',
         definitionKey: '',
-        instanceId: '',
+        businessKey: '',
         // 遮罩层
         loading: true,
         // 选中数组
@@ -131,7 +131,7 @@
       // 表单重置
       reset() {
         this.definitionKey = '',
-          this.instanceId = '',
+          this.businessKey = '',
           this.form = {
             formData:[],
           };
@@ -142,7 +142,7 @@
       examineAndApprove(row) {
         this.reset();
         this.definitionKey = row.definitionKey;
-          this.instanceId = row.processInstanceId;
+          this.businessKey = row.businessKey;
          this.id=row.id;
         formDataShow(row.id).then(response => {
           // FormProperty_3qipis2--__!!radio--__!!审批意见--__!!i--__!!同意--__--不同意
@@ -170,17 +170,13 @@
             })
           }
           this.form.formData = formData;
-          console.log(this.form.formData)
           this.open = true;
           this.title = "审批";
         });
       },
       /** 提交按钮 */
       submitForm() {
-        console.log(this.form)
-        console.log(this.id)
         formDataSave(this.id,this.form.formData).then(response => {
-
           this.msgSuccess("审批成功");
           this.open = false;
           this.getList();

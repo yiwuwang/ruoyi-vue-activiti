@@ -30,9 +30,9 @@ public class FormHistoryDataServiceImpl implements IFormHistoryDataService {
     private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
-    public List<HistoryDataDTO> historyDataShow(String instanceId) {
+    public List<HistoryDataDTO> historyDataShow(String businessKey) {
         List<HistoryDataDTO> returnHistoryFromDataDTOS=new ArrayList<>();
-        List<ActWorkflowFormData> actWorkflowFormData = actWorkflowFormDataService.selectActWorkflowFormDataByInstanceId(instanceId);
+        List<ActWorkflowFormData> actWorkflowFormData = actWorkflowFormDataService.selectActWorkflowFormDataByBusinessKey(businessKey);
         Map<String, List<ActWorkflowFormData>> collect = actWorkflowFormData.stream().collect(Collectors.groupingBy(ActWorkflowFormData::getTaskNodeName));
         for (Map.Entry<String, List<ActWorkflowFormData>> entry : collect.entrySet()) {
             HistoryDataDTO returnHistoryFromDataDTO = new HistoryDataDTO();

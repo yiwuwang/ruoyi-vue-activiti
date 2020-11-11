@@ -25,10 +25,10 @@ public interface ActWorkflowFormDataMapper
     /**
      * 查询动态单
      *
-     * @param instanceId 动态单ID
+     * @param businessKey 动态单ID
      * @return 动态单
      */
-    public List<ActWorkflowFormData> selectActWorkflowFormDataByprocInstId(String instanceId);
+    public List<ActWorkflowFormData> selectActWorkflowFormDataByBusinessKey(String businessKey);
 
     /**
      * 查询动态单列表
@@ -50,7 +50,7 @@ public interface ActWorkflowFormDataMapper
     /**
      * 新增动态单
      *
-     * @param  动态单
+     * @param
      * @return 结果
      */
     public int insertActWorkflowFormDatas(@Param("createBy") String createBy, @Param("ActWorkflowFormData")List<ActWorkflowFormData> ActWorkflowFormData, Date date);

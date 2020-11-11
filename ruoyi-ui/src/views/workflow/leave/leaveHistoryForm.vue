@@ -35,12 +35,12 @@
 </template>
 
 <script>
-  import { getLeaveByInstanceId } from '@/api/workflow/leave'
+  import { getLeave } from '@/api/workflow/leave'
   import { historyFromData } from '@/api/activiti/historyFormdata'
   export default {
     name: "leaveHistoryForm",
     props: {
-      instanceId: {
+      businessKey: {
         type: String
       }
     },
@@ -57,14 +57,13 @@
     },
     methods:{
       getLeave() {
-        getLeaveByInstanceId(this.instanceId).then(response => {
+        getLeave(this.businessKey).then(response => {
           this.form = response.data
         })
       },
       historyFromData() {
-        historyFromData(this.instanceId).then(response => {
+        historyFromData(this.businessKey).then(response => {
           this.fromData = response.data
-          console.log(this.fromData.formHistoryDataDTO)
         })
       },
     }

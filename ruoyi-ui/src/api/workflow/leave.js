@@ -25,13 +25,6 @@ export function getLeave(id) {
   })
 }
 
-// 查询请假详细
-export function getLeaveByInstanceId(instanceId) {
-  return request({
-    url: '/workflow/leave/ByInstanceId/' + instanceId,
-    method: 'get'
-  })
-}
 
 // 新增请假
 export function addLeave(data) {

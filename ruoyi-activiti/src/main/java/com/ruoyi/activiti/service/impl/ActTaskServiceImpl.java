@@ -46,6 +46,7 @@ public class ActTaskServiceImpl implements IActTaskService {
         Page<ActTaskDTO> list = new Page<ActTaskDTO>();
         org.activiti.api.runtime.shared.query.Page<Task> pageTasks = taskRuntime.tasks(Pageable.of((pageDomain.getPageNum() - 1) * pageDomain.getPageSize(), pageDomain.getPageSize()));
         List<Task> tasks = pageTasks.getContent();
+        tasks.get(0).getBusinessKey();
         int totalItems = pageTasks.getTotalItems();
         list.setTotal(totalItems);
         if (totalItems != 0) {

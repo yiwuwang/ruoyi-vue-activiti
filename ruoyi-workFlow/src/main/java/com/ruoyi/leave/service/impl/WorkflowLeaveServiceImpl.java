@@ -1,11 +1,7 @@
 package com.ruoyi.leave.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
-import com.ruoyi.activiti.domain.dto.HistoryFormDataDTO;
-import com.ruoyi.activiti.domain.dto.HistoryDataDTO;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
@@ -31,7 +27,6 @@ public class WorkflowLeaveServiceImpl implements IWorkflowLeaveService {
 
     @Autowired
     private WorkflowLeaveMapper workflowLeaveMapper;
-
     @Autowired
     private ProcessRuntime processRuntime;
     @Autowired
@@ -72,9 +67,7 @@ public class WorkflowLeaveServiceImpl implements IWorkflowLeaveService {
         String id = UUID.randomUUID().toString();
         workflowLeave.setId(id);
         workflowLeave.setCreateTime(DateUtils.getNowDate());
-        Long deptId = SecurityUtils.getLoginUser().getUser().getDeptId();
-        List<String> se = sysUserService.selectUserNameByPostCodeAndDeptId("se", deptId);
-        String join = StringUtils.join(se, ",");
+        String join = StringUtils.join(sysUserService.selectUserNameByPostCodeAndDeptId("se", SecurityUtils.getLoginUser().getUser().getDeptId()), ",");
         ProcessInstance processInstance = processRuntime.start(ProcessPayloadBuilder
                 .start()
                 .withProcessDefinitionKey("leave")

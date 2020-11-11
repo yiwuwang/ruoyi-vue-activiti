@@ -19,8 +19,8 @@ public class ActWorkflowFormData extends BaseEntity
     /** 唯一标识符 */
     private Long id;
 
-    /** 实力ID */
-    private String procInstId;
+    /** 事务Id */
+    private String businessKey;
 
     /** 表单Key */
     private String formKey;
@@ -41,7 +41,7 @@ public class ActWorkflowFormData extends BaseEntity
     }
 
     public ActWorkflowFormData(ActWorkflowFormDataDTO actWorkflowFormDataDTO, Task task) {
-        this.procInstId = task.getProcessInstanceId();
+        this.businessKey = task.getBusinessKey();
         this.formKey = task.getFormKey();
         this.controlId = actWorkflowFormDataDTO.getControlId();
         this.controlName = actWorkflowFormDataDTO.getControlLable();
@@ -63,16 +63,16 @@ public class ActWorkflowFormData extends BaseEntity
     {
         return id;
     }
-    public void setProcInstId(String procInstId) 
-    {
-        this.procInstId = procInstId;
+
+    public String getBusinessKey() {
+        return businessKey;
     }
 
-    public String getProcInstId() 
-    {
-        return procInstId;
+    public void setBusinessKey(String businessKey) {
+        this.businessKey = businessKey;
     }
-    public void setFormKey(String formKey) 
+
+    public void setFormKey(String formKey)
     {
         this.formKey = formKey;
     }
@@ -122,7 +122,7 @@ public class ActWorkflowFormData extends BaseEntity
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
-            .append("procInstId", getProcInstId())
+            .append("procInstId", getBusinessKey())
             .append("formKey", getFormKey())
             .append("controlId", getControlId())
             .append("controlValue", getControlValue())
