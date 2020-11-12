@@ -1,4 +1,4 @@
-package com.ruoyi.activiti.Controller;
+package com.ruoyi.activiti.controller;
 
 import com.ruoyi.activiti.service.IFormHistoryDataService;
 import com.ruoyi.common.core.domain.AjaxResult;

@@ -43,7 +43,7 @@ public class WorkflowLeaveController extends BaseController {
     public TableDataInfo list(WorkflowLeave workflowLeave) {
         startPage();
         workflowLeave.setCreateBy(SecurityUtils.getUsername());
-        List<WorkflowLeave> list = workflowLeaveService.selectWorkflowLeaveList(workflowLeave);
+        List<WorkflowLeave> list = workflowLeaveService.selectWorkflowLeaveAndTaskNameList(workflowLeave);
         return getDataTable(list);
     }
     /**

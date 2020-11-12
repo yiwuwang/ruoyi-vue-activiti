@@ -40,8 +40,8 @@ public class ActWorkflowFormData extends BaseEntity
     public ActWorkflowFormData() {
     }
 
-    public ActWorkflowFormData(ActWorkflowFormDataDTO actWorkflowFormDataDTO, Task task) {
-        this.businessKey = task.getBusinessKey();
+    public ActWorkflowFormData(String businessKey,ActWorkflowFormDataDTO actWorkflowFormDataDTO, Task task) {
+        this.businessKey = businessKey;
         this.formKey = task.getFormKey();
         this.controlId = actWorkflowFormDataDTO.getControlId();
         this.controlName = actWorkflowFormDataDTO.getControlLable();

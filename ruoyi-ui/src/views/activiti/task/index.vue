@@ -140,6 +140,7 @@
 
       /** 审批按钮操作 */
       examineAndApprove(row) {
+        console.log(row)
         this.reset();
         this.definitionKey = row.definitionKey;
           this.businessKey = row.businessKey;

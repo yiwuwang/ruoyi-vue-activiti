@@ -46,7 +46,6 @@ public class ActTaskServiceImpl implements IActTaskService {
         Page<ActTaskDTO> list = new Page<ActTaskDTO>();
         org.activiti.api.runtime.shared.query.Page<Task> pageTasks = taskRuntime.tasks(Pageable.of((pageDomain.getPageNum() - 1) * pageDomain.getPageSize(), pageDomain.getPageSize()));
         List<Task> tasks = pageTasks.getContent();
-        tasks.get(0).getBusinessKey();
         int totalItems = pageTasks.getTotalItems();
         list.setTotal(totalItems);
         if (totalItems != 0) {
@@ -91,12 +90,14 @@ public class ActTaskServiceImpl implements IActTaskService {
     @Override
     public int formDataSave(String taskID, List<ActWorkflowFormDataDTO> awfs) throws ParseException {
         Task task = taskRuntime.task(taskID);
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
+
         Boolean hasVariables = false;//没有任何参数
         HashMap<String, Object> variables = new HashMap<String, Object>();
         //前端传来的字符串，拆分成每个控件
         List<ActWorkflowFormData> acwfds = new ArrayList<>();
         for (ActWorkflowFormDataDTO awf : awfs) {
-            ActWorkflowFormData actWorkflowFormData = new ActWorkflowFormData(awf, task);
+            ActWorkflowFormData actWorkflowFormData = new ActWorkflowFormData(processInstance.getBusinessKey(),awf, task);
             acwfds.add(actWorkflowFormData);
             //构建参数集合
             if(!"f".equals(awf.getControlIsParam())) {

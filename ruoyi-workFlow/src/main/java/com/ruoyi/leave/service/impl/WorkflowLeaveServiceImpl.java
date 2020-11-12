@@ -1,6 +1,9 @@
 package com.ruoyi.leave.service.impl;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
@@ -10,6 +13,8 @@ import com.ruoyi.system.service.ISysUserService;
 import org.activiti.api.process.model.ProcessInstance;
 import org.activiti.api.process.model.builders.ProcessPayloadBuilder;
 import org.activiti.api.process.runtime.ProcessRuntime;
+import org.activiti.engine.TaskService;
+import org.activiti.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.leave.mapper.WorkflowLeaveMapper;
@@ -31,6 +36,8 @@ public class WorkflowLeaveServiceImpl implements IWorkflowLeaveService {
     private ProcessRuntime processRuntime;
     @Autowired
     private ISysUserService sysUserService;
+    @Autowired
+    private TaskService taskService;
 
 
     /**
@@ -53,6 +60,24 @@ public class WorkflowLeaveServiceImpl implements IWorkflowLeaveService {
     @Override
     public List<WorkflowLeave> selectWorkflowLeaveList(WorkflowLeave workflowLeave) {
         return workflowLeaveMapper.selectWorkflowLeaveList(workflowLeave);
+    }/**
+     * 查询请假列表带任务状态
+     *
+     * @param workflowLeave 请假
+     * @return 请假
+     */
+    @Override
+    public List<WorkflowLeave> selectWorkflowLeaveAndTaskNameList(WorkflowLeave workflowLeave) {
+        List<WorkflowLeave> workflowLeaves = workflowLeaveMapper.selectWorkflowLeaveList(workflowLeave);
+        List<String> collect = workflowLeaves.parallelStream().map(wl -> wl.getInstanceId()).collect(Collectors.toList());
+        List<Task> tasks = taskService.createTaskQuery().processInstanceIdIn(collect).list();
+        for (WorkflowLeave wl:workflowLeaves){
+            Task task = tasks.parallelStream().filter(t -> t.getProcessInstanceId().equals(wl.getInstanceId())).findAny().orElse(null);
+            if (task!=null){
+                wl.setTaskName(task.getName());
+            }
+        }
+        return workflowLeaves;
     }
 
     /**

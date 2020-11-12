@@ -42,9 +42,9 @@ public class WorkflowLeave extends BaseEntity
     @Excel(name = "结束时间", width = 30, dateFormat = "yyyy-MM-dd")
     private Date leaveEndTime;
 
-    /** 流程实例ID */
-    @Excel(name = "流程实例ID")
+
     private String instanceId;
+    private String taskName;
 
     /** 状态 */
     @Excel(name = "状态")
@@ -133,6 +133,14 @@ public class WorkflowLeave extends BaseEntity
 
     public void setCreateName(String createName) {
         this.createName = createName;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 
     @Override

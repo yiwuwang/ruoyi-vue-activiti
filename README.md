@@ -5,8 +5,9 @@
 * 权限认证使用Jwt，支持多终端认证系统。
 * 支持加载动态权限菜单，多方式轻松权限控制。
 * 高效率开发，使用代码生成器可以一键生成前后端代码。
-* 感谢[RuoYi-Process](https://gitee.com/calvinhwang123/RuoYi-Process)，[RuoYi-Vue](https://github.com/yangzongzhuan/RuoYi-Vue)。
-
+* 感谢[RuoYi-Vue](https://github.com/yangzongzhuan/RuoYi-Vue)。
+* 华为云优惠券：[点我进入](https://www.huaweicloud.com/product/ecs.html?fromacct=2b023ba5-33f5-478c-bbdf-33e27cd7459c&utm_source=V1g3MDY4NTY=&utm_medium=cps&utm_campaign=201905) 
+* 阿里云优惠券：[点我进入](https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=ek76b2lk) 
 
 #### 部署文档与ruoyi-vue一致:https://doc.ruoyi.vip/ruoyi-vue/
 #### 部署文档与ruoyi-vue一致:https://doc.ruoyi.vip/ruoyi-vue/

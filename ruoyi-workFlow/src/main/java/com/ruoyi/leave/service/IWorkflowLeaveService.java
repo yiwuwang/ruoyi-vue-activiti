@@ -27,7 +27,13 @@ public interface IWorkflowLeaveService
      * @param workflowLeave 请假
      * @return 请假集合
      */
-    public List<WorkflowLeave> selectWorkflowLeaveList(WorkflowLeave workflowLeave);
+    public List<WorkflowLeave> selectWorkflowLeaveList(WorkflowLeave workflowLeave);    /**
+     * 查询请假列表
+     *
+     * @param workflowLeave 请假
+     * @return 请假集合
+     */
+    public List<WorkflowLeave> selectWorkflowLeaveAndTaskNameList(WorkflowLeave workflowLeave);
 
     /**
      * 新增请假

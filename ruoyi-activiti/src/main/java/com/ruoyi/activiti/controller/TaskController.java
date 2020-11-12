@@ -1,4 +1,4 @@
-package com.ruoyi.activiti.Controller;
+package com.ruoyi.activiti.controller;
 
 
 import com.github.pagehelper.Page;

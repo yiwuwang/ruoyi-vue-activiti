@@ -88,7 +88,7 @@
           <span>{{ parseTime(scope.row.leaveEndTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="创建人" align="center" prop="createName" :formatter="stateFormat"/>
+      <el-table-column label="创建人" align="center" prop="createName"/>
       <el-table-column label="状态" align="center" prop="state" :formatter="stateFormat"/>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">

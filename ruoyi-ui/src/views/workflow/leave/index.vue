@@ -98,7 +98,19 @@
           <span>{{ parseTime(scope.row.leaveEndTime, '{y}-{m}-{d}') }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="状态" align="center" prop="state" :formatter="stateFormat"/>
+
+
+<!--      <el-table-column label="状态" align="center" prop="state" :formatter="stateFormat">-->
+      <el-table-column label="状态" align="center" >
+                <template slot-scope="scope" >
+                  <div v-if="scope.row.state!=0">
+                  {{stateFormat(scope.row)}}
+                  </div>
+                  <div v-else>
+                    {{scope.row.taskName}}
+                  </div>
+                </template>
+      </el-table-column>
       <!--      <el-table-column label="创建者" align="center" prop="createName" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
@@ -316,6 +328,7 @@
           this.leaveList = response.rows
           this.total = response.total
           this.loading = false
+          console.log(this.leaveList[3].taskName)
         })
       },
       // 请假类型字典翻译
@@ -324,8 +337,10 @@
       },
       // 状态字典翻译
       stateFormat(row, column) {
+        console.log(row.state)
         return this.selectDictLabel(this.stateOptions, row.state)
       },
+
       // 取消按钮
       cancel() {
         this.open = false

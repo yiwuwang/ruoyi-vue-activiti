@@ -35,7 +35,7 @@ public class ActTaskDTO
         this.createdDate = task.getCreatedDate();
         this.instanceName = processInstance.getName();
         this.definitionKey=processInstance.getProcessDefinitionKey();
-        this.businessKey=task.getBusinessKey();
+        this.businessKey=processInstance.getBusinessKey();
     }
 
     public String getId() {
