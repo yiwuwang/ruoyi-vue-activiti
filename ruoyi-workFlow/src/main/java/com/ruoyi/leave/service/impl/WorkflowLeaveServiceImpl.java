@@ -70,11 +70,13 @@ public class WorkflowLeaveServiceImpl implements IWorkflowLeaveService {
     public List<WorkflowLeave> selectWorkflowLeaveAndTaskNameList(WorkflowLeave workflowLeave) {
         List<WorkflowLeave> workflowLeaves = workflowLeaveMapper.selectWorkflowLeaveList(workflowLeave);
         List<String> collect = workflowLeaves.parallelStream().map(wl -> wl.getInstanceId()).collect(Collectors.toList());
-        List<Task> tasks = taskService.createTaskQuery().processInstanceIdIn(collect).list();
-        for (WorkflowLeave wl:workflowLeaves){
-            Task task = tasks.parallelStream().filter(t -> t.getProcessInstanceId().equals(wl.getInstanceId())).findAny().orElse(null);
-            if (task!=null){
-                wl.setTaskName(task.getName());
+        if(collect!=null&&!collect.isEmpty()) {
+            List<Task> tasks = taskService.createTaskQuery().processInstanceIdIn(collect).list();
+            for (WorkflowLeave wl : workflowLeaves) {
+                Task task = tasks.parallelStream().filter(t -> t.getProcessInstanceId().equals(wl.getInstanceId())).findAny().orElse(null);
+                if (task != null) {
+                    wl.setTaskName(task.getName());
+                }
             }
         }
         return workflowLeaves;
