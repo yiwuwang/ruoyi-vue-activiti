@@ -107,7 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 ).permitAll()
                 .antMatchers("/common/download/resource/profile/upload/processDefinition/**").permitAll()
                 .antMatchers("/processDefinition/**").permitAll()
-                .antMatchers("/profile/**").anonymous()
+                .antMatchers("/profile/**").permitAll()
                 .antMatchers("/common/download**").anonymous()
                 .antMatchers("/common/download/resource**").anonymous()
                 .antMatchers("/swagger-ui.html").anonymous()

@@ -99,8 +99,7 @@ v1.0
 
 - admin/admin123  
 
-演示地址：http://www.ruoyichina.com   
-备案中。。。。近期发布  
+演示地址：http://www.ruoyichina.com/login
 
 ## 演示图
 

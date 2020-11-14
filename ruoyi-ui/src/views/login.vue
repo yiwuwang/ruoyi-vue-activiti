@@ -59,7 +59,7 @@
 
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>© 2020 All Rights Reserved. ruoyiChina</span>
+      <span>© 2020 All Rights Reserved. ruoyichina.com<br> 蒙ICP备2020003903号 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAUCAMAAAC3SZ14AAACBFBMVEVHcEzknkbrvFL04pfow2v//9apiXD/5K3ks1Pq0o736ajt3I3w5MDRq3bn0o7t7bfoxmTy56Tw26b256jqy3vbo1HgrV/v4LH0u1HpwHm+lnP36cv05admSVDcqV+WcVFsW2KIgHjZol/48cPfo1DOkEXdp0/MilTpwGzlrVLpwFjjr1zqzIbduX3msVjTmmXltFLr2HzkvmDt2YHw3HbjuGTz3HjgsFJfPEHqxXHisHOldFrPsYn10WfXvJfw4oh0cXVcRVmFeG/bwZulgWmsjGGmbkHNrH1SOVjywWLfs27vqkndr3Hxy5yMgXXrvlnouFQhI3MbHHjhpkrsx1/enUfVHBXXjD7ttlPTJRl3dnrIRSXXLBfosk3pwV7lvGP10mH0ylzZRiTXZy3ghz/npEEXC2LXVCjrbzLhTyLnu1vs0Wrpx2bzw1boqk+pkmTzyGi7qnaRZUTWlVGzHhcoD1mdCBn3NRPbeTvjkz5tYmnWOB+xo3vPBwS6VSvLVCTQFg7Xr2RseosiFGceKYotQozuezTalUbtwVmTWDPr22zgMxq3llZgHkuKemeFiI1EAEBuJ0rhfDPZEQ3Xu3DZbjjUXDBVV3RcAz2+Lh+il3WpCh21Li7FYT/pZi/dbjCzn2m9pm3kol5pV1rrXB/aBwgTDXO/sIaVhHqxl3aggFekcEYg5SEkAAAAc3RSTlMA/PqN3gbRBP4VKVE9xiQO53lZZuL+2078sKIuQ/vj/v395zXYqst0wuT0z5xi4zrsytiM7OPw+vnN0tuk8IWv+vjqgN7w76/6sX/trDbr///////////////////////////////////////////////+NgsVowAAAXJJREFUGNNjYAACdk4eZzY2Ox5OVgYoYBeXsnYrknd1kRKHiUmzWXTWpc8vzpdlkwYLsCq7yxYlh1UnxaTMUrDhAqlT5vVYPKk7LLK6IWZRlCMvF9Agbr8g+SWTI8PCImvnzQp04mZn8PVUDFqduTQyKSmmNnNhoIM9D4OX94qgVW0N0eHBFTFtCwIVbZkZfBhXtiik1kcnV0xN8a8KqpGQZFCqbGxtrstIj56WnjG3uXVKqhiDUnhE07Ky8sz65Izy2WlN/oxiDLyMictbJpSVlMyMnjMjsLCAQ5LBKjSvoD8wrbR3YmlaUFRIBIclg4hoMWN8YV9Ufk/V9KjG1FAOEQZBFtHwFImExNyIkK6OynZzFmEGfmEBjvBQoIh/QkJeaDyLECsDuxBLSBaHf1xcSEAwR06OKdBDnMxm2fFZAQH+AcHBAXHZJsycDOxcxkYGTEyxsbEB/loChoJ87MDQ4dRXV1VT0dTT1tDR5eNnYAAAHI5j3PTE3yIAAAAASUVORK5CYII=" alt=""></span>
     </div>
   </div>
 </template>
@@ -271,6 +271,11 @@
     font-family: Arial;
     font-size: 12px;
     letter-spacing: 1px;
+    span{
+      img{
+        height: 12px;
+      }
+    }
   }
 
 </style>

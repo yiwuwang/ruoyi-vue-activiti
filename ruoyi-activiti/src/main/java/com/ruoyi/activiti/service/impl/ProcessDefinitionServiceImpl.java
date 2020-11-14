@@ -131,7 +131,7 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
 
     @Override
     public String upload(MultipartFile multipartFile) throws IOException {
-       return FileUploadUtils.upload(RuoYiConfig.getUploadPath()+"/processDefinition/" , multipartFile);
+       return FileUploadUtils.upload(RuoYiConfig.getUploadPath()+"/processDefinition" , multipartFile);
     }
 
     @Override
