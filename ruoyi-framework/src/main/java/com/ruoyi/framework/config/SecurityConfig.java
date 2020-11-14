@@ -105,7 +105,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                         "/**/*.css",
                         "/**/*.js"
                 ).permitAll()
-                .antMatchers("/common/download/resource/profile/upload/processDefinition/**").permitAll()
                 .antMatchers("/processDefinition/**").permitAll()
                 .antMatchers("/profile/**").permitAll()
                 .antMatchers("/common/download**").anonymous()
