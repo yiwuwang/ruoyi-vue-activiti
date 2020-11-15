@@ -8,7 +8,7 @@ ruoyi:
     copyrightYear: 2020
     # 实例演示开关
     demoEnabled: true
-    # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
+    # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath，存储桶 ruoyi/uploadPath,nginx配置 /ruoyi/upload）
     profile: E:/ruoyi/uploadPath
     # 获取ip地址开关
     addressEnabled: false
@@ -107,3 +107,16 @@ server:
         max-threads: 800
         # Tomcat启动初始化的线程数，默认值25
         min-spare-threads: 30
+#华为OBS存储
+huawei:
+    enabled: false
+    endPoint:
+    ak:
+    sk:
+    url:
+    bucketName:
+#nginx静态文件
+nginx:
+    enabled: false
+    path:
+    url:
