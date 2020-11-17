@@ -100,36 +100,36 @@
       </el-table-column>
 
 
-<!--      <el-table-column label="状态" align="center" prop="state" :formatter="stateFormat">-->
-      <el-table-column label="状态" align="center" >
-                <template slot-scope="scope" >
-                  <div v-if="scope.row.state!=0">
-                  {{stateFormat(scope.row)}}
-                  </div>
-                  <div v-else>
-                    {{scope.row.taskName}}
-                  </div>
-                </template>
+      <!--      <el-table-column label="状态" align="center" prop="state" :formatter="stateFormat">-->
+      <el-table-column label="状态" align="center">
+        <template slot-scope="scope">
+          <div v-if="scope.row.state!=0">
+            {{stateFormat(scope.row)}}
+          </div>
+          <div v-else>
+            {{scope.row.taskName}}
+          </div>
+        </template>
       </el-table-column>
       <!--      <el-table-column label="创建者" align="center" prop="createName" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button v-if="2==scope.row.state"
-            size="mini"
-            type="text"
-            icon="el-icon-edit"
-            @click="handleUpdate(scope.row)"
-            v-hasPermi="['workflow:leave:edit']"
+                     size="mini"
+                     type="text"
+                     icon="el-icon-edit"
+                     @click="handleUpdate(scope.row)"
+                     v-hasPermi="['workflow:leave:edit']"
           >修改
           </el-button>
-<!--          <el-button v-if="1==scope.row.state"-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-edit"-->
-<!--            @click="terminateLeave(scope.row)"-->
-<!--            v-hasPermi="['workflow:leave:edit']"-->
-<!--          >销假-->
-<!--          </el-button>-->
+          <!--          <el-button v-if="1==scope.row.state"-->
+          <!--            size="mini"-->
+          <!--            type="text"-->
+          <!--            icon="el-icon-edit"-->
+          <!--            @click="terminateLeave(scope.row)"-->
+          <!--            v-hasPermi="['workflow:leave:edit']"-->
+          <!--          >销假-->
+          <!--          </el-button>-->
           <el-button
             size="mini"
             type="text"
@@ -139,14 +139,14 @@
           >审批详情
           </el-button>
 
-<!--          <el-button-->
-<!--            size="mini"-->
-<!--            type="text"-->
-<!--            icon="el-icon-edit"-->
-<!--            @click="checkTheSchedule(scope.row)"-->
-<!--            v-hasPermi="['workflow:leave:edit']"-->
-<!--          >查看进度-->
-<!--          </el-button>-->
+          <el-button
+            size="mini"
+            type="text"
+            icon="el-icon-edit"
+            @click="checkTheSchedule(scope.row)"
+            v-hasPermi="['workflow:leave:edit']"
+          >查看进度
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -179,7 +179,7 @@
 
     <!-- 查看详细信息话框 -->
     <el-dialog :title="title" :visible.sync="open2" width="500px" append-to-body>
-      <leaveHistoryForm :businessKey="businessKey"  v-if="open2"/>
+      <leaveHistoryForm :businessKey="businessKey" v-if="open2"/>
       <div slot="footer" class="dialog-footer">
         <el-button @click="open2=!open2">关闭</el-button>
       </div>
@@ -243,8 +243,8 @@
       return {
         modelVisible: false,
         modelerUrl: '',
-
-
+        userName: '',
+        createName:'',
         businessKey: '',
         //用户信息
         user: {},
@@ -318,7 +318,7 @@
     methods: {
       getUser() {
         getUserProfile().then(response => {
-          this.form.createName = response.data.nickName
+          this.createName = response.data.nickName
         })
       },
       /** 查询请假列表 */
@@ -328,7 +328,6 @@
           this.leaveList = response.rows
           this.total = response.total
           this.loading = false
-          console.log(this.leaveList[3].taskName)
         })
       },
       // 请假类型字典翻译
@@ -337,7 +336,6 @@
       },
       // 状态字典翻译
       stateFormat(row, column) {
-        console.log(row.state)
         return this.selectDictLabel(this.stateOptions, row.state)
       },
 
@@ -358,7 +356,6 @@
           instanceId: null,
           state: null,
           createBy: null,
-          createName: null,
           createTime: null,
           updateTime: null
         }
@@ -382,15 +379,24 @@
       },
       /** 新增按钮操作 */
       handleAdd() {
-        this.getUser()
-        this.reset()
-        this.open = true
-        this.title = '添加请假'
+        getUserProfile().then(response => {
+          this.createName = response.data.nickName
+          console.log(this.createName)
+          if (response.data.userName != "admin") {
+            this.reset()
+            this.open = true
+            this.title = '添加请假'
+          } else {
+            this.$alert('管理员不能创建流程', '管理员不能创建流程', {
+              confirmButtonText: '确定',
+            });
+          }
+        })
       },
       /** 修改按钮操作 */
       handleUpdate(row) {
         this.reset()
-        getLeave( row.id ).then(response => {
+        getLeave(row.id).then(response => {
           this.form = response.data
           this.open = true
           this.title = '修改请假'
@@ -407,13 +413,10 @@
       checkTheSchedule(row) {
         getDefinitionsByInstanceId(row.instanceId).then(response => {
           let data = response.data
-          console.log(data);
-          this.url = '/bpmnjs/index.html?type=lookBpmn&deploymentFileUUID='+data.deploymentID+'&deploymentName='+ encodeURI(data.resourceName);
-          console.log(this.url);
+          // this.url = '/bpmnjs/index.html?type=lookBpmn&deploymentFileUUID='+data.deploymentID+'&deploymentName='+ encodeURI(data.resourceName);
+          this.modelerUrl = '/bpmnjs/index.html?type=lookBpmn&instanceId=' + row.instanceId + '&deploymentFileUUID=' + data.deploymentID + '&deploymentName=' + encodeURI(data.resourceName);
           this.modelVisible = true
         })
-
-
 
 
       },
@@ -465,7 +468,8 @@
         })
       },
       chooseMedicine() {
-        this.form.title = this.form.createName + "的" + this.form.type + "申请";
+        console.log(this.createName)
+        this.form.title = this.createName + "的" + this.form.type + "申请";
       }
     }
 

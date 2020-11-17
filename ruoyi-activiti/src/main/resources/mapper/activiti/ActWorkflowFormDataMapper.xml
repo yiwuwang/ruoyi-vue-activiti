@@ -11,12 +11,13 @@
         <result property="controlName"    column="control_name"    />
         <result property="controlValue"    column="control_value"    />
         <result property="taskNodeName"    column="task_node_name"    />
+        <result property="createName"    column="create_name"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
     </resultMap>
 
     <sql id="selectActWorkflowFormDataVo">
-        select id, business_key, form_key, control_id,control_name, control_value, task_node_name, create_by, create_time from act_workflow_FormData
+        select id, business_key, form_key, control_id,control_name, control_value, task_node_name, create_name,create_by, create_time from act_workflow_FormData
     </sql>
 
     <select id="selectActWorkflowFormDataList" parameterType="ActWorkflowFormData" resultMap="ActWorkflowFormDataResult">
@@ -64,9 +65,9 @@
     </insert>
 
     <insert id="insertActWorkflowFormDatas"  useGeneratedKeys="true" >
-        insert into act_workflow_FormData (business_key,form_key,control_id,control_name,control_value,task_node_name,create_by,create_time) values
+        insert into act_workflow_FormData (business_key,form_key,control_id,control_name,control_value,task_node_name,create_by,create_time,create_name) values
         <foreach collection="param2" item="awfd" index="index" separator=",">
-            (#{awfd.businessKey},#{awfd.formKey},#{awfd.controlId},#{awfd.controlName}, #{awfd.controlValue},#{awfd.taskNodeName},#{param1},#{param3})
+            (#{awfd.businessKey},#{awfd.formKey},#{awfd.controlId},#{awfd.controlName}, #{awfd.controlValue},#{awfd.taskNodeName},#{param1},#{param3},#{param4})
         </foreach>
     </insert>
 

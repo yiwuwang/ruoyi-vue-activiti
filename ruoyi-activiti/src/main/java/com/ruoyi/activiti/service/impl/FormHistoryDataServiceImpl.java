@@ -34,15 +34,19 @@ public class FormHistoryDataServiceImpl implements IFormHistoryDataService {
         List<HistoryDataDTO> returnHistoryFromDataDTOS=new ArrayList<>();
         List<ActWorkflowFormData> actWorkflowFormData = actWorkflowFormDataService.selectActWorkflowFormDataByBusinessKey(businessKey);
         Map<String, List<ActWorkflowFormData>> collect = actWorkflowFormData.stream().collect(Collectors.groupingBy(ActWorkflowFormData::getTaskNodeName));
-        for (Map.Entry<String, List<ActWorkflowFormData>> entry : collect.entrySet()) {
-            HistoryDataDTO returnHistoryFromDataDTO = new HistoryDataDTO();
-            returnHistoryFromDataDTO.setTaskNodeName(entry.getValue().get(0).getTaskNodeName());
-            returnHistoryFromDataDTO.setCreateBy(entry.getValue().get(0).getCreateBy());
-            returnHistoryFromDataDTO.setCreatedDate(sdf.format(entry.getValue().get(0).getCreateTime()));
-            returnHistoryFromDataDTO.setFormHistoryDataDTO(entry.getValue().stream().map(awfd->new HistoryFormDataDTO(awfd.getControlName(),awfd.getControlValue())).collect(Collectors.toList()));
-            returnHistoryFromDataDTOS.add(returnHistoryFromDataDTO);
-        }
-        return returnHistoryFromDataDTOS;
+        collect.entrySet().forEach(
+                entry -> {
+                    HistoryDataDTO returnHistoryFromDataDTO = new HistoryDataDTO();
+                    returnHistoryFromDataDTO.setTaskNodeName(entry.getValue().get(0).getTaskNodeName());
+                    returnHistoryFromDataDTO.setCreateName(entry.getValue().get(0).getCreateName());
+                    returnHistoryFromDataDTO.setCreatedDate(sdf.format(entry.getValue().get(0).getCreateTime()));
+                    returnHistoryFromDataDTO.setFormHistoryDataDTO(entry.getValue().stream().map(awfd->new HistoryFormDataDTO(awfd.getControlName(),awfd.getControlValue())).collect(Collectors.toList()));
+                    returnHistoryFromDataDTOS.add(returnHistoryFromDataDTO);
+                }
+        );
+        List<HistoryDataDTO> collect1 = returnHistoryFromDataDTOS.stream().sorted((x, y) -> x.getCreatedDate().compareTo(y.getCreatedDate())).collect(Collectors.toList());
+
+        return collect1;
     }
 
 

@@ -248,9 +248,7 @@
       OnlineModificationProcess(data) {
         this.modelVisible = true;
         localStorage.setItem("VUE_APP_BASE_API", process.env.VUE_APP_BASE_API)
-        console.log(data)
         this.modelerUrl = '/bpmnjs/index.html?type=lookBpmn&deploymentFileUUID=' + data.deploymentId + '&deploymentName=' + encodeURI(data.resourceName);
-        console.log(this.modelerUrl)
       },
 
       // 提交上传文件

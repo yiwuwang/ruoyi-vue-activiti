@@ -67,8 +67,7 @@ public class ActWorkflowFormDataServiceImpl implements IActWorkflowFormDataServi
 
     @Override
     public int insertActWorkflowFormDatas(List<ActWorkflowFormData> ActWorkflowFormDatas) {
-        int i = actWorkflowFormDataMapper.insertActWorkflowFormDatas(SecurityUtils.getUsername(), ActWorkflowFormDatas, new Date());
-        return i;
+        return actWorkflowFormDataMapper.insertActWorkflowFormDatas(SecurityUtils.getUsername(), ActWorkflowFormDatas, new Date(),SecurityUtils.getNickName());
     }
 
 

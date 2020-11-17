@@ -66,11 +66,13 @@ $(function () {
             }
             $.ajax({
                 url: localStorage.getItem("VUE_APP_BASE_API")+'/activitiHistory/gethighLine',
+                // url: 'http://localhost:8080/activitiHistory/gethighLine',
                 type: 'GET',
                 data: param1,
                 dataType:'json',
                 success: function (result) {
-                  var ColorJson=tools.getByColor(result.obj)
+                  console.log(result)
+                  var ColorJson=tools.getByColor(result.data)
                     $.ajax({
                         url: localStorage.getItem("VUE_APP_BASE_API")+'/processDefinition/getDefinitionXML',
                         // url: 'http://localhost:8080/processDefinition/getDefinitionXML',
@@ -99,6 +101,7 @@ $(function () {
             //加载后台方法获取xml
             $.ajax({
                 url: localStorage.getItem("VUE_APP_BASE_API")+'/processDefinition/getDefinitionXML',
+              // url: 'http://localhost:8080/processDefinition/getDefinitionXML',
                 type: 'GET',
                 data: param,
                 dataType:'text',

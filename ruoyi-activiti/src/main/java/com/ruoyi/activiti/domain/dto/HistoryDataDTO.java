@@ -2,17 +2,13 @@ package com.ruoyi.activiti.domain.dto;
 
 import java.util.List;
 
-/**
- * 汇讯数码科技(深圳)有限公司
- * 创建日期:2020/11/3-15:50
- * 版本   开发者     日期
- * 1.0    Danny    2020/11/3
- */
 public class HistoryDataDTO {
     private String taskNodeName;
-    private String createBy;
+    private String createName;
     private String createdDate;
     private List<HistoryFormDataDTO> formHistoryDataDTO;
+
+
 
     public String getTaskNodeName() {
         return taskNodeName;
@@ -22,12 +18,12 @@ public class HistoryDataDTO {
         this.taskNodeName = taskNodeName;
     }
 
-    public String getCreateBy() {
-        return createBy;
+    public String getCreateName() {
+        return createName;
     }
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
+    public void setCreateName(String createName) {
+        this.createName = createName;
     }
 
     public String getCreatedDate() {

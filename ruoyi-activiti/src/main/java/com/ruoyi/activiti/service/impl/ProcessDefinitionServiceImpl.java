@@ -77,8 +77,6 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
 
     @Override
     public DefinitionIdDTO getDefinitionsByInstanceId(String instanceId) {
-//        HistoricProcessInstance historicProcessInstance = historyService.createHistoricProcessInstanceQuery()
-//                .processInstanceId(instanceId).singleResult();
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(instanceId).singleResult();
         String deploymentId = processInstance.getDeploymentId();
         ProcessDefinition processDefinition = repositoryService.createProcessDefinitionQuery().deploymentId(deploymentId).singleResult();
@@ -100,14 +98,10 @@ public class ProcessDefinitionServiceImpl implements IProcessDefinitionService {
         // 文件的扩展名
         String extension = FilenameUtils.getExtension(fileName);
 
-        // ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();//创建处理引擎实例
-        // repositoryService = processEngine.getRepositoryService();//创建仓库服务实例
-
         if (extension.equals("zip")) {
             ZipInputStream zip = new ZipInputStream(fileInputStream);
             repositoryService.createDeployment()//初始化流程
                     .addZipInputStream(zip)
-//                        .name("流程部署名称可通过接口传递现在写死")
                     .deploy();
         } else {
             repositoryService.createDeployment()//初始化流程

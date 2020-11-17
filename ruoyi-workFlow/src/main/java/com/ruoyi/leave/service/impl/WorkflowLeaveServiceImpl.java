@@ -60,7 +60,8 @@ public class WorkflowLeaveServiceImpl implements IWorkflowLeaveService {
     @Override
     public List<WorkflowLeave> selectWorkflowLeaveList(WorkflowLeave workflowLeave) {
         return workflowLeaveMapper.selectWorkflowLeaveList(workflowLeave);
-    }/**
+    }
+    /**
      * 查询请假列表带任务状态
      *
      * @param workflowLeave 请假
@@ -72,12 +73,14 @@ public class WorkflowLeaveServiceImpl implements IWorkflowLeaveService {
         List<String> collect = workflowLeaves.parallelStream().map(wl -> wl.getInstanceId()).collect(Collectors.toList());
         if(collect!=null&&!collect.isEmpty()) {
             List<Task> tasks = taskService.createTaskQuery().processInstanceIdIn(collect).list();
-            for (WorkflowLeave wl : workflowLeaves) {
-                Task task = tasks.parallelStream().filter(t -> t.getProcessInstanceId().equals(wl.getInstanceId())).findAny().orElse(null);
-                if (task != null) {
-                    wl.setTaskName(task.getName());
-                }
-            }
+            workflowLeaves.forEach(
+                    wl->{
+                        Task task = tasks.parallelStream().filter(t -> t.getProcessInstanceId().equals(wl.getInstanceId())).findAny().orElse(null);
+                        if (task != null) {
+                            wl.setTaskName(task.getName());
+                        }
+                    }
+            );
         }
         return workflowLeaves;
     }
@@ -104,6 +107,7 @@ public class WorkflowLeaveServiceImpl implements IWorkflowLeaveService {
                 .build());
         workflowLeave.setInstanceId(processInstance.getId());
         workflowLeave.setState("0");
+        workflowLeave.setCreateName(SecurityUtils.getNickName());
         workflowLeave.setCreateBy(SecurityUtils.getUsername());
         workflowLeave.setCreateTime(DateUtils.getNowDate());
         return workflowLeaveMapper.insertWorkflowLeave(workflowLeave);

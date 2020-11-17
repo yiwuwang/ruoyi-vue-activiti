@@ -37,6 +37,8 @@ public class ActWorkflowFormData extends BaseEntity
     /** 任务节点名称 */
     private String taskNodeName;
 
+    private String createName;
+
     public ActWorkflowFormData() {
     }
 
@@ -116,6 +118,14 @@ public class ActWorkflowFormData extends BaseEntity
     public String getTaskNodeName() 
     {
         return taskNodeName;
+    }
+
+    public String getCreateName() {
+        return createName;
+    }
+
+    public void setCreateName(String createName) {
+        this.createName = createName;
     }
 
     @Override

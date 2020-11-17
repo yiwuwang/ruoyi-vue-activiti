@@ -23,7 +23,7 @@
     <div  v-for="(historyData, index) in fromData"
           :key="index" >
       <h2>{{historyData.taskNodeName}}</h2>
-      <h3>审批人:{{historyData.createBy}}</h3>
+      <h3>审批人:{{historyData.createName}}</h3>
       <h3>审批时间:{{historyData.createdDate}}</h3>
       <el-form v-for="(fistoryFormData, indexH) in historyData.formHistoryDataDTO" :key="indexH" label-width="80px">
         <el-form-item :label=fistoryFormData.title >

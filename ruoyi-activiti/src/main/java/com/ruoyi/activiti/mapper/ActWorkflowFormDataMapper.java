@@ -53,7 +53,7 @@ public interface ActWorkflowFormDataMapper
      * @param
      * @return 结果
      */
-    public int insertActWorkflowFormDatas(@Param("createBy") String createBy, @Param("ActWorkflowFormData")List<ActWorkflowFormData> ActWorkflowFormData, Date date);
+    public int insertActWorkflowFormDatas(@Param("createBy") String createBy, @Param("ActWorkflowFormData")List<ActWorkflowFormData> ActWorkflowFormData, Date date ,String createName);
 
 
 
