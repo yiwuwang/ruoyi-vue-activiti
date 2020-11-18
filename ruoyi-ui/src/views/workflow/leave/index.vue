@@ -139,7 +139,7 @@
           >审批详情
           </el-button>
 
-          <el-button
+          <el-button v-if="0==scope.row.state"
             size="mini"
             type="text"
             icon="el-icon-edit"
