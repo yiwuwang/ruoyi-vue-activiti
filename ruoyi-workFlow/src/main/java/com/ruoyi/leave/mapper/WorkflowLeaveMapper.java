@@ -2,6 +2,7 @@ package com.ruoyi.leave.mapper;
 
 import java.util.List;
 import com.ruoyi.leave.domain.WorkflowLeave;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 请假Mapper接口
@@ -20,18 +21,26 @@ public interface WorkflowLeaveMapper
     public WorkflowLeave selectWorkflowLeaveById(String id); /**
      * 查询请假
      *
-     * @param id 请假ID
+     * @param instanceId 请假ID
      * @return 请假
      */
     public WorkflowLeave selectWorkflowLeaveByInstanceId(String instanceId);
 
     /**
-     * 查询请假列表
+     * 查询请假列表根据部门编号和WorkflowLeave
      * 
      * @param workflowLeave 请假
      * @return 请假集合
      */
+    public List<WorkflowLeave> selectWorkflowLeaveListByWorkflowLeaveAndDeptId(@Param("workflowLeave")WorkflowLeave workflowLeave,@Param("deptId") Long deptId);
+    /**
+     * 查询请假列表
+     *
+     * @param workflowLeave 请假
+     * @return 请假集合
+     */
     public List<WorkflowLeave> selectWorkflowLeaveList(WorkflowLeave workflowLeave);
+
 
     /**
      * 新增请假

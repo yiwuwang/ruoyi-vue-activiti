@@ -23,9 +23,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, type, title, reason, leave_start_time, leave_end_time, instance_id, state, create_name,create_by, create_time, update_time from workflow_leave
     </sql>
 
+    <select id="selectWorkflowLeaveListByWorkflowLeaveAndDeptId"  resultMap="WorkflowLeaveResult">
+        <include refid="selectWorkflowLeaveVo"/>
+       where create_by in (SELECT user_name FROM `sys_user` where dept_id in (SELECT dept_id FROM sys_dept WHERE dept_id = #{deptId} or find_in_set( #{deptId} , ancestors ) ))
+            <if test="workflowLeave.type != null  and workflowLeave.type != ''"> and type = #{workflowLeave.type}</if>
+            <if test="workflowLeave.title != null  and workflowLeave.title != ''"> and title = #{workflowLeave.title}</if>
+            <if test="workflowLeave.reason != null  and workflowLeave.reason != ''"> and reason = #{workflowLeave.reason}</if>
+            <if test="workflowLeave.leaveStartTime != null "> and leave_start_time = #{workflowLeave.leaveStartTime}</if>
+            <if test="workflowLeave.leaveEndTime != null "> and leave_end_time = #{workflowLeave.leaveEndTime}</if>
+            <if test="workflowLeave.instanceId != null  and workflowLeave.instanceId != ''"> and instance_id = #{workflowLeave.instanceId}</if>
+            <if test="workflowLeave.state != null  and workflowLeave.state != ''"> and state = #{workflowLeave.state}</if>
+            <if test="workflowLeave.createName != null  and workflowLeave.createName != ''"> and create_name = #{workflowLeave.createName}</if>
+            <if test="workflowLeave.createBy != null  and workflowLeave.createBy != ''"> and create_by = #{workflowLeave.createBy}</if>
+        order by create_time desc
+    </select>
+
     <select id="selectWorkflowLeaveList" parameterType="WorkflowLeave" resultMap="WorkflowLeaveResult">
         <include refid="selectWorkflowLeaveVo"/>
-        <where>  
+        <where>
             <if test="type != null  and type != ''"> and type = #{type}</if>
             <if test="title != null  and title != ''"> and title = #{title}</if>
             <if test="reason != null  and reason != ''"> and reason = #{reason}</if>

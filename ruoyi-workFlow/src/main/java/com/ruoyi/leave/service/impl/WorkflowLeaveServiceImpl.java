@@ -1,9 +1,9 @@
 package com.ruoyi.leave.service.impl;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+
 import java.util.stream.Collectors;
+
 
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
@@ -59,7 +59,7 @@ public class WorkflowLeaveServiceImpl implements IWorkflowLeaveService {
      */
     @Override
     public List<WorkflowLeave> selectWorkflowLeaveList(WorkflowLeave workflowLeave) {
-        return workflowLeaveMapper.selectWorkflowLeaveList(workflowLeave);
+        return workflowLeaveMapper.selectWorkflowLeaveListByWorkflowLeaveAndDeptId(workflowLeave,SecurityUtils.getLoginUser().getUser().getDeptId());
     }
     /**
      * 查询请假列表带任务状态
