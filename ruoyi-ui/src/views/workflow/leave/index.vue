@@ -316,11 +316,6 @@
       })
     },
     methods: {
-      getUser() {
-        getUserProfile().then(response => {
-          this.createName = response.data.nickName
-        })
-      },
       /** 查询请假列表 */
       getList() {
         this.loading = true
@@ -379,19 +374,17 @@
       },
       /** 新增按钮操作 */
       handleAdd() {
-        getUserProfile().then(response => {
-          this.createName = response.data.nickName
-          console.log(this.createName)
-          if (response.data.userName != "admin") {
-            this.reset()
-            this.open = true
-            this.title = '添加请假'
-          } else {
-            this.$alert('管理员不能创建流程', '管理员不能创建流程', {
-              confirmButtonText: '确定',
-            });
-          }
-        })
+        this.createName = this.$store.getters.nickName
+        if (this.$store.getters.name != "admin") {
+          this.reset()
+          this.open = true
+          this.title = '添加请假'
+        } else {
+          this.$alert('管理员不能创建流程', '管理员不能创建流程', {
+            confirmButtonText: '确定',
+          });
+        }
+
       },
       /** 修改按钮操作 */
       handleUpdate(row) {
@@ -468,7 +461,6 @@
         })
       },
       chooseMedicine() {
-        console.log(this.createName)
         this.form.title = this.createName + "的" + this.form.type + "申请";
       }
     }
