@@ -97,12 +97,12 @@ public class ActTaskServiceImpl implements IActTaskService {
         //前端传来的字符串，拆分成每个控件
         List<ActWorkflowFormData> acwfds = new ArrayList<>();
         for (ActWorkflowFormDataDTO awf : awfs) {
-            ActWorkflowFormData actWorkflowFormData = new ActWorkflowFormData(processInstance.getBusinessKey(),awf, task);
+            ActWorkflowFormData actWorkflowFormData = new ActWorkflowFormData(processInstance.getBusinessKey(), awf, task);
             acwfds.add(actWorkflowFormData);
             //构建参数集合
-            if(!"f".equals(awf.getControlIsParam())) {
-                    variables.put(awf.getControlId(), awf.getControlValue());
-                    hasVariables = true;
+            if (!"f".equals(awf.getControlIsParam())) {
+                variables.put(awf.getControlId(), awf.getControlValue());
+                hasVariables = true;
             }
         }//for结束
         if (task.getAssignee() == null) {

@@ -17,7 +17,7 @@
     </resultMap>
 
     <sql id="selectActWorkflowFormDataVo">
-        select id, business_key, form_key, control_id,control_name, control_value, task_node_name, create_name,create_by, create_time from act_workflow_FormData
+        select id, business_key, form_key, control_id,control_name, control_value, task_node_name, create_name,create_by, create_time from act_workflow_formdata
     </sql>
 
     <select id="selectActWorkflowFormDataList" parameterType="ActWorkflowFormData" resultMap="ActWorkflowFormDataResult">
@@ -41,7 +41,7 @@
     </select>
 
     <insert id="insertActWorkflowFormData" parameterType="ActWorkflowFormData" useGeneratedKeys="true" keyProperty="id">
-        insert into act_workflow_FormData
+        insert into act_workflow_formdata
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="businessKey != null">business_key,</if>
             <if test="formKey != null">form_key,</if>
@@ -65,14 +65,14 @@
     </insert>
 
     <insert id="insertActWorkflowFormDatas"  useGeneratedKeys="true" >
-        insert into act_workflow_FormData (business_key,form_key,control_id,control_name,control_value,task_node_name,create_by,create_time,create_name) values
+        insert into act_workflow_formdata (business_key,form_key,control_id,control_name,control_value,task_node_name,create_by,create_time,create_name) values
         <foreach collection="param2" item="awfd" index="index" separator=",">
             (#{awfd.businessKey},#{awfd.formKey},#{awfd.controlId},#{awfd.controlName}, #{awfd.controlValue},#{awfd.taskNodeName},#{param1},#{param3},#{param4})
         </foreach>
     </insert>
 
     <update id="updateActWorkflowFormData" parameterType="ActWorkflowFormData">
-        update act_workflow_FormData
+        update act_workflow_formdata
         <trim prefix="SET" suffixOverrides=",">
             <if test="businessKey != null">business_key = #{businessKey},</if>
             <if test="formKey != null">form_key = #{formKey},</if>
@@ -87,11 +87,11 @@
     </update>
 
     <delete id="deleteActWorkflowFormDataById" parameterType="Long">
-        delete from act_workflow_FormData where id = #{id}
+        delete from act_workflow_formdata where id = #{id}
     </delete>
 
     <delete id="deleteActWorkflowFormDataByIds" parameterType="String">
-        delete from act_workflow_FormData where id in
+        delete from act_workflow_formdata where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

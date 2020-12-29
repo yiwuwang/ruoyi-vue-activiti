@@ -53,6 +53,12 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/activiti/definition/edit',
+    component: (resolve) => require(['@/views/activiti/definition/modeler/edit'], resolve),
+    hidden: true,
+    props: true
+  },
+  {
     path: '',
     component: Layout,
     redirect: 'index',

@@ -146,29 +146,34 @@
           this.businessKey = row.businessKey;
          this.id=row.id;
         formDataShow(row.id).then(response => {
+          // 自定义表单
           // FormProperty_3qipis2--__!!radio--__!!审批意见--__!!i--__!!同意--__--不同意
           // FormProperty_0lffpcm--__!!textarea--__!!批注--__!!f--__!!null
           let datas = response.data;
+          console.log('response')
+          console.log(response)
           let formData = []
-          for (let i = 0; i < datas.length; i++) {
-            let strings = datas[i].split('--__!!')
-            let controlValue = null
-            let controlDefault = null
-            switch (strings[1]) {
-              case 'radio':
-                controlValue = 0;
-                controlDefault = strings[4]
-                break;
-              // default:
+          if (datas){
+            for (let i = 0; i < datas.length; i++) {
+              let strings = datas[i].split('--__!!')
+              let controlValue = null
+              let controlDefault = null
+              switch (strings[1]) {
+                case 'radio':
+                  controlValue = 0;
+                  controlDefault = strings[4]
+                  break;
+                // default:
+              }
+              formData.push({
+                controlId: strings[0],
+                controlType: strings[1],
+                controlLable: strings[2],
+                controlIsParam: strings[3],
+                controlValue: controlValue,
+                controlDefault: controlDefault
+              })
             }
-            formData.push({
-              controlId: strings[0],
-              controlType: strings[1],
-              controlLable: strings[2],
-              controlIsParam: strings[3],
-              controlValue: controlValue,
-              controlDefault: controlDefault
-            })
           }
           this.form.formData = formData;
           this.open = true;

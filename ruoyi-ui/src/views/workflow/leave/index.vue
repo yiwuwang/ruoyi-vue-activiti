@@ -88,6 +88,11 @@
       <el-table-column label="请假类型" align="center" prop="type" :formatter="typeFormat"/>
       <el-table-column label="标题" align="center" prop="title"/>
       <el-table-column label="原因" align="center" prop="reason"/>
+      <el-table-column label="更新时间" align="center" prop="createTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="开始时间" align="center" prop="leaveStartTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.leaveStartTime, '{y}-{m}-{d}') }}</span>
@@ -406,8 +411,8 @@
       checkTheSchedule(row) {
         getDefinitionsByInstanceId(row.instanceId).then(response => {
           let data = response.data
-          // this.url = '/bpmnjs/index.html?type=lookBpmn&deploymentFileUUID='+data.deploymentID+'&deploymentName='+ encodeURI(data.resourceName);
-          this.modelerUrl = '/bpmnjs/index.html?type=lookBpmn&instanceId=' + row.instanceId + '&deploymentFileUUID=' + data.deploymentID + '&deploymentName=' + encodeURI(data.resourceName);
+          // this.url = '/activiti/definition/edit?type=lookBpmn&deploymentFileUUID='+data.deploymentID+'&deploymentName='+ encodeURI(data.resourceName);
+          this.modelerUrl = '/activiti/definition/edit?type=lookBpmn&instanceId=' + row.instanceId + '&deploymentFileUUID=' + data.deploymentID + '&deploymentName=' + encodeURI(data.resourceName);
           this.modelVisible = true
         })
 

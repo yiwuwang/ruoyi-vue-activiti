@@ -1,6 +1,6 @@
 package com.ruoyi.activiti.controller;
 
-import com.ruoyi.activiti.domain.dto.ProcessDefinitionDTO;
+import com.ruoyi.activiti.domain.dto.ProcessDefXmlDTO;
 import com.ruoyi.activiti.service.IProcessDefinitionService;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
@@ -39,7 +39,7 @@ public class ProcessDefinitionController extends BaseController {
      * @return
      */
     @GetMapping(value = "/list")
-    public TableDataInfo list(ProcessDefinitionDTO processDefinition) {
+    public TableDataInfo list(com.ruoyi.activiti.domain.dto.ProcessDefinitionDTO processDefinition) {
         PageDomain pageDomain = TableSupport.buildPageRequest();
         return getDataTable(processDefinitionService.selectProcessDefinitionList(processDefinition, pageDomain));
 
@@ -90,7 +90,7 @@ public class ProcessDefinitionController extends BaseController {
     @Log(title = "流程定义管理", businessType = BusinessType.UPDATE)
     @PostMapping("/suspendOrActiveApply")
     @ResponseBody
-    public AjaxResult suspendOrActiveApply(@RequestBody ProcessDefinitionDTO processDefinition) {
+    public AjaxResult suspendOrActiveApply(@RequestBody com.ruoyi.activiti.domain.dto.ProcessDefinitionDTO processDefinition) {
         processDefinitionService.suspendOrActiveApply(processDefinition.getId(), processDefinition.getSuspendState());
         return AjaxResult.success();
     }
@@ -118,12 +118,12 @@ public class ProcessDefinitionController extends BaseController {
     /**
      * 通过stringBPMN添加流程定义
      *
-     * @param stringBPMN
+     * @param vo
      * @return
      */
     @PostMapping(value = "/addDeploymentByString")
-    public AjaxResult addDeploymentByString(@RequestParam("stringBPMN") String stringBPMN) {
-        processDefinitionService.addDeploymentByString(stringBPMN);
+    public AjaxResult addDeploymentByString(@RequestBody ProcessDefXmlDTO vo) {
+        processDefinitionService.addDeploymentByString(vo.getStringBPMN());
         return AjaxResult.success();
 
     }
