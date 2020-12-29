@@ -42,6 +42,14 @@ export function getDefinitionXML(data) {
   })
 }
 
+export function gethighLine(data) {
+  return request({
+    url: '/activitiHistory/gethighLine',
+    method: 'get',
+    params: data
+  })
+}
+
 // 删除Modeler
 export function delDefinition(id) {
   return request({

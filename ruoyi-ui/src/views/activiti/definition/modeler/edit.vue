@@ -1,6 +1,6 @@
 <template>
-  <div class="containers vue-bpmn-diagram-container" ref="content">
-    <div class="content with-diagram" id="js-drop-zone" ref="content">
+  <div class="containers vue-bpmn-diagram-container">
+    <div class="content with-diagram" ref="content">
       <div class="message error">
         <div class="note">
           <p>无法显示bpms2.0</p>
@@ -11,9 +11,9 @@
         </div>
       </div>
       <div class="canvas" id="js-canvas" ref="canvas"></div>
-      <div class="properties-panel-parent" id="js-properties-panel"></div>
+      <div class="properties-panel-parent" id="js-properties-panel" v-show="showEditor"></div>
     </div>
-    <ul class="buttons">
+    <ul class="buttons" v-show="showEditor">
       <li class="item upload">
         <form name="myForm" onsubmit="return false" method="post" enctype="multipart/form-data" title="上传文件">
           <input type="file" id="uploadFile" accept=".bpmn" style="display: none" v-on:change="importFile">
@@ -34,7 +34,8 @@
 
 <script>
   import 'bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css'
-  import propertiesPanelModule from './resources/properties-panel'
+  import propertiesPanelModule from 'bpmn-js-properties-panel'
+  // import propertiesPanelModule from './resources/properties-panel'
   import propertiesProviderModule from './resources/properties-panel/provider/activiti/index'
   import activitiModuleDescriptor from './resources/activiti.json'
   // import propertiesProviderModule from 'activiti-bpmn-moddle/lib'
@@ -42,12 +43,13 @@
   import customTranslate from './resources/customTranslate/customTranslate'
   import customControlsModule from './resources/customControls'
   import BpmnModeler from 'bpmn-js/lib/Modeler'
-  import {addDeploymentByString, getDefinitionXML} from '@/api/activiti/definition'
+  import {addDeploymentByString, getDefinitionXML, gethighLine} from '@/api/activiti/definition'
 
   export default {
     name: 'vue-bpmn',
     data: function() {
       return {
+        showEditor: true,
         diagramXML: null,
         uploadFile: null,
       }
@@ -56,35 +58,25 @@
       const self = this
       this.container = this.$refs.content
       const canvas = this.$refs.canvas
-      var customTranslateModule = { translate: ['value', customTranslate] }
-      this.bpmnModeler = new BpmnModeler({
-        container: canvas,
-        keyboard: { bindTo: document },
-        //添加控制板
-        propertiesPanel: {
-          parent: '#js-properties-panel'
-        },
-        additionalModules: [
-          propertiesPanelModule,
-          propertiesProviderModule,
-          customControlsModule,
-          customTranslateModule
-        ],
-        moddleExtensions: {
-          activiti: activitiModuleDescriptor
-        }
-      })
-      this.bpmnModeler.on('import.done', function(event) {
-        var error = event.error
-        var warnings = event.warnings
-        if (error) {
-          self.$emit('error', error)
-        } else {
-          self.$emit('shown', warnings)
-        }
-        self.bpmnModeler.get('canvas').zoom('fit-viewport')
-      })
+      const customTranslateModule = { translate: ['value', customTranslate] }
       if (self.$route.query.type === 'addBpmn') {
+        this.bpmnModeler = new BpmnModeler({
+          container: canvas,
+          keyboard: { bindTo: document },
+          //添加控制板
+          propertiesPanel: {
+            parent: '#js-properties-panel'
+          },
+          additionalModules: [
+            propertiesPanelModule,
+            propertiesProviderModule,
+            customControlsModule,
+            customTranslateModule
+          ],
+          moddleExtensions: {
+            activiti: activitiModuleDescriptor
+          }
+        })
         self.diagramXML = '<?xml version="1.0" encoding="UTF-8"?>\n' +
           '<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="sample-diagram" targetNamespace="http://activiti.org/bpmn">\n' +
           '  <bpmn2:process id="Process_1" isExecutable="true">\n' +
@@ -99,11 +91,52 @@
           '  </bpmndi:BPMNDiagram>\n' +
           '</bpmn2:definitions>'
       } else if (self.$route.query.type === 'lookBpmn') {
+        // 查看进度
+        this.bpmnModeler = new BpmnModeler({
+          container: canvas, keyboard: { bindTo: document },
+          additionalModules: [
+            {
+              zoomScroll: ["value", ""],// 禁用滚轮滚动
+              bendpoints: ["value", ""], // 禁止拖动线
+              paletteProvider: ["value", ""], // 禁用左侧面板
+              contextPadProvider: ["value", ""], // 禁止点击节点出现contextPad
+              labelEditingProvider: ["value", ""] // 禁止双击节点出现label编辑框
+            },
+            customTranslateModule
+          ]
+        })
         const id = self.$route.query.deploymentFileUUID || '6d4af2dc-bab0-11ea-b584-3cf011eaafca'
         const name = self.$route.query.deploymentName || 'String.bpmn'
         const param = { 'deploymentId': id, 'resourceName': decodeURI(name) }
         this.fetchDiagram(param)
+        this.showEditor = false;
+
+        const instanceId = self.$route.query.instanceId;
+        gethighLine({instanceId})
+          .then(result => {
+            console.log(result)
+            var ColorJson = self.getByColor(result.data)
+            setTimeout(function() {
+              for (var i in ColorJson) {
+                self.setColor(ColorJson[i], self.bpmnModeler)
+              }
+            }, 200)
+          })
+          .catch(reason => {
+            console.log(reason)
+          })
       }
+
+      this.bpmnModeler.on('import.done', function(event) {
+        var error = event.error
+        var warnings = event.warnings
+        if (error) {
+          self.$emit('error', error)
+        } else {
+          self.$emit('shown', warnings)
+        }
+        self.bpmnModeler.get('canvas').zoom('fit-viewport')
+      })
     },
     beforeDestroy: function() {
       this.bpmnModeler.destroy()
@@ -114,6 +147,64 @@
       }
     },
     methods: {
+      async createDiagram(xml, bpmnModeler, container) {
+        try {
+          await bpmnModeler.importXML(xml);
+          container.removeClass('with-error').addClass('with-diagram');
+        } catch (err) {
+          container.removeClass('with-diagram').addClass('with-error');
+          container.find('.error pre').text(err.message);
+          console.error(err);
+        }
+      },
+      setColor(json, bpmnModeler) {
+        var modeling = bpmnModeler.get('modeling')
+        var elementRegistry = bpmnModeler.get('elementRegistry')
+        var elementToColor = elementRegistry.get(json.name)
+        if (elementToColor) {
+          modeling.setColor([elementToColor], {
+            stroke: json.stroke,
+            fill: json.fill
+          })
+        }
+      },
+      getByColor(data) {
+        var ColorJson = []
+        for (var k in data['highLine']) {
+          var par = {
+            'name': data['highLine'][k],
+            'stroke': 'green',
+            'fill': 'green'
+          }
+          ColorJson.push(par)
+        }
+        for (var k in data['highPoint']) {
+          var par = {
+            'name': data['highPoint'][k],
+            'stroke': 'gray',
+            'fill': '#eae9e9'
+
+          }
+          ColorJson.push(par)
+        }
+        for (var k in data['iDo']) {
+          var par = {
+            'name': data['iDo'][k],
+            'stroke': 'green',
+            'fill': '#a3d68e'
+          }
+          ColorJson.push(par)
+        }
+        for (var k in data['waitingToDo']) {
+          var par = {
+            'name': data['waitingToDo'][k],
+            'stroke': 'green',
+            'fill': 'yellow'
+          }
+          ColorJson.push(par)
+        }
+        return ColorJson
+      },
       downloadBpmn: function() {
         const self = this
         this.bpmnModeler.saveXML({ format: true })
