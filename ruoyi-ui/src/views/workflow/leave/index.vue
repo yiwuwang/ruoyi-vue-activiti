@@ -119,6 +119,7 @@
       <!--      <el-table-column label="创建者" align="center" prop="createName" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
+          <!--当申请失败时，可以修改，但修改会重新发起新的-->
           <el-button v-if="2==scope.row.state"
                      size="mini"
                      type="text"
