@@ -97,12 +97,6 @@
       @tag-change="tagChange"
     />
 
-    <form-drawer
-      :visible.sync="drawerVisible"
-      :form-data="formData"
-      size="100%"
-      :generate-conf="generateConf"
-    />
     <json-drawer
       size="60%"
       :visible.sync="jsonDrawerVisible"
@@ -125,7 +119,6 @@ import { debounce } from 'throttle-debounce'
 import { saveAs } from 'file-saver'
 import ClipboardJS from 'clipboard'
 import render from './render/render'
-import FormDrawer from './FormDrawer'
 import JsonDrawer from './JsonDrawer'
 import RightPanel from './RightPanel'
 import {
@@ -160,7 +153,6 @@ export default {
   components: {
     draggable,
     render,
-    FormDrawer,
     JsonDrawer,
     RightPanel,
     CodeTypeDialog,
