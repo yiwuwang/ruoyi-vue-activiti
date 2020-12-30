@@ -216,7 +216,7 @@
         const self = this
         this.bpmnModeler.saveXML({ format: true })
           .then(xml => {
-            self.download('diagram.bpmn', xml)
+            self.download('diagram.bpmn', xml.xml)
           })
           .catch(err => {
             return console.error('could not save BPMN 2.0 diagram', err)
@@ -240,6 +240,7 @@
           })
       },
       download: function(filename, text) {
+        console.log(text);
         let pom = document.createElement('a')
         pom.setAttribute('href', 'data:application/bpmn20-xml;charset=UTF-8,' + encodeURIComponent(text))
         pom.setAttribute('download', filename)
