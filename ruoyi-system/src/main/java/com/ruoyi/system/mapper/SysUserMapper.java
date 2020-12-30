@@ -35,7 +35,7 @@ public interface SysUserMapper
      */
     public SysUser selectUserById(Long userId);
 
-    public List<String>selectUserNameByPostCodeAndDeptId(String postCode,Long deptId);
+    public List<String> selectUserNameByPostCodeAndDeptId(String postCode,Long deptId);
 
     /**
      * 新增用户信息

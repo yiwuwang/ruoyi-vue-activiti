@@ -65,8 +65,13 @@ create table sys_user (
 -- ----------------------------
 -- 初始化-用户信息表数据
 -- ----------------------------
-insert into sys_user values(1,  103, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '管理员');
-insert into sys_user values(2,  105, 'ry',    '若依', '00', 'ry@qq.com',  '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', sysdate(), 'admin', sysdate(), '', null, '测试员');
+INSERT INTO `sys_user` VALUES (1, 103, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '/profile/avatar/2020/10/25/f2304bcb-a3ee-4471-bc33-4431ab80af5a.jpeg', '$2a$10$KIBmIRTvN6ukI6KC4kLsou2HK8jPs8CKpGycDiM8hXbmT7VMsb9Yu', '0', '0', '127.0.0.1', '2020-10-22 14:27:04', 'admin', '2020-10-22 14:27:04', '', NULL, '管理员');
+INSERT INTO `sys_user` VALUES (2, 105, 'ry', '若依', '00', 'ry@qq.com', '15666666666', '1', '', '$2a$10$AlWW0BhMojtGswPDm9z0fO/9RA2NOTNoqUWu6ZI9AM4N..InPdK5C', '0', '0', '127.0.0.1', '2020-10-22 14:27:04', 'admin', '2020-10-22 14:27:04', 'admin', '2020-12-26 18:00:28', '测试员');
+INSERT INTO `sys_user` VALUES (100, 103, 'guanxing', '关兴', '00', '1@ry.com', '18600000001', '0', '', '$2a$10$D1UcU40vTzakQdcxL2vXiulVV9Ul5KtQllrSCLEtebLVPQJYhZXCO', '0', '0', '', NULL, 'admin', '2020-11-04 14:39:07', 'admin', '2020-12-26 18:18:55', NULL);
+INSERT INTO `sys_user` VALUES (101, 103, 'guanyu', '关羽', '00', '2@ry.com', '18600000002', '0', '', '$2a$10$XxWqaxe7Ksifwbma6xASdOjTPcYIFLNhycVhXNywRV5MtkfubTwva', '0', '0', '', NULL, 'admin', '2020-11-04 14:40:43', 'admin', '2020-12-28 10:14:05', NULL);
+INSERT INTO `sys_user` VALUES (102, 100, 'zhugeliang', '诸葛亮', '00', '3@ry.com', '18600000003', '0', '', '$2a$10$29JEhX8QCimMRtiSRYCjieybCmYdbdHs7wmb.jt6eIgMwERnKOhM6', '0', '0', '', NULL, 'admin', '2020-11-04 14:41:37', 'admin', '2020-12-28 10:12:04', NULL);
+INSERT INTO `sys_user` VALUES (103, 103, 'zhaoyun', '赵云', '00', '4@ry.com', '18600000004', '0', '', '$2a$10$HSqC7jTQONv1SZZxi8D0HeGfaWk4.rAIELUB9deOQgf0L2n77u6iO', '0', '0', '', NULL, 'admin', '2020-11-08 15:52:30', 'admin', '2020-12-28 10:12:07', NULL);
+INSERT INTO `sys_user` VALUES (104, 103, 'zhoucang', '周仓', '00', '5@ry.com', '18600000005', '0', '', '$2a$10$ZlKX6tx3PtgdFSgQtIKISOZPriCZFz0wCbhQhCgBdb/b2iPk7acBW', '0', '0', '', NULL, 'admin', '2020-11-04 14:39:07', 'admin', '2020-12-28 10:12:10', NULL);
 
 
 -- ----------------------------
@@ -122,9 +127,9 @@ create table sys_role (
 -- ----------------------------
 -- 初始化-角色信息表数据
 -- ----------------------------
-insert into sys_role values('1', '超级管理员',  'admin',  1, 1, 1, 1, '0', '0', 'admin', sysdate(), '', null, '超级管理员');
-insert into sys_role values('2', '普通角色',    'common', 2, 2, 1, 1, '0', '0', 'admin', sysdate(), '', null, '普通角色');
-
+INSERT INTO `sys_role` VALUES (1, '超级管理员', 'admin', 1, '1', 1, 1, '0', '0', 'admin', sysdate(), '', NULL, '超级管理员');
+INSERT INTO `sys_role` VALUES (2, '普通角色', 'common', 2, '5', 1, 1, '0', '0', 'admin', sysdate(), 'admin', NULL, '普通角色');
+INSERT INTO `sys_role` VALUES (100, '部门历史OA', 'dept', 3, '4', 1, 1, '0', '0', 'admin', sysdate(), '', NULL, NULL);
 
 -- ----------------------------
 -- 5、菜单权限表
@@ -256,6 +261,28 @@ insert into sys_menu values('1059', '预览代码', '115', '4', '#', '', 1, 0, '
 insert into sys_menu values('1060', '生成代码', '115', '5', '#', '', 1, 0, 'F', '0', '0', 'tool:gen:code',              '#', 'admin', sysdate(), '', null, '');
 
 
+
+INSERT INTO `sys_menu` VALUES (5, '流程菜单', 0, 4, 'activiti', NULL, 1, 0, 'M', '0', '0', 'activiti:modeler:list', 'cascader', 'admin', '2020-09-13 21:58:54', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (1901, '流程定义', 5, 1, 'definition', 'activiti/definition/index', 1, 0, 'C', '0', '0', 'activiti:modeler', '#', 'admin', '2020-09-14 23:09:31', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2000, '请假', 2008, 1, 'leave', 'workflow/leave/index', 1, 0, 'C', '0', '0', 'workflow:leave:list', '#', 'admin', '2020-10-28 22:30:57', 'admin', '2020-11-10 22:15:13', '请假菜单');
+INSERT INTO `sys_menu` VALUES (2001, '请假查询', 2000, 1, '#', '', 1, 0, 'F', '0', '0', 'workflow:leave:query', '#', 'admin', '2020-10-28 22:30:57', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2002, '请假新增', 2000, 2, '#', '', 1, 0, 'F', '0', '0', 'workflow:leave:add', '#', 'admin', '2020-10-28 22:30:57', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2003, '请假修改', 2000, 3, '#', '', 1, 0, 'F', '0', '0', 'workflow:leave:edit', '#', 'admin', '2020-10-28 22:30:57', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2004, '请假删除', 2000, 4, '#', '', 1, 0, 'F', '0', '0', 'workflow:leave:remove', '#', 'admin', '2020-10-28 22:30:57', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2005, '请假导出', 2000, 5, '#', '', 1, 0, 'F', '0', '0', 'workflow:leave:export', '#', 'admin', '2020-10-28 22:30:57', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2006, '待办任务', 0, 6, 'task', NULL, 1, 0, 'M', '0', '0', '', 'excel', 'admin', '2020-11-04 10:53:24', 'admin', '2020-11-10 22:26:46', '');
+INSERT INTO `sys_menu` VALUES (2007, '代办任务', 2006, 1, 'task', 'activiti/task', 1, 0, 'C', '0', '0', '', '#', 'admin', '2020-11-04 10:54:28', 'admin', '2020-11-04 10:55:06', '');
+INSERT INTO `sys_menu` VALUES (2008, '我的OA', 0, 5, 'OA', NULL, 1, 0, 'M', '0', '0', '', 'guide', 'admin', '2020-11-10 22:13:34', 'admin', '2020-11-10 22:15:29', '');
+INSERT INTO `sys_menu` VALUES (2009, '历史流程', 0, 7, 'open', NULL, 1, 0, 'M', '0', '0', NULL, 'eye-open', 'admin', '2020-11-10 22:17:36', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2010, '请假历史', 2009, 1, 'leaveAll', 'workflow/leave/leaveAll', 1, 0, 'C', '0', '0', 'workflow:leave:list', '#', 'admin', '2020-10-28 22:30:57', 'admin', '2020-11-10 22:45:16', '请假菜单');
+INSERT INTO `sys_menu` VALUES (2011, '自定义表单', 3, 4, 'form', 'system/form/index', 1, 0, 'C', '0', '0', 'system:form:list', 'build', 'admin', '2020-12-29 17:35:03', 'admin', '2020-12-29 17:39:15', '自定义表单菜单');
+INSERT INTO `sys_menu` VALUES (2012, '自定义表单查询', 2011, 1, '#', '', 1, 0, 'F', '0', '0', 'system:form:query', '#', 'admin', '2020-12-29 17:35:04', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2013, '自定义表单新增', 2011, 2, '#', '', 1, 0, 'F', '0', '0', 'system:form:add', '#', 'admin', '2020-12-29 17:35:04', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2014, '自定义表单修改', 2011, 3, '#', '', 1, 0, 'F', '0', '0', 'system:form:edit', '#', 'admin', '2020-12-29 17:35:05', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2015, '自定义表单删除', 2011, 4, '#', '', 1, 0, 'F', '0', '0', 'system:form:remove', '#', 'admin', '2020-12-29 17:35:05', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2016, '自定义表单导出', 2011, 5, '#', '', 1, 0, 'F', '0', '0', 'system:form:export', '#', 'admin', '2020-12-29 17:35:05', '', NULL, '');
+
+
 -- ----------------------------
 -- 6、用户和角色关联表  用户N-1角色
 -- ----------------------------
@@ -269,107 +296,113 @@ create table sys_user_role (
 -- ----------------------------
 -- 初始化-用户和角色关联表数据
 -- ----------------------------
-insert into sys_user_role values ('1', '1');
-insert into sys_user_role values ('2', '2');
+-- Records of sys_user_role
+-- ----------------------------
+INSERT INTO `sys_user_role` VALUES (1, 1);
+INSERT INTO `sys_user_role` VALUES (2, 2);
+INSERT INTO `sys_user_role` VALUES (100, 2);
+INSERT INTO `sys_user_role` VALUES (101, 100);
+INSERT INTO `sys_user_role` VALUES (102, 100);
+INSERT INTO `sys_user_role` VALUES (103, 100);
 
 
 -- ----------------------------
 -- 7、角色和菜单关联表  角色1-N菜单
 -- ----------------------------
-drop table if exists sys_role_menu;
-create table sys_role_menu (
-  role_id   bigint(20) not null comment '角色ID',
-  menu_id   bigint(20) not null comment '菜单ID',
-  primary key(role_id, menu_id)
-) engine=innodb comment = '角色和菜单关联表';
-
--- ----------------------------
--- 初始化-角色和菜单关联表数据
--- ----------------------------
-insert into sys_role_menu values ('2', '1');
-insert into sys_role_menu values ('2', '2');
-insert into sys_role_menu values ('2', '3');
-insert into sys_role_menu values ('2', '4');
-insert into sys_role_menu values ('2', '100');
-insert into sys_role_menu values ('2', '101');
-insert into sys_role_menu values ('2', '102');
-insert into sys_role_menu values ('2', '103');
-insert into sys_role_menu values ('2', '104');
-insert into sys_role_menu values ('2', '105');
-insert into sys_role_menu values ('2', '106');
-insert into sys_role_menu values ('2', '107');
-insert into sys_role_menu values ('2', '108');
-insert into sys_role_menu values ('2', '109');
-insert into sys_role_menu values ('2', '110');
-insert into sys_role_menu values ('2', '111');
-insert into sys_role_menu values ('2', '112');
-insert into sys_role_menu values ('2', '113');
-insert into sys_role_menu values ('2', '114');
-insert into sys_role_menu values ('2', '115');
-insert into sys_role_menu values ('2', '116');
-insert into sys_role_menu values ('2', '500');
-insert into sys_role_menu values ('2', '501');
-insert into sys_role_menu values ('2', '1000');
-insert into sys_role_menu values ('2', '1001');
-insert into sys_role_menu values ('2', '1002');
-insert into sys_role_menu values ('2', '1003');
-insert into sys_role_menu values ('2', '1004');
-insert into sys_role_menu values ('2', '1005');
-insert into sys_role_menu values ('2', '1006');
-insert into sys_role_menu values ('2', '1007');
-insert into sys_role_menu values ('2', '1008');
-insert into sys_role_menu values ('2', '1009');
-insert into sys_role_menu values ('2', '1010');
-insert into sys_role_menu values ('2', '1011');
-insert into sys_role_menu values ('2', '1012');
-insert into sys_role_menu values ('2', '1013');
-insert into sys_role_menu values ('2', '1014');
-insert into sys_role_menu values ('2', '1015');
-insert into sys_role_menu values ('2', '1016');
-insert into sys_role_menu values ('2', '1017');
-insert into sys_role_menu values ('2', '1018');
-insert into sys_role_menu values ('2', '1019');
-insert into sys_role_menu values ('2', '1020');
-insert into sys_role_menu values ('2', '1021');
-insert into sys_role_menu values ('2', '1022');
-insert into sys_role_menu values ('2', '1023');
-insert into sys_role_menu values ('2', '1024');
-insert into sys_role_menu values ('2', '1025');
-insert into sys_role_menu values ('2', '1026');
-insert into sys_role_menu values ('2', '1027');
-insert into sys_role_menu values ('2', '1028');
-insert into sys_role_menu values ('2', '1029');
-insert into sys_role_menu values ('2', '1030');
-insert into sys_role_menu values ('2', '1031');
-insert into sys_role_menu values ('2', '1032');
-insert into sys_role_menu values ('2', '1033');
-insert into sys_role_menu values ('2', '1034');
-insert into sys_role_menu values ('2', '1035');
-insert into sys_role_menu values ('2', '1036');
-insert into sys_role_menu values ('2', '1037');
-insert into sys_role_menu values ('2', '1038');
-insert into sys_role_menu values ('2', '1039');
-insert into sys_role_menu values ('2', '1040');
-insert into sys_role_menu values ('2', '1041');
-insert into sys_role_menu values ('2', '1042');
-insert into sys_role_menu values ('2', '1043');
-insert into sys_role_menu values ('2', '1044');
-insert into sys_role_menu values ('2', '1045');
-insert into sys_role_menu values ('2', '1046');
-insert into sys_role_menu values ('2', '1047');
-insert into sys_role_menu values ('2', '1048');
-insert into sys_role_menu values ('2', '1049');
-insert into sys_role_menu values ('2', '1050');
-insert into sys_role_menu values ('2', '1051');
-insert into sys_role_menu values ('2', '1052');
-insert into sys_role_menu values ('2', '1053');
-insert into sys_role_menu values ('2', '1054');
-insert into sys_role_menu values ('2', '1055');
-insert into sys_role_menu values ('2', '1056');
-insert into sys_role_menu values ('2', '1057');
-insert into sys_role_menu values ('2', '1058');
-insert into sys_role_menu values ('2', '1059');
-insert into sys_role_menu values ('2', '1060');
+# drop table if exists sys_role_menu;
+# create table sys_role_menu (
+#   role_id   bigint(20) not null comment '角色ID',
+#   menu_id   bigint(20) not null comment '菜单ID',
+#   primary key(role_id, menu_id)
+# ) engine=innodb comment = '角色和菜单关联表';
+#
+# ----------------------------
+# 初始化-角色和菜单关联表数据
+# ----------------------------
+# insert into sys_role_menu values ('2', '1');
+# insert into sys_role_menu values ('2', '2');
+# insert into sys_role_menu values ('2', '3');
+# insert into sys_role_menu values ('2', '4');
+# insert into sys_role_menu values ('2', '100');
+# insert into sys_role_menu values ('2', '101');
+# insert into sys_role_menu values ('2', '102');
+# insert into sys_role_menu values ('2', '103');
+# insert into sys_role_menu values ('2', '104');
+# insert into sys_role_menu values ('2', '105');
+# insert into sys_role_menu values ('2', '106');
+# insert into sys_role_menu values ('2', '107');
+# insert into sys_role_menu values ('2', '108');
+# insert into sys_role_menu values ('2', '109');
+# insert into sys_role_menu values ('2', '110');
+# insert into sys_role_menu values ('2', '111');
+# insert into sys_role_menu values ('2', '112');
+# insert into sys_role_menu values ('2', '113');
+# insert into sys_role_menu values ('2', '114');
+# insert into sys_role_menu values ('2', '115');
+# insert into sys_role_menu values ('2', '116');
+# insert into sys_role_menu values ('2', '500');
+# insert into sys_role_menu values ('2', '501');
+# insert into sys_role_menu values ('2', '1000');
+# insert into sys_role_menu values ('2', '1001');
+# insert into sys_role_menu values ('2', '1002');
+# insert into sys_role_menu values ('2', '1003');
+# insert into sys_role_menu values ('2', '1004');
+# insert into sys_role_menu values ('2', '1005');
+# insert into sys_role_menu values ('2', '1006');
+# insert into sys_role_menu values ('2', '1007');
+# insert into sys_role_menu values ('2', '1008');
+# insert into sys_role_menu values ('2', '1009');
+# insert into sys_role_menu values ('2', '1010');
+# insert into sys_role_menu values ('2', '1011');
+# insert into sys_role_menu values ('2', '1012');
+# insert into sys_role_menu values ('2', '1013');
+# insert into sys_role_menu values ('2', '1014');
+# insert into sys_role_menu values ('2', '1015');
+# insert into sys_role_menu values ('2', '1016');
+# insert into sys_role_menu values ('2', '1017');
+# insert into sys_role_menu values ('2', '1018');
+# insert into sys_role_menu values ('2', '1019');
+# insert into sys_role_menu values ('2', '1020');
+# insert into sys_role_menu values ('2', '1021');
+# insert into sys_role_menu values ('2', '1022');
+# insert into sys_role_menu values ('2', '1023');
+# insert into sys_role_menu values ('2', '1024');
+# insert into sys_role_menu values ('2', '1025');
+# insert into sys_role_menu values ('2', '1026');
+# insert into sys_role_menu values ('2', '1027');
+# insert into sys_role_menu values ('2', '1028');
+# insert into sys_role_menu values ('2', '1029');
+# insert into sys_role_menu values ('2', '1030');
+# insert into sys_role_menu values ('2', '1031');
+# insert into sys_role_menu values ('2', '1032');
+# insert into sys_role_menu values ('2', '1033');
+# insert into sys_role_menu values ('2', '1034');
+# insert into sys_role_menu values ('2', '1035');
+# insert into sys_role_menu values ('2', '1036');
+# insert into sys_role_menu values ('2', '1037');
+# insert into sys_role_menu values ('2', '1038');
+# insert into sys_role_menu values ('2', '1039');
+# insert into sys_role_menu values ('2', '1040');
+# insert into sys_role_menu values ('2', '1041');
+# insert into sys_role_menu values ('2', '1042');
+# insert into sys_role_menu values ('2', '1043');
+# insert into sys_role_menu values ('2', '1044');
+# insert into sys_role_menu values ('2', '1045');
+# insert into sys_role_menu values ('2', '1046');
+# insert into sys_role_menu values ('2', '1047');
+# insert into sys_role_menu values ('2', '1048');
+# insert into sys_role_menu values ('2', '1049');
+# insert into sys_role_menu values ('2', '1050');
+# insert into sys_role_menu values ('2', '1051');
+# insert into sys_role_menu values ('2', '1052');
+# insert into sys_role_menu values ('2', '1053');
+# insert into sys_role_menu values ('2', '1054');
+# insert into sys_role_menu values ('2', '1055');
+# insert into sys_role_menu values ('2', '1056');
+# insert into sys_role_menu values ('2', '1057');
+# insert into sys_role_menu values ('2', '1058');
+# insert into sys_role_menu values ('2', '1059');
+# insert into sys_role_menu values ('2', '1060');
 
 -- ----------------------------
 -- 8、角色和部门关联表  角色1-N部门
@@ -405,6 +438,13 @@ create table sys_user_post
 -- ----------------------------
 insert into sys_user_post values ('1', '1');
 insert into sys_user_post values ('2', '2');
+INSERT INTO `sys_user_post` VALUES (100, 3);
+INSERT INTO `sys_user_post` VALUES (101, 1);
+INSERT INTO `sys_user_post` VALUES (101, 2);
+INSERT INTO `sys_user_post` VALUES (101, 3);
+INSERT INTO `sys_user_post` VALUES (101, 4);
+INSERT INTO `sys_user_post` VALUES (102, 3);
+INSERT INTO `sys_user_post` VALUES (103, 2);
 
 
 -- ----------------------------
@@ -451,16 +491,21 @@ create table sys_dict_type
   unique (dict_type)
 ) engine=innodb auto_increment=100 comment = '字典类型表';
 
-insert into sys_dict_type values(1,  '用户性别', 'sys_user_sex',        '0', 'admin', sysdate(), '', null, '用户性别列表');
-insert into sys_dict_type values(2,  '菜单状态', 'sys_show_hide',       '0', 'admin', sysdate(), '', null, '菜单状态列表');
-insert into sys_dict_type values(3,  '系统开关', 'sys_normal_disable',  '0', 'admin', sysdate(), '', null, '系统开关列表');
-insert into sys_dict_type values(4,  '任务状态', 'sys_job_status',      '0', 'admin', sysdate(), '', null, '任务状态列表');
-insert into sys_dict_type values(5,  '任务分组', 'sys_job_group',       '0', 'admin', sysdate(), '', null, '任务分组列表');
-insert into sys_dict_type values(6,  '系统是否', 'sys_yes_no',          '0', 'admin', sysdate(), '', null, '系统是否列表');
-insert into sys_dict_type values(7,  '通知类型', 'sys_notice_type',     '0', 'admin', sysdate(), '', null, '通知类型列表');
-insert into sys_dict_type values(8,  '通知状态', 'sys_notice_status',   '0', 'admin', sysdate(), '', null, '通知状态列表');
-insert into sys_dict_type values(9,  '操作类型', 'sys_oper_type',       '0', 'admin', sysdate(), '', null, '操作类型列表');
-insert into sys_dict_type values(10, '系统状态', 'sys_common_status',   '0', 'admin', sysdate(), '', null, '登录状态列表');
+-- ----------------------------
+-- Records of sys_dict_type
+-- ----------------------------
+INSERT INTO `sys_dict_type` VALUES (1, '用户性别', 'sys_user_sex', '0', 'admin', sysdate(), '', NULL, '用户性别列表');
+INSERT INTO `sys_dict_type` VALUES (2, '菜单状态', 'sys_show_hide', '0', 'admin', sysdate(), '', NULL, '菜单状态列表');
+INSERT INTO `sys_dict_type` VALUES (3, '系统开关', 'sys_normal_disable', '0', 'admin', sysdate(), '', NULL, '系统开关列表');
+INSERT INTO `sys_dict_type` VALUES (4, '任务状态', 'sys_job_status', '0', 'admin', sysdate(), '', NULL, '任务状态列表');
+INSERT INTO `sys_dict_type` VALUES (5, '任务分组', 'sys_job_group', '0', 'admin', sysdate(), '', NULL, '任务分组列表');
+INSERT INTO `sys_dict_type` VALUES (6, '系统是否', 'sys_yes_no', '0', 'admin', sysdate(), '', NULL, '系统是否列表');
+INSERT INTO `sys_dict_type` VALUES (7, '通知类型', 'sys_notice_type', '0', 'admin', sysdate(), '', NULL, '通知类型列表');
+INSERT INTO `sys_dict_type` VALUES (8, '通知状态', 'sys_notice_status', '0', 'admin', sysdate(), '', NULL, '通知状态列表');
+INSERT INTO `sys_dict_type` VALUES (9, '操作类型', 'sys_oper_type', '0', 'admin', sysdate(), '', NULL, '操作类型列表');
+INSERT INTO `sys_dict_type` VALUES (10, '系统状态', 'sys_common_status', '0', 'admin', sysdate(), '', NULL, '登录状态列表');
+INSERT INTO `sys_dict_type` VALUES (100, 'OA状态', 'activiti_flow_type', '0', 'admin', sysdate(), 'admin', NULL, 'OA流程状态');
+INSERT INTO `sys_dict_type` VALUES (101, '请假类型', 'activiti_leave_type', '0', 'admin', sysdate(), 'admin', NULL, '请假类型');
 
 
 -- ----------------------------
@@ -514,6 +559,12 @@ insert into sys_dict_data values(25, 8,  '生成代码', '8',       'sys_oper_ty
 insert into sys_dict_data values(26, 9,  '清空数据', '9',       'sys_oper_type',       '',   'danger',  'N', '0', 'admin', sysdate(), '', null, '清空操作');
 insert into sys_dict_data values(27, 1,  '成功',     '0',       'sys_common_status',   '',   'primary', 'N', '0', 'admin', sysdate(), '', null, '正常状态');
 insert into sys_dict_data values(28, 2,  '失败',     '1',       'sys_common_status',   '',   'danger',  'N', '0', 'admin', sysdate(), '', null, '停用状态');
+INSERT INTO `sys_dict_data` VALUES (100, 1, '进行中', '0', 'activiti_flow_type', NULL, NULL, 'N', '0', 'admin', sysdate(), 'admin', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (101, 2, '成功', '1', 'activiti_flow_type', NULL, NULL, 'N', '0', 'admin', sysdate(), 'admin', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (102, 3, '失败', '2', 'activiti_flow_type', NULL, NULL, 'N', '0', 'admin', sysdate(), 'admin', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (103, 1, '年假', '年假', 'activiti_leave_type', NULL, NULL, 'N', '0', 'admin', sysdate(), 'admin', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (104, 2, '病假', '病假', 'activiti_leave_type', NULL, NULL, 'N', '0', 'admin', sysdate(), 'admin', NULL, NULL);
+INSERT INTO `sys_dict_data` VALUES (105, 3, '事假', '事假', 'activiti_leave_type', NULL, NULL, 'N', '0', 'admin', sysdate(), 'admin', NULL, NULL);
 
 
 -- ----------------------------
@@ -681,3 +732,22 @@ create table gen_table_column (
   update_time       datetime                                   comment '更新时间',
   primary key (column_id)
 ) engine=innodb auto_increment=1 comment = '代码生成业务表字段';
+
+-- ----------------------------
+-- 20、自定义表单
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_custom_form`;
+CREATE TABLE `sys_custom_form`  (
+                                    `id` bigint(20) NOT NULL AUTO_INCREMENT,
+                                    `form_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+                                    `desc_text` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+                                    `form_key` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+                                    `form_json` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+                                    PRIMARY KEY (`id`) USING BTREE,
+                                    UNIQUE INDEX `sys_custom_form_form_key_uindex`(`form_key`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '自定义表单' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_custom_form
+-- ----------------------------
+INSERT INTO `sys_custom_form` VALUES (1, '请假审批表单', '审批表单', 'leave_approve_form', '{\n  \"fields\": [{\n    \"__config__\": {\n      \"label\": \"是否同意\",\n      \"labelWidth\": null,\n      \"showLabel\": true,\n      \"tag\": \"el-radio-group\",\n      \"tagIcon\": \"radio\",\n      \"changeTag\": true,\n      \"layout\": \"colFormItem\",\n      \"span\": 24,\n      \"optionType\": \"default\",\n      \"regList\": [],\n      \"required\": true,\n      \"border\": false,\n      \"document\": \"https://element.eleme.cn/#/zh-CN/component/radio\",\n      \"formId\": 102,\n      \"renderKey\": 1609235277979\n    },\n    \"__slot__\": {\n      \"options\": [{\n        \"label\": \"同意\",\n        \"value\": \"true\"\n      }, {\n        \"label\": \"不同意\",\n        \"value\": \"false\"\n      }]\n    },\n    \"style\": {},\n    \"size\": \"medium\",\n    \"disabled\": false,\n    \"__vModel__\": \"approve\"\n  }, {\n    \"__config__\": {\n      \"label\": \"说明信息\",\n      \"labelWidth\": null,\n      \"showLabel\": true,\n      \"changeTag\": true,\n      \"tag\": \"el-input\",\n      \"tagIcon\": \"textarea\",\n      \"required\": false,\n      \"layout\": \"colFormItem\",\n      \"span\": 24,\n      \"document\": \"https://element.eleme.cn/#/zh-CN/component/input\",\n      \"regList\": [],\n      \"formId\": 101,\n      \"renderKey\": 1609235272643\n    },\n    \"type\": \"textarea\",\n    \"placeholder\": \"请输入说明信息\",\n    \"autosize\": {\n      \"minRows\": 2,\n      \"maxRows\": 4\n    },\n    \"style\": {\n      \"width\": \"100%\"\n    },\n    \"maxlength\": null,\n    \"show-word-limit\": false,\n    \"readonly\": false,\n    \"disabled\": false,\n    \"__vModel__\": \"remark\"\n  }],\n  \"formRef\": \"elForm\",\n  \"formModel\": \"formData\",\n  \"size\": \"medium\",\n  \"labelPosition\": \"right\",\n  \"labelWidth\": 100,\n  \"formRules\": \"rules\",\n  \"gutter\": 15,\n  \"disabled\": false,\n  \"span\": 24,\n  \"formBtns\": false\n}\n');

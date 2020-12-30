@@ -109,7 +109,7 @@ public class PermissionService
         for (SysRole sysRole : loginUser.getUser().getRoles())
         {
             String roleKey = sysRole.getRoleKey();
-            if (SUPER_ADMIN.contains(roleKey) || roleKey.equals(StringUtils.trim(role)))
+            if (SUPER_ADMIN.equals(roleKey) || roleKey.equals(StringUtils.trim(role)))
             {
                 return true;
             }
