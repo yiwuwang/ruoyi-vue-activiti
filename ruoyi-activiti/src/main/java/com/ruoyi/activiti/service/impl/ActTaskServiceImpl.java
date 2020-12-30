@@ -125,7 +125,7 @@ public class ActTaskServiceImpl implements IActTaskService {
         String optUserName = SecurityUtils.getUsername();
 
         Task task = taskRuntime.task(taskID);
-        //ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
+        ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
 
         if (task.getAssignee() == null) {
             //代理人没有的话，则当前用户接收
@@ -152,8 +152,10 @@ public class ActTaskServiceImpl implements IActTaskService {
         ActWorkflowFormData formData = new ActWorkflowFormData();
         formData.setCreateName(task.getAssignee());
         // 这个一直是Null
-        // formData.setBusinessKey(task.getBusinessKey());
-        formData.setBusinessKey(task.getProcessInstanceId());
+        formData.setBusinessKey(task.getBusinessKey());
+
+        formData.setBusinessKey(processInstance.getBusinessKey());
+//        formData.setBusinessKey(task.getProcessInstanceId());
         formData.setFormKey(task.getFormKey());
         formData.setTaskNodeName(task.getName());
         formData.setFormData(JSON.toJSONString(params.getData()));

@@ -403,6 +403,7 @@
       /** 审批详情 */
       historyFory(row) {
         this.businessKey = row.id
+        // this.businessKey = row.instanceId
         this.open2 = true
         this.title = '审批详情'
 

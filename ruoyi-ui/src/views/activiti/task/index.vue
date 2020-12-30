@@ -36,6 +36,7 @@
     <el-dialog :title="title" :visible.sync="open" v-if="open" width="500px" append-to-body>
       <leaveHistoryForm :businessKey="businessKey" v-if="'leave'==definitionKey"/>
 
+      <h2>您的审批：</h2>
       <el-form :model="form" ref="form" label-width="100px" class="demo-dynamic">
         <div
           v-for="(domain, index) in form.formData"
