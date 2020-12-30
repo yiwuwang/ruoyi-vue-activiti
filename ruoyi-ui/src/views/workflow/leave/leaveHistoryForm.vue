@@ -35,7 +35,7 @@
 </template>
 
 <script>
-  import { getLeave } from '@/api/workflow/leave'
+  import { getLeaveByInstanceId } from '@/api/workflow/leave'
   import { historyFromData } from '@/api/activiti/historyFormdata'
   export default {
     name: "leaveHistoryForm",
@@ -57,7 +57,7 @@
     },
     methods:{
       getLeave() {
-        getLeave(this.businessKey).then(response => {
+        getLeaveByInstanceId(this.businessKey).then(response => {
           this.form = response.data
         })
       },

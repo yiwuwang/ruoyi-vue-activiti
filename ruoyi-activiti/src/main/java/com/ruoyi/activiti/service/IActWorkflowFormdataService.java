@@ -7,9 +7,9 @@ import com.ruoyi.activiti.domain.ActWorkflowFormData;
  * 动态单Service接口
  * 
  * @author danny
- * @date 2020-11-02
+ * @date 2020-12-30
  */
-public interface IActWorkflowFormDataService
+public interface IActWorkflowFormDataService 
 {
     /**
      * 查询动态单
@@ -19,38 +19,31 @@ public interface IActWorkflowFormDataService
      */
     public ActWorkflowFormData selectActWorkflowFormDataById(Long id);
 
-    public List<ActWorkflowFormData> selectActWorkflowFormDataByBusinessKey(String businessKey);
-
     /**
      * 查询动态单列表
      * 
-     * @param ActWorkflowFormData 动态单
+     * @param actWorkflowFormData 动态单
      * @return 动态单集合
      */
-    public List<ActWorkflowFormData> selectActWorkflowFormDataList(ActWorkflowFormData ActWorkflowFormData);
+    public List<ActWorkflowFormData> selectActWorkflowFormDataList(ActWorkflowFormData actWorkflowFormData);
+
+    public List<ActWorkflowFormData> selectActWorkflowFormDataByBusinessKey(String businessKey);
 
     /**
      * 新增动态单
      * 
-     * @param ActWorkflowFormData 动态单
+     * @param actWorkflowFormData 动态单
      * @return 结果
      */
-    public int insertActWorkflowFormData(ActWorkflowFormData ActWorkflowFormData);
-
-    /**
-     * 新增动态单集合
-     * @param ActWorkflowFormDatas 动态表单集合
-     * @return
-     */
-    public int insertActWorkflowFormDatas(List<ActWorkflowFormData> ActWorkflowFormDatas);
+    public int insertActWorkflowFormData(ActWorkflowFormData actWorkflowFormData);
 
     /**
      * 修改动态单
      * 
-     * @param ActWorkflowFormData 动态单
+     * @param actWorkflowFormData 动态单
      * @return 结果
      */
-    public int updateActWorkflowFormData(ActWorkflowFormData ActWorkflowFormData);
+    public int updateActWorkflowFormData(ActWorkflowFormData actWorkflowFormData);
 
     /**
      * 批量删除动态单

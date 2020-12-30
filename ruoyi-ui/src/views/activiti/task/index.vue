@@ -145,7 +145,6 @@
 
       /** 审批按钮操作 */
       examineAndApprove(row) {
-        console.log(row)
         this.reset()
         this.definitionKey = row.definitionKey
         this.businessKey = row.businessKey
@@ -190,9 +189,6 @@
             }
           }
 
-          console.log('formData')
-          console.log(formData)
-
           this.form.formData = formData
           this.open = true
           this.title = '审批'
@@ -202,16 +198,23 @@
       submitForm() {
         let custFormRef = this.$refs.formCustom[0];
         let custForm = custFormRef.$refs[custFormRef.formConf.formRef];
-        let custData = custFormRef[custFormRef.formConf.formModel]
+        let custData = custFormRef[custFormRef.formConf.formModel];
+        let custDesc = {};
+        for (let onceForm of this.form.formData){
+          for (let onceField of onceForm.json.fields){
+            custDesc[onceField.__vModel__] = onceField.__config__.label;
+          }
+        }
+        let params = { data: custData, desc: custDesc }
         // 自定义表单的核验
         custForm.validate()
           .then(e => {
             if (e){
-              formDataSave(this.id,custData).then(response => {
-                this.msgSuccess("审批成功");
-                this.open = false;
-                this.getList();
-              });
+              formDataSave(this.id, params).then(response => {
+                this.msgSuccess('审批成功')
+                this.open = false
+                this.getList()
+              })
             }
           })
 

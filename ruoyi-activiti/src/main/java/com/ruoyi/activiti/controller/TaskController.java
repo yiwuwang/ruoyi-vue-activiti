@@ -2,8 +2,8 @@ package com.ruoyi.activiti.controller;
 
 
 import com.github.pagehelper.Page;
+import com.ruoyi.activiti.domain.dto.ActFormDataSaveDTO;
 import com.ruoyi.activiti.domain.dto.ActTaskDTO;
-import com.ruoyi.activiti.domain.dto.ActWorkflowFormDataDTO;
 import com.ruoyi.activiti.service.IActTaskService;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
-import java.util.List;
-import java.util.Map;
 
 
 @RestController
@@ -44,14 +42,13 @@ public class TaskController extends BaseController {
     //渲染表单
     @GetMapping(value = "/formDataShow/{taskID}")
     public AjaxResult formDataShow(@PathVariable("taskID") String taskID) {
-
         return AjaxResult.success(actTaskService.formDataShow(taskID));
     }
 
     //保存表单
     @PostMapping(value = "/formDataSave/{taskID}")
     public AjaxResult formDataSave(@PathVariable("taskID") String taskID,
-                                   @RequestBody Map<String, Object> params) throws ParseException {
+                                   @RequestBody ActFormDataSaveDTO params) throws ParseException {
         return toAjax(actTaskService.formDataSave(taskID, params));
     }
 

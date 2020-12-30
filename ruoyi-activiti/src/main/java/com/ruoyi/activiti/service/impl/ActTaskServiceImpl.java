@@ -2,24 +2,25 @@
 
 package com.ruoyi.activiti.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.ruoyi.activiti.domain.ActWorkflowFormData;
-import com.ruoyi.activiti.domain.dto.ActWorkflowFormDataDTO;
+import com.ruoyi.activiti.domain.dto.ActFormDataSaveDTO;
 import com.ruoyi.activiti.domain.dto.ActTaskDTO;
 import com.ruoyi.activiti.service.IActTaskService;
 import com.ruoyi.activiti.service.IActWorkflowFormDataService;
 import com.ruoyi.common.core.page.PageDomain;
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.system.domain.SysCustomForm;
 import com.ruoyi.system.service.ISysCustomFormService;
 import org.activiti.api.runtime.shared.query.Pageable;
 import org.activiti.api.task.model.Task;
 import org.activiti.api.task.model.builders.TaskPayloadBuilder;
 import org.activiti.api.task.runtime.TaskRuntime;
-import org.activiti.bpmn.model.BpmnModel;
-import org.activiti.bpmn.model.FormProperty;
 import org.activiti.bpmn.model.UserTask;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
+import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,8 @@ public class ActTaskServiceImpl implements IActTaskService {
 
     @Autowired
     private TaskRuntime taskRuntime;
+    @Autowired
+    private TaskService taskService;
     @Autowired
     private RuntimeService runtimeService;
     @Autowired
@@ -68,12 +71,19 @@ public class ActTaskServiceImpl implements IActTaskService {
     public Map<String, List<String>> formDataShow(String taskID) {
         Map<String, List<String>> map = new HashMap<>();
 
-        Task task = taskRuntime.task(taskID);
-        SysCustomForm customForm = iSysCustomFormService.selectSysCustomFormByKey(task.getFormKey());
+        //获取表单信息
+        org.activiti.engine.task.Task taskDef = taskService.createTaskQuery()
+                .taskId(taskID)
+                .singleResult();
+        UserTask userTask = (UserTask) repositoryService.getBpmnModel(taskDef.getProcessDefinitionId())
+                .getFlowElement(taskDef.getTaskDefinitionKey());
+
+
+        SysCustomForm customForm = iSysCustomFormService.selectSysCustomFormByKey(taskDef.getFormKey());
         if (customForm != null){
-            map.put(task.getFormKey(), Collections.singletonList(customForm.getFormJson()));
+            map.put(taskDef.getFormKey(), Collections.singletonList(customForm.getFormJson()));
         }else {
-            map.put(task.getFormKey(), null);
+            map.put(taskDef.getFormKey(), null);
         }
         return map;
 
@@ -111,26 +121,43 @@ public class ActTaskServiceImpl implements IActTaskService {
     }
 
     @Override
-    public int formDataSave(String taskID, Map<String, Object> params) throws ParseException {
+    public int formDataSave(String taskID, ActFormDataSaveDTO params) throws ParseException {
+        String optUserName = SecurityUtils.getUsername();
+
         Task task = taskRuntime.task(taskID);
         //ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(task.getProcessInstanceId()).singleResult();
 
         if (task.getAssignee() == null) {
-            taskRuntime.claim(TaskPayloadBuilder.claim().withTaskId(task.getId()).build());
+            //代理人没有的话，则当前用户接收
+            taskRuntime.claim(
+                    TaskPayloadBuilder.claim()
+                            .withTaskId(task.getId())
+                            .withAssignee(optUserName)
+                            .build()
+            );
         }
-        if (!CollectionUtils.isEmpty(params)) {
+        if (!CollectionUtils.isEmpty(params.getData())) {
             //带参数完成任务
-            taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId(taskID)
-                    .withVariables(params)
-                    .build());
+            task = taskRuntime.complete(
+                    TaskPayloadBuilder.complete().withTaskId(taskID)
+                            .withVariables(params.getData())
+                            .build()
+            );
         } else {
-            taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId(taskID)
+            task = taskRuntime.complete(TaskPayloadBuilder.complete().withTaskId(taskID)
                     .build());
         }
 
-
-        //TODO 写入数据库
-        return 1;
-//        return actWorkflowFormDataService.insertActWorkflowFormDatas(acwfds);
+        //参数信息写入数据库
+        ActWorkflowFormData formData = new ActWorkflowFormData();
+        formData.setCreateName(task.getAssignee());
+        // 这个一直是Null
+        // formData.setBusinessKey(task.getBusinessKey());
+        formData.setBusinessKey(task.getProcessInstanceId());
+        formData.setFormKey(task.getFormKey());
+        formData.setTaskNodeName(task.getName());
+        formData.setFormData(JSON.toJSONString(params.getData()));
+        formData.setFormDesc(JSON.toJSONString(params.getDesc()));
+        return actWorkflowFormDataService.insertActWorkflowFormData(formData);
     }
 }
