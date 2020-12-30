@@ -255,7 +255,7 @@
       OnlineModificationProcess(data) {
         this.modelVisible = true;
         localStorage.setItem("VUE_APP_BASE_API", process.env.VUE_APP_BASE_API)
-        this.modelerUrl = '/activiti/definition/edit?type=lookBpmn&deploymentFileUUID=' + data.deploymentId + '&deploymentName=' + encodeURI(data.resourceName);
+        this.modelerUrl = '/activiti/definition/edit?type=editBpmn&deploymentFileUUID=' + data.deploymentId + '&deploymentName=' + encodeURI(data.resourceName);
       },
 
       // 提交上传文件

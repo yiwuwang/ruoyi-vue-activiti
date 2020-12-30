@@ -59,38 +59,7 @@
       this.container = this.$refs.content
       const canvas = this.$refs.canvas
       const customTranslateModule = { translate: ['value', customTranslate] }
-      if (self.$route.query.type === 'addBpmn') {
-        this.bpmnModeler = new BpmnModeler({
-          container: canvas,
-          keyboard: { bindTo: document },
-          //添加控制板
-          propertiesPanel: {
-            parent: '#js-properties-panel'
-          },
-          additionalModules: [
-            propertiesPanelModule,
-            propertiesProviderModule,
-            customControlsModule,
-            customTranslateModule
-          ],
-          moddleExtensions: {
-            activiti: activitiModuleDescriptor
-          }
-        })
-        self.diagramXML = '<?xml version="1.0" encoding="UTF-8"?>\n' +
-          '<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="sample-diagram" targetNamespace="http://activiti.org/bpmn">\n' +
-          '  <bpmn2:process id="Process_1" isExecutable="true">\n' +
-          '    <bpmn2:startEvent id="StartEvent_1"/>\n' +
-          '  </bpmn2:process>\n' +
-          '  <bpmndi:BPMNDiagram id="BPMNDiagram_1">\n' +
-          '    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">\n' +
-          '      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">\n' +
-          '        <dc:Bounds height="36.0" width="36.0" x="412.0" y="240.0"/>\n' +
-          '      </bpmndi:BPMNShape>\n' +
-          '    </bpmndi:BPMNPlane>\n' +
-          '  </bpmndi:BPMNDiagram>\n' +
-          '</bpmn2:definitions>'
-      } else if (self.$route.query.type === 'lookBpmn') {
+      if (self.$route.query.type === 'lookBpmn') {
         // 查看进度
         this.bpmnModeler = new BpmnModeler({
           container: canvas, keyboard: { bindTo: document },
@@ -125,6 +94,44 @@
           .catch(reason => {
             console.log(reason)
           })
+      }else {
+        this.bpmnModeler = new BpmnModeler({
+          container: canvas,
+          keyboard: { bindTo: document },
+          //添加控制板
+          propertiesPanel: {
+            parent: '#js-properties-panel'
+          },
+          additionalModules: [
+            propertiesPanelModule,
+            propertiesProviderModule,
+            customControlsModule,
+            customTranslateModule
+          ],
+          moddleExtensions: {
+            activiti: activitiModuleDescriptor
+          }
+        })
+        if (self.$route.query.type === 'addBpmn'){
+          self.diagramXML = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+            '<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="sample-diagram" targetNamespace="http://activiti.org/bpmn">\n' +
+            '  <bpmn2:process id="Process_1" isExecutable="true">\n' +
+            '    <bpmn2:startEvent id="StartEvent_1"/>\n' +
+            '  </bpmn2:process>\n' +
+            '  <bpmndi:BPMNDiagram id="BPMNDiagram_1">\n' +
+            '    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_1">\n' +
+            '      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">\n' +
+            '        <dc:Bounds height="36.0" width="36.0" x="412.0" y="240.0"/>\n' +
+            '      </bpmndi:BPMNShape>\n' +
+            '    </bpmndi:BPMNPlane>\n' +
+            '  </bpmndi:BPMNDiagram>\n' +
+            '</bpmn2:definitions>'
+        }else if (self.$route.query.type === 'editBpmn'){
+          const id = self.$route.query.deploymentFileUUID || '6d4af2dc-bab0-11ea-b584-3cf011eaafca'
+          const name = self.$route.query.deploymentName || 'String.bpmn'
+          const param = { 'deploymentId': id, 'resourceName': decodeURI(name) }
+          this.fetchDiagram(param)
+        }
       }
 
       this.bpmnModeler.on('import.done', function(event) {

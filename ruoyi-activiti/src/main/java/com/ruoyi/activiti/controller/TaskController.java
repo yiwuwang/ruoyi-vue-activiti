@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
@@ -50,9 +51,8 @@ public class TaskController extends BaseController {
     //保存表单
     @PostMapping(value = "/formDataSave/{taskID}")
     public AjaxResult formDataSave(@PathVariable("taskID") String taskID,
-                                   @RequestBody   List<ActWorkflowFormDataDTO> formData ) throws ParseException {
-        return toAjax(actTaskService.formDataSave(taskID, formData));
-
+                                   @RequestBody Map<String, Object> params) throws ParseException {
+        return toAjax(actTaskService.formDataSave(taskID, params));
     }
 
 }

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysCustomFormMapper">
+    
+    <resultMap type="SysCustomForm" id="SysCustomFormResult">
+        <result property="id"    column="id"    />
+        <result property="formName"    column="form_name"    />
+        <result property="descText"    column="desc_text"    />
+        <result property="formKey"    column="form_key"    />
+        <result property="formJson"    column="form_json"    />
+    </resultMap>
+
+    <sql id="selectSysCustomFormVo">
+        select id, form_name, desc_text, form_key, form_json from sys_custom_form
+    </sql>
+
+    <select id="selectSysCustomFormList" parameterType="SysCustomForm" resultMap="SysCustomFormResult">
+        <include refid="selectSysCustomFormVo"/>
+        <where>  
+            <if test="formName != null  and formName != ''"> and form_name like concat('%', #{formName}, '%')</if>
+            <if test="descText != null  and descText != ''"> and desc_text = #{descText}</if>
+            <if test="formKey != null  and formKey != ''"> and form_key like concat('%', #{formKey}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectSysCustomFormByKey" parameterType="String" resultMap="SysCustomFormResult">
+        <include refid="selectSysCustomFormVo"/>
+        where form_key = #{formKey}
+    </select>
+
+    <select id="selectSysCustomFormById" parameterType="Long" resultMap="SysCustomFormResult">
+        <include refid="selectSysCustomFormVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSysCustomForm" parameterType="SysCustomForm" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_custom_form
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="formName != null and formName != ''">form_name,</if>
+            <if test="descText != null">desc_text,</if>
+            <if test="formKey != null and formKey != ''">form_key,</if>
+            <if test="formJson != null and formJson != ''">form_json,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="formName != null and formName != ''">#{formName},</if>
+            <if test="descText != null">#{descText},</if>
+            <if test="formKey != null and formKey != ''">#{formKey},</if>
+            <if test="formJson != null and formJson != ''">#{formJson},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysCustomForm" parameterType="SysCustomForm">
+        update sys_custom_form
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="formName != null and formName != ''">form_name = #{formName},</if>
+            <if test="descText != null">desc_text = #{descText},</if>
+            <if test="formKey != null and formKey != ''">form_key = #{formKey},</if>
+            <if test="formJson != null and formJson != ''">form_json = #{formJson},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysCustomFormById" parameterType="Long">
+        delete from sys_custom_form where id = #{id}
+    </delete>
+
+    <delete id="deleteSysCustomFormByIds" parameterType="String">
+        delete from sys_custom_form where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
