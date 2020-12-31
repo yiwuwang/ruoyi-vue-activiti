@@ -24,6 +24,12 @@ export function getLeave(id) {
     method: 'get'
   })
 }
+export function getLeaveByInstanceId(instanceId) {
+  return request({
+    url: '/workflow/leave/ByInstanceId/' + instanceId,
+    method: 'get'
+  })
+}
 
 
 // 新增请假

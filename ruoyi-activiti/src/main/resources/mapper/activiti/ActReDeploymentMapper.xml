@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 
 	<sql id="selectDeploymentVo">
-       select ID_ id,DEPLOY_TIME_ deploy_time from `act_re_deployment`
+       select ID_ id,DEPLOY_TIME_ deploy_time from `ACT_RE_DEPLOYMENT`
     </sql>
 
 	

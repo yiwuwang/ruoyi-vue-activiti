@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.activiti.mapper.ActWorkflowFormDataMapper">
+    
+    <resultMap type="ActWorkflowFormData" id="ActWorkflowFormDataResult">
+        <result property="id"    column="id"    />
+        <result property="businessKey"    column="business_key"    />
+        <result property="formKey"    column="form_key"    />
+        <result property="formData"    column="form_data"    />
+        <result property="formDesc"    column="form_desc"    />
+        <result property="taskNodeName"    column="task_node_name"    />
+        <result property="createName"    column="create_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectActWorkflowFormDataVo">
+        select id, business_key, form_key, form_data, form_desc, task_node_name, create_name, create_by, create_time from act_workflow_formdata
+    </sql>
+
+    <select id="selectActWorkflowFormDataList" parameterType="ActWorkflowFormData" resultMap="ActWorkflowFormDataResult">
+        <include refid="selectActWorkflowFormDataVo"/>
+        <where>  
+            <if test="businessKey != null  and businessKey != ''"> and business_key = #{businessKey}</if>
+            <if test="formKey != null  and formKey != ''"> and form_key = #{formKey}</if>
+            <if test="formData != null  and formData != ''"> and form_data = #{formData}</if>
+            <if test="formDesc != null  and formDesc != ''"> and form_desc = #{formDesc}</if>
+            <if test="taskNodeName != null  and taskNodeName != ''"> and task_node_name like concat('%', #{taskNodeName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectActWorkflowFormDataById" parameterType="Long" resultMap="ActWorkflowFormDataResult">
+        <include refid="selectActWorkflowFormDataVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertActWorkflowFormData" parameterType="ActWorkflowFormData" useGeneratedKeys="true" keyProperty="id">
+        insert into act_workflow_formdata
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="businessKey != null">business_key,</if>
+            <if test="formKey != null">form_key,</if>
+            <if test="formData != null">form_data,</if>
+            <if test="formDesc != null">form_desc,</if>
+            <if test="taskNodeName != null">task_node_name,</if>
+            <if test="createName != null">create_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="businessKey != null">#{businessKey},</if>
+            <if test="formKey != null">#{formKey},</if>
+            <if test="formData != null">#{formData},</if>
+            <if test="formDesc != null">#{formDesc},</if>
+            <if test="taskNodeName != null">#{taskNodeName},</if>
+            <if test="createName != null">#{createName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateActWorkflowFormData" parameterType="ActWorkflowFormData">
+        update act_workflow_formdata
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="businessKey != null">business_key = #{businessKey},</if>
+            <if test="formKey != null">form_key = #{formKey},</if>
+            <if test="formData != null">form_data = #{formData},</if>
+            <if test="formDesc != null">form_desc = #{formDesc},</if>
+            <if test="taskNodeName != null">task_node_name = #{taskNodeName},</if>
+            <if test="createName != null">create_name = #{createName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteActWorkflowFormDataById" parameterType="Long">
+        delete from act_workflow_formdata where id = #{id}
+    </delete>
+
+    <delete id="deleteActWorkflowFormDataByIds" parameterType="String">
+        delete from act_workflow_formdata where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

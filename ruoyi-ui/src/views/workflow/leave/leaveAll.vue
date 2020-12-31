@@ -215,11 +215,9 @@
 
       /** 审批详情 */
       historyFory(row) {
-
         this.businessKey = row.id
-          this.open2 = true
-          this.title = '审批详情'
-
+        this.open2 = true
+        this.title = '审批详情'
       },
 
       /** 导出按钮操作 */

@@ -37,7 +37,7 @@ public class GenConstants
 
     /** 数据库数字类型 */
     public static final String[] COLUMNTYPE_NUMBER = { "tinyint", "smallint", "mediumint", "int", "number", "integer",
-            "bit", "bigint", "float", "float", "double", "decimal" };
+            "bit", "bigint", "float", "double", "decimal" };
 
     /** 页面不需要编辑字段 */
     public static final String[] COLUMNNAME_NOT_EDIT = { "id", "create_by", "create_time", "del_flag" };
@@ -73,6 +73,9 @@ public class GenConstants
 
     /** 日期控件 */
     public static final String HTML_DATETIME = "datetime";
+
+    /** 上传控件 */
+    public static final String HTML_UPLOAD_IMAGE = "uploadImage";
 
     /** 富文本控件 */
     public static final String HTML_EDITOR = "editor";

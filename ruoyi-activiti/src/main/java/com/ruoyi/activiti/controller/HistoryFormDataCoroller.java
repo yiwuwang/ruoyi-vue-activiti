@@ -12,9 +12,8 @@ public class HistoryFormDataCoroller {
     @Autowired
     private IFormHistoryDataService formHistoryDataService;
 
-    @GetMapping(value = "historyFromData/ByInstanceId/{instanceId}")
-    public AjaxResult historyFromData(@PathVariable("instanceId") String instanceId) {
-        return AjaxResult.success(formHistoryDataService.historyDataShow(instanceId));
-
+    @GetMapping(value = "historyFromData/ByInstanceId/{businessKey}")
+    public AjaxResult historyFromData(@PathVariable("businessKey") String businessKey) {
+        return AjaxResult.success(formHistoryDataService.historyDataShow(businessKey));
     }
 }

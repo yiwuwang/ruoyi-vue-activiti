@@ -36,24 +36,31 @@
     <el-dialog :title="title" :visible.sync="open" v-if="open" width="500px" append-to-body>
       <leaveHistoryForm :businessKey="businessKey" v-if="'leave'==definitionKey"/>
 
+      <h2>您的审批：</h2>
       <el-form :model="form" ref="form" label-width="100px" class="demo-dynamic">
-        <el-form-item
+        <div
           v-for="(domain, index) in form.formData"
           :label="domain.controlLable"
           :key="index"
         >
-          <el-radio-group v-model="domain.controlValue" v-if="'radio'==domain.controlType">
-            <el-radio v-for="(defaults,indexd) in domain.controlDefault.split('--__--')"
-                      :label=indexd
-                      :key="indexd"
-                      >{{defaults}}
+          <parser ref="formCustom" v-if="'custom'==domain.type" :form-conf="domain.json" />
+          <div v-if="'str'==domain.type">
+            <el-form-item>
+              <el-radio-group v-model="domain.controlValue" v-if="'radio'==domain.controlType">
+                <el-radio v-for="(defaults,indexd) in domain.controlDefault.split('--__--')"
+                          :label=indexd
+                          :key="indexd"
+                >{{defaults}}
 
-            </el-radio>
+                </el-radio>
 
-          </el-radio-group>
-          <el-input type="textarea" v-model="domain.controlValue" v-if="'textarea'==domain.controlType"
-          ></el-input>
-        </el-form-item>
+              </el-radio-group>
+              <el-input type="textarea" v-model="domain.controlValue" v-if="'textarea'==domain.controlType"
+              ></el-input>
+            </el-form-item>
+          </div>
+
+        </div>
       </el-form>
 
       <div slot="footer" class="dialog-footer">
@@ -65,14 +72,13 @@
 </template>
 
 <script>
-
-
+  import Parser from 'form-gen-parser';
   import {listTask, formDataShow, formDataSave} from "@/api/activiti/task";
   import leaveHistoryForm from "@/views/workflow/leave/leaveHistoryForm";
 
   export default {
     name: "Leave",
-    components: {leaveHistoryForm},
+    components: {leaveHistoryForm, Parser},
     data() {
       return {
         id:'',
@@ -140,48 +146,79 @@
 
       /** 审批按钮操作 */
       examineAndApprove(row) {
-        console.log(row)
-        this.reset();
-        this.definitionKey = row.definitionKey;
-          this.businessKey = row.businessKey;
-         this.id=row.id;
+        this.reset()
+        this.definitionKey = row.definitionKey
+        this.businessKey = row.businessKey
+        this.id = row.id
         formDataShow(row.id).then(response => {
-          // FormProperty_3qipis2--__!!radio--__!!审批意见--__!!i--__!!同意--__--不同意
-          // FormProperty_0lffpcm--__!!textarea--__!!批注--__!!f--__!!null
-          let datas = response.data;
           let formData = []
-          for (let i = 0; i < datas.length; i++) {
-            let strings = datas[i].split('--__!!')
-            let controlValue = null
-            let controlDefault = null
-            switch (strings[1]) {
-              case 'radio':
-                controlValue = 0;
-                controlDefault = strings[4]
-                break;
-              // default:
+          for (let oncekey in response.data) {
+            let datas = response.data[oncekey]
+            if (datas) {
+              for (let i = 0; i < datas.length; i++) {
+                let once = datas[i]
+                if (/^{/.test(once)) {
+                  formData.push({
+                    type: 'custom',
+                    json: JSON.parse(once)
+                  })
+                } else {
+                  // 自定义表单
+                  // FormProperty_3qipis2--__!!radio--__!!审批意见--__!!i--__!!同意--__--不同意
+                  // FormProperty_0lffpcm--__!!textarea--__!!批注--__!!f--__!!null
+                  let strings = once.split('--__!!')
+                  let controlValue = null
+                  let controlDefault = null
+                  switch (strings[1]) {
+                    case 'radio':
+                      controlValue = 0
+                      controlDefault = strings[4]
+                      break
+                    // default:
+                  }
+                  formData.push({
+                    type: 'str',
+                    controlId: strings[0],
+                    controlType: strings[1],
+                    controlLable: strings[2],
+                    controlIsParam: strings[3],
+                    controlValue: controlValue,
+                    controlDefault: controlDefault
+                  })
+                }
+              }
             }
-            formData.push({
-              controlId: strings[0],
-              controlType: strings[1],
-              controlLable: strings[2],
-              controlIsParam: strings[3],
-              controlValue: controlValue,
-              controlDefault: controlDefault
-            })
           }
-          this.form.formData = formData;
-          this.open = true;
-          this.title = "审批";
-        });
+
+          this.form.formData = formData
+          this.open = true
+          this.title = '审批'
+        })
       },
       /** 提交按钮 */
       submitForm() {
-        formDataSave(this.id,this.form.formData).then(response => {
-          this.msgSuccess("审批成功");
-          this.open = false;
-          this.getList();
-        });
+        let custFormRef = this.$refs.formCustom[0];
+        let custForm = custFormRef.$refs[custFormRef.formConf.formRef];
+        let custData = custFormRef[custFormRef.formConf.formModel];
+        let custDesc = {};
+        for (let onceForm of this.form.formData){
+          for (let onceField of onceForm.json.fields){
+            custDesc[onceField.__vModel__] = onceField.__config__.label;
+          }
+        }
+        let params = { data: custData, desc: custDesc }
+        // 自定义表单的核验
+        custForm.validate()
+          .then(e => {
+            if (e){
+              formDataSave(this.id, params).then(response => {
+                this.msgSuccess('审批成功')
+                this.open = false
+                this.getList()
+              })
+            }
+          })
+
       },
     }
   };

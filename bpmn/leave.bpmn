@@ -3,20 +3,12 @@
   <process id="leave" name="请假流程-普通表单" isExecutable="true">
     <documentation>请假流程演示</documentation>
     <startEvent id="startevent1" name="Start" />
-    <userTask id="deptLeaderVerify" name="部门领导审批" activiti:formKey="deptLeaderVerify" activiti:candidateUsers="${deptLeader}">
-      <extensionElements>
-        <activiti:formProperty id="FormProperty_3qipis2--__!!radio--__!!审批意见--__!!i--__!!同意--__--不同意" type="string" />
-        <activiti:formProperty id="FormProperty_0lffpcm--__!!textarea--__!!批注--__!!f__!!null" type="string" />
-      </extensionElements>
+    <userTask id="deptLeaderVerify" name="部门领导审批" activiti:formKey="leave_approve_form" activiti:candidateUsers="${deptLeader}">
     </userTask>
     <exclusiveGateway id="exclusivegateway5">
       <outgoing>Flow_0q3bbjl</outgoing>
     </exclusiveGateway>
-    <userTask id="hrVerify" name="人事审批" activiti:formKey="hrVerify" activiti:candidateGroups="hr">
-      <extensionElements>
-        <activiti:formProperty id="FormProperty_23u95jb--__!!radio--__!!审批意见--__!!i--__!!同意--__--不同意" type="string" />
-        <activiti:formProperty id="FormProperty_3t7tfkv--__!!textarea--__!!批注--__!!f--__!!null" type="string" />
-      </extensionElements>
+    <userTask id="hrVerify" name="人事审批" activiti:formKey="leave_approve_form" activiti:candidateGroups="hr">
     </userTask>
     <exclusiveGateway id="exclusivegateway6">
       <outgoing>Flow_0p85954</outgoing>
@@ -30,7 +22,7 @@
     <sequenceFlow id="flow2" sourceRef="startevent1" targetRef="deptLeaderVerify" />
     <sequenceFlow id="flow3" sourceRef="deptLeaderVerify" targetRef="exclusivegateway5" />
     <sequenceFlow id="flow5" name="同意" sourceRef="exclusivegateway5" targetRef="hrVerify">
-      <conditionExpression xsi:type="tFormalExpression">${FormProperty_3qipis2==0}</conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression">${approve=="true"}</conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow6" sourceRef="hrVerify" targetRef="exclusivegateway6" />
     <sequenceFlow id="Flow_0p85954" sourceRef="exclusivegateway6" targetRef="endevent1">
@@ -41,7 +33,7 @@
           </activiti:field>
         </activiti:executionListener>
       </extensionElements>
-      <conditionExpression xsi:type="tFormalExpression">${FormProperty_23u95jb==0}</conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression">${approve=="true"}</conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="Flow_0ji7qcv" sourceRef="exclusivegateway6" targetRef="endevent1">
       <extensionElements>
@@ -87,7 +79,7 @@
         <omgdi:waypoint x="280" y="63" />
         <omgdi:waypoint x="348" y="63" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="300" y="46" width="22" height="11" />
+          <omgdc:Bounds x="300" y="46" width="23" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_flow3" bpmnElement="flow3">

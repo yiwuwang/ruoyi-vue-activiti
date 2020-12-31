@@ -1,5 +1,6 @@
 package com.ruoyi.activiti.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.ruoyi.activiti.domain.ActWorkflowFormData;
 import com.ruoyi.activiti.domain.dto.HistoryFormDataDTO;
 import com.ruoyi.activiti.domain.dto.HistoryDataDTO;
@@ -14,16 +15,12 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * 汇讯数码科技(深圳)有限公司
- * 创建日期:2020/11/3-10:20
- * 版本   开发者     日期
- * 1.0    Danny    2020/11/3
- */
 @Service
 public class FormHistoryDataServiceImpl implements IFormHistoryDataService {
     @Autowired
     private IActWorkflowFormDataService actWorkflowFormDataService;
+    @Autowired
+    private RuntimeService runtimeService;
 
 
 
@@ -31,20 +28,31 @@ public class FormHistoryDataServiceImpl implements IFormHistoryDataService {
 
     @Override
     public List<HistoryDataDTO> historyDataShow(String businessKey) {
-        List<HistoryDataDTO> returnHistoryFromDataDTOS=new ArrayList<>();
-        List<ActWorkflowFormData> actWorkflowFormData = actWorkflowFormDataService.selectActWorkflowFormDataByBusinessKey(businessKey);
-        Map<String, List<ActWorkflowFormData>> collect = actWorkflowFormData.stream().collect(Collectors.groupingBy(ActWorkflowFormData::getTaskNodeName));
-        collect.entrySet().forEach(
-                entry -> {
-                    HistoryDataDTO returnHistoryFromDataDTO = new HistoryDataDTO();
-                    returnHistoryFromDataDTO.setTaskNodeName(entry.getValue().get(0).getTaskNodeName());
-                    returnHistoryFromDataDTO.setCreateName(entry.getValue().get(0).getCreateName());
-                    returnHistoryFromDataDTO.setCreatedDate(sdf.format(entry.getValue().get(0).getCreateTime()));
-                    returnHistoryFromDataDTO.setFormHistoryDataDTO(entry.getValue().stream().map(awfd->new HistoryFormDataDTO(awfd.getControlName(),awfd.getControlValue())).collect(Collectors.toList()));
-                    returnHistoryFromDataDTOS.add(returnHistoryFromDataDTO);
-                }
-        );
-        List<HistoryDataDTO> collect1 = returnHistoryFromDataDTOS.stream().sorted((x, y) -> x.getCreatedDate().compareTo(y.getCreatedDate())).collect(Collectors.toList());
+        List<HistoryDataDTO> returnHistoryFromDataDTOS = new ArrayList<>();
+        List<ActWorkflowFormData> ActWorkflowFormData = actWorkflowFormDataService.selectActWorkflowFormDataByBusinessKey(businessKey);
+        Map<String, List<ActWorkflowFormData>> collect = ActWorkflowFormData.stream().collect(Collectors.groupingBy(com.ruoyi.activiti.domain.ActWorkflowFormData::getTaskNodeName));
+        collect.forEach((key, value) -> {
+            HistoryDataDTO returnHistoryFromDataDTO = new HistoryDataDTO();
+            returnHistoryFromDataDTO.setTaskNodeName(value.get(0).getTaskNodeName());
+            returnHistoryFromDataDTO.setCreateName(value.get(0).getCreateName());
+            returnHistoryFromDataDTO.setCreatedDate(sdf.format(value.get(0).getCreateTime()));
+
+            List<HistoryFormDataDTO> list = new LinkedList<>();
+            for (ActWorkflowFormData awfd : value){
+                Map<Object, Object> formData = JSON.parseObject(awfd.getFormData(), HashMap.class);
+                Map<Object, Object> formDef = JSON.parseObject(awfd.getFormDesc(), HashMap.class);
+                formDef.forEach((defName, defDesc) -> {
+                    Object val = formData.get(defName);
+                    list.add(new HistoryFormDataDTO(String.valueOf(defDesc), String.valueOf(val)));
+                });
+            }
+            returnHistoryFromDataDTO.setFormHistoryDataDTO(list);
+
+            returnHistoryFromDataDTOS.add(returnHistoryFromDataDTO);
+        });
+        List<HistoryDataDTO> collect1 = returnHistoryFromDataDTOS.stream()
+                .sorted(Comparator.comparing(HistoryDataDTO::getCreatedDate))
+                .collect(Collectors.toList());
 
         return collect1;
     }

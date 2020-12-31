@@ -1,16 +1,15 @@
 package com.ruoyi.activiti.domain;
 
-import com.ruoyi.activiti.domain.dto.ActWorkflowFormDataDTO;
-import org.activiti.api.task.model.Task;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
  * 动态单对象 act_workflow_formdata
  * 
  * @author danny
- * @date 2020-11-02
+ * @date 2020-12-30
  */
 public class ActWorkflowFormData extends BaseEntity
 {
@@ -19,44 +18,30 @@ public class ActWorkflowFormData extends BaseEntity
     /** 唯一标识符 */
     private Long id;
 
-    /** 事务Id */
+    /** 事务key */
+    @Excel(name = "事务key")
     private String businessKey;
 
     /** 表单Key */
+    @Excel(name = "表单Key")
     private String formKey;
 
-
-    /** 表单id */
-    private String controlId;
-    /** 表单名称 */
-    private String controlName;
-
     /** 表单值 */
-    private String controlValue;
+    @Excel(name = "表单值")
+    private String formData;
+
+    /** 表单属性定义 */
+    @Excel(name = "表单属性定义")
+    private String formDesc;
 
     /** 任务节点名称 */
+    @Excel(name = "任务节点名称")
     private String taskNodeName;
 
+    /** 创建者姓名 */
     private String createName;
 
-    public ActWorkflowFormData() {
-    }
-
-    public ActWorkflowFormData(String businessKey,ActWorkflowFormDataDTO actWorkflowFormDataDTO, Task task) {
-        this.businessKey = businessKey;
-        this.formKey = task.getFormKey();
-        this.controlId = actWorkflowFormDataDTO.getControlId();
-        this.controlName = actWorkflowFormDataDTO.getControlLable();
-        if ("radio".equals(actWorkflowFormDataDTO.getControlType())) {
-            int i = Integer.parseInt(actWorkflowFormDataDTO.getControlValue());
-            this.controlValue =  actWorkflowFormDataDTO.getControlDefault().split("--__--")[i];
-        }else {
-            this.controlValue = actWorkflowFormDataDTO.getControlValue();
-        }
-        this.taskNodeName = task.getName();
-    }
-
-    public void setId(Long id)
+    public void setId(Long id) 
     {
         this.id = id;
     }
@@ -65,16 +50,16 @@ public class ActWorkflowFormData extends BaseEntity
     {
         return id;
     }
-
-    public String getBusinessKey() {
-        return businessKey;
-    }
-
-    public void setBusinessKey(String businessKey) {
+    public void setBusinessKey(String businessKey) 
+    {
         this.businessKey = businessKey;
     }
 
-    public void setFormKey(String formKey)
+    public String getBusinessKey() 
+    {
+        return businessKey;
+    }
+    public void setFormKey(String formKey) 
     {
         this.formKey = formKey;
     }
@@ -83,32 +68,23 @@ public class ActWorkflowFormData extends BaseEntity
     {
         return formKey;
     }
-    public void setControlId(String controlId) 
+    public void setFormData(String formData) 
     {
-        this.controlId = controlId;
+        this.formData = formData;
     }
 
-    public String getControlId() 
+    public String getFormData() 
     {
-        return controlId;
+        return formData;
     }
-
-    public String getControlName() {
-        return controlName;
-    }
-
-    public void setControlName(String controlName) {
-        this.controlName = controlName;
-    }
-
-    public void setControlValue(String controlValue)
+    public void setFormDesc(String formDesc) 
     {
-        this.controlValue = controlValue;
+        this.formDesc = formDesc;
     }
 
-    public String getControlValue() 
+    public String getFormDesc() 
     {
-        return controlValue;
+        return formDesc;
     }
     public void setTaskNodeName(String taskNodeName) 
     {
@@ -119,24 +95,26 @@ public class ActWorkflowFormData extends BaseEntity
     {
         return taskNodeName;
     }
-
-    public String getCreateName() {
-        return createName;
+    public void setCreateName(String createName) 
+    {
+        this.createName = createName;
     }
 
-    public void setCreateName(String createName) {
-        this.createName = createName;
+    public String getCreateName() 
+    {
+        return createName;
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
-            .append("procInstId", getBusinessKey())
+            .append("businessKey", getBusinessKey())
             .append("formKey", getFormKey())
-            .append("controlId", getControlId())
-            .append("controlValue", getControlValue())
+            .append("formData", getFormData())
+            .append("formDesc", getFormDesc())
             .append("taskNodeName", getTaskNodeName())
+            .append("createName", getCreateName())
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())
             .toString();

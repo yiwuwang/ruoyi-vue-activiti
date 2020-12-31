@@ -26,7 +26,8 @@ import java.util.stream.Collectors;
  * @author ruoyi
  */
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService
+{
     private static final Logger log = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
 
     @Autowired
@@ -38,15 +39,21 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private ISysPostService sysPostService;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+    {
         SysUser user = userService.selectUserByUserName(username);
-        if (StringUtils.isNull(user)) {
+        if (StringUtils.isNull(user))
+        {
             log.info("登录用户：{} 不存在.", username);
             throw new UsernameNotFoundException("登录用户：" + username + " 不存在");
-        } else if (UserStatus.DELETED.getCode().equals(user.getDelFlag())) {
+        }
+        else if (UserStatus.DELETED.getCode().equals(user.getDelFlag()))
+        {
             log.info("登录用户：{} 已被删除.", username);
             throw new BaseException("对不起，您的账号：" + username + " 已被删除");
-        } else if (UserStatus.DISABLE.getCode().equals(user.getStatus())) {
+        }
+        else if (UserStatus.DISABLE.getCode().equals(user.getStatus()))
+        {
             log.info("登录用户：{} 已被停用.", username);
             throw new BaseException("对不起，您的账号：" + username + " 已停用");
         }
@@ -58,7 +65,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Set<String> postCode = sysPostService.selectPostCodeByUserId(user.getUserId());
         postCode = postCode.parallelStream().map( s ->  "GROUP_" + s).collect(Collectors.toSet());
         postCode.add("ROLE_ACTIVITI_USER");
-        List<SimpleGrantedAuthority> collect = postCode.stream().map(s -> new SimpleGrantedAuthority(s)).collect(Collectors.toList());
+        List<SimpleGrantedAuthority> collect = postCode.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
         return new LoginUser(user, permissionService.getMenuPermission(user), collect);
     }
 }

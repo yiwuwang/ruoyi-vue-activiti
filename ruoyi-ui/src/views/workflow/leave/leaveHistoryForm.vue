@@ -4,19 +4,19 @@
     <h2>请假人：{{form.createName}}</h2>
     <el-form  label-width="80px">
       <el-form-item label="请假类型" >
-       <el-input v-model="form.type"/>
+       <el-input v-model="form.type" readonly/>
       </el-form-item>
       <el-form-item label="标题">
-        <el-input v-model="form.title"/>
+        <el-input v-model="form.title" readonly/>
       </el-form-item>
       <el-form-item label="原因" >
-        <el-input v-model="form.reason" />
+        <el-input type="textarea" v-model="form.reason" readonly/>
       </el-form-item>
       <el-form-item label="开始时间">
-        <el-input v-model="form.leaveStartTime"/>
+        <el-input v-model="form.leaveStartTime" readonly/>
       </el-form-item>
       <el-form-item label="结束时间">
-        <el-input v-model="form.leaveEndTime"/>
+        <el-input v-model="form.leaveEndTime" readonly/>
       </el-form-item>
     </el-form>
     </div>

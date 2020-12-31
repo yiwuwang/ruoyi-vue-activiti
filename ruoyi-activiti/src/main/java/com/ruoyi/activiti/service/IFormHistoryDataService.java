@@ -12,5 +12,5 @@ import java.util.List;
  */
 public interface IFormHistoryDataService {
 
-    public List<HistoryDataDTO> historyDataShow(String instanceId);
+    public List<HistoryDataDTO> historyDataShow(String businessKey);
 }

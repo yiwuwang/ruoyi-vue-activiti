@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import ParentView from '@/components/ParentView';
 
 /**
  * Note: 路由配置项
@@ -51,6 +52,12 @@ export const constantRoutes = [
     path: '/401',
     component: (resolve) => require(['@/views/error/401'], resolve),
     hidden: true
+  },
+  {
+    path: '/activiti/definition/edit',
+    component: (resolve) => require(['@/views/activiti/definition/modeler/edit'], resolve),
+    hidden: true,
+    props: true
   },
   {
     path: '',

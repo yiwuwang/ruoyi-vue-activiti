@@ -88,6 +88,11 @@
       <el-table-column label="请假类型" align="center" prop="type" :formatter="typeFormat"/>
       <el-table-column label="标题" align="center" prop="title"/>
       <el-table-column label="原因" align="center" prop="reason"/>
+      <el-table-column label="更新时间" align="center" prop="createTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="开始时间" align="center" prop="leaveStartTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.leaveStartTime, '{y}-{m}-{d}') }}</span>
@@ -114,6 +119,7 @@
       <!--      <el-table-column label="创建者" align="center" prop="createName" />-->
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
+          <!--当申请失败时，可以修改，但修改会重新发起新的-->
           <el-button v-if="2==scope.row.state"
                      size="mini"
                      type="text"
@@ -398,6 +404,7 @@
       /** 审批详情 */
       historyFory(row) {
         this.businessKey = row.id
+        // this.businessKey = row.instanceId
         this.open2 = true
         this.title = '审批详情'
 
@@ -406,8 +413,8 @@
       checkTheSchedule(row) {
         getDefinitionsByInstanceId(row.instanceId).then(response => {
           let data = response.data
-          // this.url = '/bpmnjs/index.html?type=lookBpmn&deploymentFileUUID='+data.deploymentID+'&deploymentName='+ encodeURI(data.resourceName);
-          this.modelerUrl = '/bpmnjs/index.html?type=lookBpmn&instanceId=' + row.instanceId + '&deploymentFileUUID=' + data.deploymentID + '&deploymentName=' + encodeURI(data.resourceName);
+          // this.url = '/activiti/definition/edit?type=lookBpmn&deploymentFileUUID='+data.deploymentID+'&deploymentName='+ encodeURI(data.resourceName);
+          this.modelerUrl = '/activiti/definition/edit?type=lookBpmn&instanceId=' + row.instanceId + '&deploymentFileUUID=' + data.deploymentID + '&deploymentName=' + encodeURI(data.resourceName);
           this.modelVisible = true
         })
 

@@ -196,6 +196,13 @@
     },
     created() {
       this.getList();
+      //开放一个窗口控制函数
+      window['setModelVisible'] = (val) => {
+        this.modelVisible = val;
+        if (this.modelVisible === false){
+          this.handleQuery();
+        }
+      }
     },
     methods: {
       /** 查询Definition列表 */
@@ -243,12 +250,12 @@
       OnlineDrawingProcess() {
         this.modelVisible = true;
         localStorage.setItem("VUE_APP_BASE_API", process.env.VUE_APP_BASE_API)
-        this.modelerUrl = "/bpmnjs/index.html?type=addBpmn";
+        this.modelerUrl = "/activiti/definition/edit?type=addBpmn";
       },
       OnlineModificationProcess(data) {
         this.modelVisible = true;
         localStorage.setItem("VUE_APP_BASE_API", process.env.VUE_APP_BASE_API)
-        this.modelerUrl = '/bpmnjs/index.html?type=lookBpmn&deploymentFileUUID=' + data.deploymentId + '&deploymentName=' + encodeURI(data.resourceName);
+        this.modelerUrl = '/activiti/definition/edit?type=editBpmn&deploymentFileUUID=' + data.deploymentId + '&deploymentName=' + encodeURI(data.resourceName);
       },
 
       // 提交上传文件
