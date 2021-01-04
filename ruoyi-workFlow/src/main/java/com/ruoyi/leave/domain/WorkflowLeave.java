@@ -3,7 +3,6 @@ package com.ruoyi.leave.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.util.Date;
@@ -15,7 +14,6 @@ import java.util.Date;
  * @date 2020-10-28
  */
 @EqualsAndHashCode(callSuper = true)
-@Data
 public class WorkflowLeave extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -57,4 +55,87 @@ public class WorkflowLeave extends BaseEntity
     @Excel(name = "创建人")
     private String createName;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public Date getLeaveStartTime() {
+        return leaveStartTime;
+    }
+
+    public void setLeaveStartTime(Date leaveStartTime) {
+        this.leaveStartTime = leaveStartTime;
+    }
+
+    public Date getLeaveEndTime() {
+        return leaveEndTime;
+    }
+
+    public void setLeaveEndTime(Date leaveEndTime) {
+        this.leaveEndTime = leaveEndTime;
+    }
+
+    public String getInstanceId() {
+        return instanceId;
+    }
+
+    public void setInstanceId(String instanceId) {
+        this.instanceId = instanceId;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getCreateName() {
+        return createName;
+    }
+
+    public void setCreateName(String createName) {
+        this.createName = createName;
+    }
 }
