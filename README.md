@@ -82,9 +82,7 @@ v1.0
 >
 > 请假流程测试账号
 >
-> 普通员工1：guanping / 123456
->
-> 普通员工2：zhoucang / 123456
+> 普通员工1：guanxing / 123456
 >
 > 部门领导1：guanyu / 123456
 >
@@ -116,7 +114,7 @@ v1.0
 
 - admin/admin123  
 
-演示地址：http://www.ruoyichina.com/login
+演示地址：http://demo.ruoyichina.com/login
 
 ## 演示图
 
