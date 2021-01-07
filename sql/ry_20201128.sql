@@ -65,8 +65,8 @@ create table sys_user (
 -- ----------------------------
 -- 初始化-用户信息表数据
 -- ----------------------------
-INSERT INTO `sys_user` VALUES (1, 103, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '/profile/avatar/2020/10/25/f2304bcb-a3ee-4471-bc33-4431ab80af5a.jpeg', '$2a$10$KIBmIRTvN6ukI6KC4kLsou2HK8jPs8CKpGycDiM8hXbmT7VMsb9Yu', '0', '0', '127.0.0.1', '2020-10-22 14:27:04', 'admin', '2020-10-22 14:27:04', '', NULL, '管理员');
-INSERT INTO `sys_user` VALUES (2, 105, 'ry', '若依', '00', 'ry@qq.com', '15666666666', '1', '', '$2a$10$AlWW0BhMojtGswPDm9z0fO/9RA2NOTNoqUWu6ZI9AM4N..InPdK5C', '0', '0', '127.0.0.1', '2020-10-22 14:27:04', 'admin', '2020-10-22 14:27:04', 'admin', '2020-12-26 18:00:28', '测试员');
+INSERT INTO `sys_user` VALUES (1, 103, 'admin', '若依', '00', 'ry@163.com', '15888888888', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2020-10-22 14:27:04', 'admin', '2020-10-22 14:27:04', '', NULL, '管理员');
+INSERT INTO `sys_user` VALUES (2, 105, 'ry', '若依', '00', 'ry@qq.com', '15666666666', '1', '', '$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2', '0', '0', '127.0.0.1', '2020-10-22 14:27:04', 'admin', '2020-10-22 14:27:04', 'admin', '2020-12-26 18:00:28', '测试员');
 INSERT INTO `sys_user` VALUES (100, 103, 'guanxing', '关兴', '00', '1@ry.com', '18600000001', '0', '', '$2a$10$D1UcU40vTzakQdcxL2vXiulVV9Ul5KtQllrSCLEtebLVPQJYhZXCO', '0', '0', '', NULL, 'admin', '2020-11-04 14:39:07', 'admin', '2020-12-26 18:18:55', NULL);
 INSERT INTO `sys_user` VALUES (101, 103, 'guanyu', '关羽', '00', '2@ry.com', '18600000002', '0', '', '$2a$10$XxWqaxe7Ksifwbma6xASdOjTPcYIFLNhycVhXNywRV5MtkfubTwva', '0', '0', '', NULL, 'admin', '2020-11-04 14:40:43', 'admin', '2020-12-28 10:14:05', NULL);
 INSERT INTO `sys_user` VALUES (102, 100, 'zhugeliang', '诸葛亮', '00', '3@ry.com', '18600000003', '0', '', '$2a$10$29JEhX8QCimMRtiSRYCjieybCmYdbdHs7wmb.jt6eIgMwERnKOhM6', '0', '0', '', NULL, 'admin', '2020-11-04 14:41:37', 'admin', '2020-12-28 10:12:04', NULL);
