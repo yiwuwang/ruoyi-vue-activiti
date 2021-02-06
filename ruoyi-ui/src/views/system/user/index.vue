@@ -265,7 +265,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="岗位">
-              <el-select v-model="form.postIds" multiple placeholder="请选择">
+              <el-select v-model="form.postIds" multiple placeholder="请选择" @change="handleSelectChange">
                 <el-option
                   v-for="item in postOptions"
                   :key="item.postId"
@@ -278,7 +278,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="角色">
-              <el-select v-model="form.roleIds" multiple placeholder="请选择">
+              <el-select v-model="form.roleIds" multiple placeholder="请选择" @change="handleSelectChange">
                 <el-option
                   v-for="item in roleOptions"
                   :key="item.roleId"
@@ -654,7 +654,12 @@ export default {
     // 提交上传文件
     submitFileForm() {
       this.$refs.upload.submit();
+    },
+    handleSelectChange(val) {
+
+      this.$forceUpdate()
     }
+
   }
 };
 </script>
