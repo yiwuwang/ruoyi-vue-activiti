@@ -6,8 +6,8 @@
 * 支持加载动态权限菜单，多方式轻松权限控制。
 * 高效率开发，使用代码生成器可以一键生成前后端代码。
 * 感谢[RuoYi-Vue](https://github.com/yangzongzhuan/RuoYi-Vue)。
-* 华为云优惠券：[点我进入](https://www.huaweicloud.com/product/ecs.html?fromacct=2b023ba5-33f5-478c-bbdf-33e27cd7459c&utm_source=V1g3MDY4NTY=&utm_medium=cps&utm_campaign=201905) 
-* 阿里云优惠券：[点我进入](https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=ek76b2lk) 
+* 华为云优惠券：[点我进入](https://www.huaweicloud.com/product/ecs.html?fromacct=2b023ba5-33f5-478c-bbdf-33e27cd7459c&utm_source=V1g3MDY4NTY=&utm_medium=cps&utm_campaign=201905)
+* 阿里云优惠券：[点我进入](https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=ek76b2lk)
 
 #### 部署文档与ruoyi-vue一致:https://doc.ruoyi.vip/ruoyi-vue/
 #### 部署文档与ruoyi-vue一致:https://doc.ruoyi.vip/ruoyi-vue/
@@ -21,6 +21,14 @@
 
 ## 最新更新
 <p>随手 star ⭐是一种美德。 你们的star就是我的动力</p>
+
+v2.4
+
+由于使用自定义表单之后与页面绑定，在APP端与其他页面无法进行审批，失去了前后端分离的意义
+所以2.4版本回退到2.2版本
+后续更近会继续使用原先动态表单架构。
+春节期间代码改动会很大，谢谢大家的支持，提前祝大家新年快乐。
+
 
 v2.2
 1. 添加任务流程图展示
@@ -50,7 +58,7 @@ v2.0
 3. 流程设计器更改为bpmn.js
 4. 添加请假部门领导审批，公司人事审批流程
 5. 使用动态表单构建
- 
+
 
 v1.1
 1. 优化前端代码
@@ -74,7 +82,7 @@ v1.0
 >
 > 请假流程测试账号
 >
-> 普通员工1：guanping / 123456
+> 普通员工1：guanxing / 123456
 >
 > 普通员工2：zhoucang / 123456
 >
@@ -106,9 +114,9 @@ v1.0
 
 ## 在线体验
 
-- admin/admin123  
+- admin/admin123
 
-演示地址：http://www.ruoyichina.com/login
+演示地址：https://demo.ruoyichina.com/login
 
 ## 演示图
 
@@ -145,7 +153,7 @@ v1.0
         <td><img src="https://oscimg.oschina.net/oscnet/b6115bc8c31de52951982e509930b20684a.jpg"/></td>
         <td><img src="https://oscimg.oschina.net/oscnet/up-6d73c2140ce694e3de4c05035fdc1868d4c.png"/></td>
     </tr>
-    
+
 </table>
 
 
