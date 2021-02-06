@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.activiti.mapper.ActWorkflowFormDataMapper">
+    <resultMap type="ActWorkflowFormData" id="ActWorkflowFormDataResult">
+        <result property="id"    column="id"    />
+        <result property="businessKey"    column="business_key"    />
+        <result property="formKey"    column="form_key"    />
+        <result property="controlId"    column="control_id"    />
+        <result property="controlName"    column="control_name"    />
+        <result property="controlValue"    column="control_value"    />
+        <result property="taskNodeName"    column="task_node_name"    />
+        <result property="createName"    column="create_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectActWorkflowFormDataVo">
+        select id, business_key, form_key, control_id,control_name, control_value, task_node_name, create_name,create_by, create_time from act_workflow_FormData
+    </sql>
+
+    <select id="selectActWorkflowFormDataList" parameterType="ActWorkflowFormData" resultMap="ActWorkflowFormDataResult">
+        <include refid="selectActWorkflowFormDataVo"/>
+        <where>
+            <if test="businessKey != null  and businessKey != ''"> and business_key = #{businessKey}</if>
+            <if test="formKey != null  and formKey != ''"> and form_key = #{formKey}</if>
+            <if test="controlId != null  and controlId != ''"> and control_id = #{controlId}</if>
+            <if test="controlValue != null  and controlValue != ''"> and control_value = #{controlValue}</if>
+            <if test="taskNodeName != null  and taskNodeName != ''"> and task_node_name = #{taskNodeName}</if>
+        </where>
+    </select>
+
+    <select id="selectActWorkflowFormDataById" parameterType="Long" resultMap="ActWorkflowFormDataResult">
+        <include refid="selectActWorkflowFormDataVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectActWorkflowFormDataByBusinessKey" parameterType="string" resultMap="ActWorkflowFormDataResult">
+        <include refid="selectActWorkflowFormDataVo"/>
+        where  business_key = #{businessKey}
+    </select>
+
+    <insert id="insertActWorkflowFormData" parameterType="ActWorkflowFormData" useGeneratedKeys="true" keyProperty="id">
+        insert into act_workflow_FormData
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="businessKey != null">business_key,</if>
+            <if test="formKey != null">form_key,</if>
+            <if test="controlId != null">control_id,</if>
+            <if test="controlName != null">control_name,</if>
+            <if test="controlValue != null">control_value,</if>
+            <if test="taskNodeName != null">task_node_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="businessKey != null">#{businessKey},</if>
+            <if test="formKey != null">#{formKey},</if>
+            <if test="controlId != null">#{controlId},</if>
+            <if test="controlName != null">#{controlName},</if>
+            <if test="controlValue != null">#{controlValue},</if>
+            <if test="taskNodeName != null">#{taskNodeName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertActWorkflowFormDatas"  useGeneratedKeys="true" >
+        insert into act_workflow_FormData (business_key,form_key,control_id,control_name,control_value,task_node_name,create_by,create_time,create_name) values
+        <foreach collection="param2" item="awfd" index="index" separator=",">
+            (#{awfd.businessKey},#{awfd.formKey},#{awfd.controlId},#{awfd.controlName}, #{awfd.controlValue},#{awfd.taskNodeName},#{param1},#{param3},#{param4})
+        </foreach>
+    </insert>
+
+    <update id="updateActWorkflowFormData" parameterType="ActWorkflowFormData">
+        update act_workflow_FormData
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="businessKey != null">business_key = #{businessKey},</if>
+            <if test="formKey != null">form_key = #{formKey},</if>
+            <if test="controlId != null">control_id = #{controlId},</if>
+            <if test="controlName != null">control_name = #{controlName},</if>
+            <if test="controlValue != null">control_value = #{controlValue},</if>
+            <if test="taskNodeName != null">task_node_name = #{taskNodeName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteActWorkflowFormDataById" parameterType="Long">
+        delete from act_workflow_FormData where id = #{id}
+    </delete>
+
+    <delete id="deleteActWorkflowFormDataByIds" parameterType="String">
+        delete from act_workflow_FormData where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
+

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.leave.mapper.WorkflowLeaveMapper">
+    
+    <resultMap type="WorkflowLeave" id="WorkflowLeaveResult">
+        <result property="id"    column="id"    />
+        <result property="type"    column="type"    />
+        <result property="title"    column="title"    />
+        <result property="reason"    column="reason"    />
+        <result property="leaveStartTime"    column="leave_start_time"    />
+        <result property="leaveEndTime"    column="leave_end_time"    />
+        <result property="instanceId"    column="instance_id"    />
+        <result property="state"    column="state"    />
+        <result property="createName"    column="create_name"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectWorkflowLeaveVo">
+        select id, type, title, reason, leave_start_time, leave_end_time, instance_id, state, create_name,create_by, create_time, update_time from workflow_leave
+    </sql>
+
+    <select id="selectWorkflowLeaveListByWorkflowLeaveAndDeptId"  resultMap="WorkflowLeaveResult">
+        <include refid="selectWorkflowLeaveVo"/>
+       where create_by in (SELECT user_name FROM `sys_user` where dept_id in (SELECT dept_id FROM sys_dept WHERE dept_id = #{deptId} or find_in_set( #{deptId} , ancestors ) ))
+            <if test="workflowLeave.type != null  and workflowLeave.type != ''"> and type = #{workflowLeave.type}</if>
+            <if test="workflowLeave.title != null  and workflowLeave.title != ''"> and title = #{workflowLeave.title}</if>
+            <if test="workflowLeave.reason != null  and workflowLeave.reason != ''"> and reason = #{workflowLeave.reason}</if>
+            <if test="workflowLeave.leaveStartTime != null "> and leave_start_time = #{workflowLeave.leaveStartTime}</if>
+            <if test="workflowLeave.leaveEndTime != null "> and leave_end_time = #{workflowLeave.leaveEndTime}</if>
+            <if test="workflowLeave.instanceId != null  and workflowLeave.instanceId != ''"> and instance_id = #{workflowLeave.instanceId}</if>
+            <if test="workflowLeave.state != null  and workflowLeave.state != ''"> and state = #{workflowLeave.state}</if>
+            <if test="workflowLeave.createName != null  and workflowLeave.createName != ''"> and create_name = #{workflowLeave.createName}</if>
+            <if test="workflowLeave.createBy != null  and workflowLeave.createBy != ''"> and create_by = #{workflowLeave.createBy}</if>
+        order by create_time desc
+    </select>
+
+    <select id="selectWorkflowLeaveList" parameterType="WorkflowLeave" resultMap="WorkflowLeaveResult">
+        <include refid="selectWorkflowLeaveVo"/>
+        <where>
+            <if test="type != null  and type != ''"> and type = #{type}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="reason != null  and reason != ''"> and reason = #{reason}</if>
+            <if test="leaveStartTime != null "> and leave_start_time = #{leaveStartTime}</if>
+            <if test="leaveEndTime != null "> and leave_end_time = #{leaveEndTime}</if>
+            <if test="instanceId != null  and instanceId != ''"> and instance_id = #{instanceId}</if>
+            <if test="state != null  and state != ''"> and state = #{state}</if>
+            <if test="createName != null  and createName != ''"> and create_name = #{createName}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+        </where>
+        order by create_time desc
+    </select>
+    
+    <select id="selectWorkflowLeaveById" parameterType="String" resultMap="WorkflowLeaveResult">
+        <include refid="selectWorkflowLeaveVo"/>
+        where id = #{id}
+    </select>
+    <select id="selectWorkflowLeaveByInstanceId" parameterType="String" resultMap="WorkflowLeaveResult">
+        <include refid="selectWorkflowLeaveVo"/>
+        where instance_id = #{instanceId}
+    </select>
+        
+    <insert id="insertWorkflowLeave" parameterType="WorkflowLeave">
+        insert into workflow_leave
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="type != null">type,</if>
+            <if test="title != null">title,</if>
+            <if test="reason != null">reason,</if>
+            <if test="leaveStartTime != null">leave_start_time,</if>
+            <if test="leaveEndTime != null">leave_end_time,</if>
+            <if test="instanceId != null">instance_id,</if>
+            <if test="state != null">state,</if>
+            <if test="createName != null">create_name,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="type != null">#{type},</if>
+            <if test="title != null">#{title},</if>
+            <if test="reason != null">#{reason},</if>
+            <if test="leaveStartTime != null">#{leaveStartTime},</if>
+            <if test="leaveEndTime != null">#{leaveEndTime},</if>
+            <if test="instanceId != null">#{instanceId},</if>
+            <if test="state != null">#{state},</if>
+            <if test="createName != null">#{createName},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWorkflowLeave" parameterType="WorkflowLeave">
+        update workflow_leave
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="type != null">type = #{type},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="reason != null">reason = #{reason},</if>
+            <if test="leaveStartTime != null">leave_start_time = #{leaveStartTime},</if>
+            <if test="leaveEndTime != null">leave_end_time = #{leaveEndTime},</if>
+            <if test="instanceId != null">instance_id = #{instanceId},</if>
+            <if test="state != null">state = #{state},</if>
+            <if test="createName != null">create_name = #{createName},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWorkflowLeaveById" parameterType="String">
+        delete from workflow_leave where id = #{id}
+    </delete>
+
+    <delete id="deleteWorkflowLeaveByIds" parameterType="String">
+        delete from workflow_leave where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>
