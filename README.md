@@ -149,14 +149,11 @@ v1.0
         <td><img src="https://oscimg.oschina.net/oscnet/up-d4fe726319ece268d4746602c39cffc0621.png"/></td>
         <td><img src="https://oscimg.oschina.net/oscnet/up-c195234bbcd30be6927f037a6755e6ab69c.png"/></td>
     </tr>
-    <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/b6115bc8c31de52951982e509930b20684a.jpg"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-6d73c2140ce694e3de4c05035fdc1868d4c.png"/></td>
-    </tr>
 
 </table>
 
 
 ## 若依前后端分离工作流交流群
 
-QQ群：  [![加入QQ群](https://img.shields.io/badge/815390100-blue.svg)](https://qm.qq.com/cgi-bin/qm/qr?k=nrV3xrlurpfJp-SNd1TrUr__S8AzgrPH&jump_from=webapi") 815390100 点击按钮入群。
+QQ群1：  [![加入QQ群](https://img.shields.io/badge/815390100-blue.svg)](https://qm.qq.com/cgi-bin/qm/qr?k=nrV3xrlurpfJp-SNd1TrUr__S8AzgrPH&jump_from=webapi") 815390100 点击按钮入群。
+QQ群2：  [![加入QQ群](https://img.shields.io/badge/1030614591-blue.svg)](https://qm.qq.com/cgi-bin/qm/qr?k=eseCOPaRhBa07elfzLiiB6yeJuBLmrNF&jump_from=webapi") 1030614591 点击按钮入群。
