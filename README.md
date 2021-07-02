@@ -116,7 +116,7 @@ v1.0
 
 - admin/admin123
 
-演示地址：https://demo.ruoyichina.com/login
+演示地址：http://demo.ruoyichina.com/login
 
 ## 演示图
 
