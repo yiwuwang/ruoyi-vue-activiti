@@ -1,11 +1,13 @@
 package com.ruoyi.common.core.redis;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.BoundSetOperations;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -73,6 +75,28 @@ public class RedisCache
     }
 
     /**
+     * 获取有效时间
+     *
+     * @param key Redis键
+     * @return 有效时间
+     */
+    public long getExpire(final String key)
+    {
+        return redisTemplate.getExpire(key);
+    }
+
+    /**
+     * 判断 key是否存在
+     *
+     * @param key 键
+     * @return true 存在 false不存在
+     */
+    public Boolean hasKey(String key)
+    {
+        return redisTemplate.hasKey(key);
+    }
+
+    /**
      * 获得缓存的基本对象。
      *
      * @param key 缓存键值
@@ -100,9 +124,9 @@ public class RedisCache
      * @param collection 多个对象
      * @return
      */
-    public long deleteObject(final Collection collection)
+    public boolean deleteObject(final Collection collection)
     {
-        return redisTemplate.delete(collection);
+        return redisTemplate.delete(collection) > 0;
     }
 
     /**
@@ -136,10 +160,15 @@ public class RedisCache
      * @param dataSet 缓存的数据
      * @return 缓存数据的对象
      */
-    public <T> long setCacheSet(final String key, final Set<T> dataSet)
+    public <T> BoundSetOperations<String, T> setCacheSet(final String key, final Set<T> dataSet)
     {
-        Long count = redisTemplate.opsForSet().add(key, dataSet);
-        return count == null ? 0 : count;
+        BoundSetOperations<String, T> setOperation = redisTemplate.boundSetOps(key);
+        Iterator<T> it = dataSet.iterator();
+        while (it.hasNext())
+        {
+            setOperation.add(it.next());
+        }
+        return setOperation;
     }
 
     /**
@@ -212,6 +241,18 @@ public class RedisCache
     public <T> List<T> getMultiCacheMapValue(final String key, final Collection<Object> hKeys)
     {
         return redisTemplate.opsForHash().multiGet(key, hKeys);
+    }
+
+    /**
+     * 删除Hash中的某条数据
+     *
+     * @param key Redis键
+     * @param hKey Hash键
+     * @return 是否成功
+     */
+    public boolean deleteCacheMapValue(final String key, final String hKey)
+    {
+        return redisTemplate.opsForHash().delete(key, hKey) > 0;
     }
 
     /**

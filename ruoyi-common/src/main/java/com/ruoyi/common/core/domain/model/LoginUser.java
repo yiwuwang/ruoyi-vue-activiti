@@ -1,12 +1,14 @@
 package com.ruoyi.common.core.domain.model;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.alibaba.fastjson2.annotation.JSONField;
 import com.ruoyi.common.core.domain.entity.SysUser;
 
 /**
@@ -16,6 +18,16 @@ import com.ruoyi.common.core.domain.entity.SysUser;
  */
 public class LoginUser implements UserDetails {
     private static final long serialVersionUID = 1L;
+
+    /**
+     * 用户ID
+     */
+    private Long userId;
+
+    /**
+     * 部门ID
+     */
+    private Long deptId;
 
     /**
      * 用户唯一标识
@@ -57,12 +69,29 @@ public class LoginUser implements UserDetails {
      */
     private Set<String> permissions;
 
+    //增加权限认证
     private List<SimpleGrantedAuthority> authorities;
 
     /**
      * 用户信息
      */
     private SysUser user;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Long deptId) {
+        this.deptId = deptId;
+    }
 
     public String getToken() {
         return token;
@@ -75,13 +104,27 @@ public class LoginUser implements UserDetails {
     public LoginUser() {
     }
 
-    public LoginUser(SysUser user, Set<String> permissions,List<SimpleGrantedAuthority> authorities) {
+    public LoginUser(SysUser user, Set<String> permissions) {
+        this.user = user;
+        this.permissions = permissions;
+    }
+
+    public LoginUser(Long userId, Long deptId, SysUser user, Set<String> permissions) {
+        this.userId = userId;
+        this.deptId = deptId;
+        this.user = user;
+        this.permissions = permissions;
+    }
+
+    public LoginUser(Long userId, Long deptId, SysUser user, Set<String> permissions, List<SimpleGrantedAuthority> authorities) {
+        this.userId = userId;
+        this.deptId = deptId;
         this.user = user;
         this.permissions = permissions;
         this.authorities = authorities;
     }
 
-    @JsonIgnore
+    @JSONField(serialize = false)
     @Override
     public String getPassword() {
         return user.getPassword();
@@ -95,7 +138,7 @@ public class LoginUser implements UserDetails {
     /**
      * 账户是否未过期,过期无法验证
      */
-    @JsonIgnore
+    @JSONField(serialize = false)
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -106,7 +149,7 @@ public class LoginUser implements UserDetails {
      *
      * @return
      */
-    @JsonIgnore
+    @JSONField(serialize = false)
     @Override
     public boolean isAccountNonLocked() {
         return true;
@@ -117,7 +160,7 @@ public class LoginUser implements UserDetails {
      *
      * @return
      */
-    @JsonIgnore
+    @JSONField(serialize = false)
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
@@ -128,7 +171,7 @@ public class LoginUser implements UserDetails {
      *
      * @return
      */
-    @JsonIgnore
+    @JSONField(serialize = false)
     @Override
     public boolean isEnabled() {
         return true;
@@ -204,8 +247,6 @@ public class LoginUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
         return authorities;
-
     }
 }

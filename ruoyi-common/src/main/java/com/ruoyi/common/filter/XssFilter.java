@@ -3,8 +3,6 @@ package com.ruoyi.common.filter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -14,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.enums.HttpMethod;
 
 /**
  * 防止XSS攻击的过滤器
@@ -27,16 +26,10 @@ public class XssFilter implements Filter
      */
     public List<String> excludes = new ArrayList<>();
 
-    /**
-     * xss过滤开关
-     */
-    public boolean enabled = false;
-
     @Override
     public void init(FilterConfig filterConfig) throws ServletException
     {
         String tempExcludes = filterConfig.getInitParameter("excludes");
-        String tempEnabled = filterConfig.getInitParameter("enabled");
         if (StringUtils.isNotEmpty(tempExcludes))
         {
             String[] url = tempExcludes.split(",");
@@ -44,10 +37,6 @@ public class XssFilter implements Filter
             {
                 excludes.add(url[i]);
             }
-        }
-        if (StringUtils.isNotEmpty(tempEnabled))
-        {
-            enabled = Boolean.valueOf(tempEnabled);
         }
     }
 
@@ -68,25 +57,14 @@ public class XssFilter implements Filter
 
     private boolean handleExcludeURL(HttpServletRequest request, HttpServletResponse response)
     {
-        if (!enabled)
+        String url = request.getServletPath();
+        String method = request.getMethod();
+        // GET DELETE 不过滤
+        if (method == null || HttpMethod.GET.matches(method) || HttpMethod.DELETE.matches(method))
         {
             return true;
         }
-        if (excludes == null || excludes.isEmpty())
-        {
-            return false;
-        }
-        String url = request.getServletPath();
-        for (String pattern : excludes)
-        {
-            Pattern p = Pattern.compile("^" + pattern);
-            Matcher m = p.matcher(url);
-            if (m.find())
-            {
-                return true;
-            }
-        }
-        return false;
+        return StringUtils.matches(url, excludes);
     }
 
     @Override

@@ -178,7 +178,7 @@
       /** 提交按钮 */
       submitForm() {
         formDataSave(this.id,this.form.formData).then(response => {
-          this.msgSuccess("审批成功");
+          this.$modal.msgSuccess("审批成功");
           this.open = false;
           this.getList();
         });

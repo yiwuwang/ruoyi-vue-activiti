@@ -6,8 +6,6 @@
 * 支持加载动态权限菜单，多方式轻松权限控制。
 * 高效率开发，使用代码生成器可以一键生成前后端代码。
 * 感谢[RuoYi-Vue](https://github.com/yangzongzhuan/RuoYi-Vue)。
-* 华为云优惠券：[点我进入](https://www.huaweicloud.com/product/ecs.html?fromacct=2b023ba5-33f5-478c-bbdf-33e27cd7459c&utm_source=V1g3MDY4NTY=&utm_medium=cps&utm_campaign=201905)
-* 阿里云优惠券：[点我进入](https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=ek76b2lk)
 
 #### 部署文档与ruoyi-vue一致:https://doc.ruoyi.vip/ruoyi-vue/
 #### 部署文档与ruoyi-vue一致:https://doc.ruoyi.vip/ruoyi-vue/
@@ -18,62 +16,13 @@
 >
 >  1. 若依框架: [http://www.ruoyi.vip](http://www.ruoyi.vip/)
 >  2. 咖啡兔：[《Activiti 实战》](https://github.com/henryyan/activiti-in-action-codes)
+>  3. danny https://gitee.com/smell2/ruoyi-vue-activiti#
 
 ## 最新更新
 <p>随手 star ⭐是一种美德。 你们的star就是我的动力</p>
 
-v2.4
-
-由于使用自定义表单之后与页面绑定，在APP端与其他页面无法进行审批，失去了前后端分离的意义
-所以2.4版本回退到2.2版本
-后续更近会继续使用原先动态表单架构。
-春节期间代码改动会很大，谢谢大家的支持，提前祝大家新年快乐。
-
-
-v2.2
-1. 添加任务流程图展示
-2. 修改请请假流程默认排序
-3. 修改动态表单默认排序
-4. 修改动态表展示单审批人nick_name(之前是user_name)
-5. act_workflow_formdata表添加create_name字段
-
-近期任务：
-1. 优化动态表单页面
-2. 添加请假流程添加附件（使用华为云OBS存储）
-3. 添加销假流程并使用
-4. 添加通知任务监听器
-5. 超时提醒-定时事件
-
-v2.1
-1. 修改已知BUG
-2. 添加审批未通过修改请假流程
-3. 修改act_workflow_formdata数据表字段
-
-
-
-v2.0
-
-1. activiti升级到7.1.0.M4
-2. ruoyi-vue升级到3.2.0
-3. 流程设计器更改为bpmn.js
-4. 添加请假部门领导审批，公司人事审批流程
-5. 使用动态表单构建
-
-
-v1.1
-1. 优化前端代码
-2. ruoyi-vue升级到3.1.0  详情请看ruoyi-vue官网
-
-v1.0
-
-1.  新增请假流程：请假会签，支持请假列表、新增暂存、编辑、删除；提交申请 (含选择会签参与人)、表单数据、我的待办 (申请详情、审批、调整申请、销假)、我的已办。
-2.  在线绘图部分界面汉化。
-3.  新增流程通用接口：审批历史和进度查看。
-4.  Activiti Modeler 完全汉化。
-5.  流程实例支持挂起和激活、撤销。
-6.  新增流程定义功能，支持流程定义部署、列表、删除和导出。
-7.  新增在线绘图功能，支持拖拽预览、在线绘图、下载 BPMN 文件和 SVG 文件。
-
+v3.0
+1. ruoyi-vue升级到3.8.5
 
 
 ### 测试账号
@@ -152,8 +101,3 @@ v1.0
 
 </table>
 
-
-## 若依前后端分离工作流交流群
-
-QQ群1：  [![加入QQ群](https://img.shields.io/badge/815390100-blue.svg)](https://qm.qq.com/cgi-bin/qm/qr?k=nrV3xrlurpfJp-SNd1TrUr__S8AzgrPH&jump_from=webapi") 815390100 点击按钮入群。
-QQ群2：  [![加入QQ群](https://img.shields.io/badge/1030614591-blue.svg)](https://qm.qq.com/cgi-bin/qm/qr?k=eseCOPaRhBa07elfzLiiB6yeJuBLmrNF&jump_from=webapi") 1030614591 点击按钮入群。

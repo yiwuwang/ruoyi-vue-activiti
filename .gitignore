@@ -44,3 +44,5 @@ application-prod2.yml
 !*/build/*.java
 !*/build/*.html
 !*/build/*.xml
+
+ruoyi-ui/node_modules

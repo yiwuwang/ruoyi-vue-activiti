@@ -1,12 +1,13 @@
 'use strict'
 const path = require('path')
-const defaultSettings = require('./src/settings.js')
 
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || '若依管理系统' // 标题
+const CompressionPlugin = require('compression-webpack-plugin')
+
+const name = process.env.VUE_APP_TITLE || '若依管理系统' // 网页标题
 
 const port = process.env.port || process.env.npm_config_port || 80 // 端口
 
@@ -43,13 +44,30 @@ module.exports = {
     },
     disableHostCheck: true
   },
+  css: {
+    loaderOptions: {
+      sass: {
+        sassOptions: { outputStyle: "expanded" }
+      }
+    }
+  },
   configureWebpack: {
     name: name,
     resolve: {
       alias: {
         '@': resolve('src')
       }
-    }
+    },
+    plugins: [
+      // http://doc.ruoyi.vip/ruoyi-vue/other/faq.html#使用gzip解压缩静态文件
+      new CompressionPlugin({
+        cache: false,                   // 不启用文件缓存
+        test: /\.(js|css|html)?$/i,     // 压缩文件格式
+        filename: '[path].gz[query]',   // 压缩后的文件名
+        algorithm: 'gzip',              // 使用gzip压缩
+        minRatio: 0.8                   // 压缩率小于1才会压缩
+      })
+    ],
   },
   chainWebpack(config) {
     config.plugins.delete('preload') // TODO: need test
@@ -109,8 +127,8 @@ module.exports = {
             })
           config.optimization.runtimeChunk('single'),
           {
-             from: path.resolve(__dirname, './public/robots.txt'),//防爬虫文件
-             to:'./',//到根目录下
+             from: path.resolve(__dirname, './public/robots.txt'), //防爬虫文件
+             to: './' //到根目录下
           }
         }
       )

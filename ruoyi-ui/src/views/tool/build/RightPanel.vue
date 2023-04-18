@@ -486,7 +486,7 @@
             </el-tree>
           </template>
 
-          <template v-if="activeData.layout === 'colFormItem'">
+          <template v-if="activeData.layout === 'colFormItem' && activeData.tag !== 'el-button'">
             <el-divider>正则校验</el-divider>
             <div
               v-for="(item, index) in activeData.regList"
@@ -573,6 +573,7 @@
 
 <script>
 import { isArray } from 'util'
+import draggable from 'vuedraggable'
 import TreeNodeDialog from './TreeNodeDialog'
 import { isNumberStr } from '@/utils/index'
 import IconsDialog from './IconsDialog'
@@ -595,6 +596,7 @@ const dateTimeFormat = {
 
 export default {
   components: {
+    draggable,
     TreeNodeDialog,
     IconsDialog
   },

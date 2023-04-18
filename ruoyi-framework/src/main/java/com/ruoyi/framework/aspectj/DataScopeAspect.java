@@ -1,22 +1,20 @@
 package com.ruoyi.framework.aspectj;
 
-import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.domain.model.LoginUser;
-import com.ruoyi.common.utils.ServletUtils;
+import com.ruoyi.common.core.text.Convert;
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
-import com.ruoyi.common.utils.spring.SpringUtils;
-import com.ruoyi.framework.web.service.TokenService;
+import com.ruoyi.framework.security.context.PermissionContextHolder;
 
 /**
  * 数据过滤处理
@@ -57,36 +55,26 @@ public class DataScopeAspect
      */
     public static final String DATA_SCOPE = "dataScope";
 
-    // 配置织入点
-    @Pointcut("@annotation(com.ruoyi.common.annotation.DataScope)")
-    public void dataScopePointCut()
+    @Before("@annotation(controllerDataScope)")
+    public void doBefore(JoinPoint point, DataScope controllerDataScope) throws Throwable
     {
+        clearDataScope(point);
+        handleDataScope(point, controllerDataScope);
     }
 
-    @Before("dataScopePointCut()")
-    public void doBefore(JoinPoint point) throws Throwable
+    protected void handleDataScope(final JoinPoint joinPoint, DataScope controllerDataScope)
     {
-        handleDataScope(point);
-    }
-
-    protected void handleDataScope(final JoinPoint joinPoint)
-    {
-        // 获得注解
-        DataScope controllerDataScope = getAnnotationLog(joinPoint);
-        if (controllerDataScope == null)
-        {
-            return;
-        }
         // 获取当前的用户
-        LoginUser loginUser = SpringUtils.getBean(TokenService.class).getLoginUser(ServletUtils.getRequest());
+        LoginUser loginUser = SecurityUtils.getLoginUser();
         if (StringUtils.isNotNull(loginUser))
         {
             SysUser currentUser = loginUser.getUser();
             // 如果是超级管理员，则不过滤数据
             if (StringUtils.isNotNull(currentUser) && !currentUser.isAdmin())
             {
+                String permission = StringUtils.defaultIfEmpty(controllerDataScope.permission(), PermissionContextHolder.getContext());
                 dataScopeFilter(joinPoint, currentUser, controllerDataScope.deptAlias(),
-                        controllerDataScope.userAlias());
+                        controllerDataScope.userAlias(), permission);
             }
         }
     }
@@ -96,18 +84,31 @@ public class DataScopeAspect
      *
      * @param joinPoint 切点
      * @param user 用户
-     * @param userAlias 别名
+     * @param deptAlias 部门别名
+     * @param userAlias 用户别名
+     * @param permission 权限字符
      */
-    public static void dataScopeFilter(JoinPoint joinPoint, SysUser user, String deptAlias, String userAlias)
+    public static void dataScopeFilter(JoinPoint joinPoint, SysUser user, String deptAlias, String userAlias, String permission)
     {
         StringBuilder sqlString = new StringBuilder();
+        List<String> conditions = new ArrayList<String>();
 
         for (SysRole role : user.getRoles())
         {
             String dataScope = role.getDataScope();
+            if (!DATA_SCOPE_CUSTOM.equals(dataScope) && conditions.contains(dataScope))
+            {
+                continue;
+            }
+            if (StringUtils.isNotEmpty(permission) && StringUtils.isNotEmpty(role.getPermissions())
+                    && !StringUtils.containsAny(role.getPermissions(), Convert.toStrArray(permission)))
+            {
+                continue;
+            }
             if (DATA_SCOPE_ALL.equals(dataScope))
             {
                 sqlString = new StringBuilder();
+                conditions.add(dataScope);
                 break;
             }
             else if (DATA_SCOPE_CUSTOM.equals(dataScope))
@@ -135,9 +136,16 @@ public class DataScopeAspect
                 else
                 {
                     // 数据权限为仅本人且没有userAlias别名不查询任何数据
-                    sqlString.append(" OR 1=0 ");
+                    sqlString.append(StringUtils.format(" OR {}.dept_id = 0 ", deptAlias));
                 }
             }
+            conditions.add(dataScope);
+        }
+
+        // 多角色情况下，所有角色都不包含传递过来的权限字符，这个时候sqlString也会为空，所以要限制一下,不查询任何数据
+        if (StringUtils.isEmpty(conditions))
+        {
+            sqlString.append(StringUtils.format(" OR {}.dept_id = 0 ", deptAlias));
         }
 
         if (StringUtils.isNotBlank(sqlString.toString()))
@@ -152,18 +160,15 @@ public class DataScopeAspect
     }
 
     /**
-     * 是否存在注解，如果存在就获取
+     * 拼接权限sql前先清空params.dataScope参数防止注入
      */
-    private DataScope getAnnotationLog(JoinPoint joinPoint)
+    private void clearDataScope(final JoinPoint joinPoint)
     {
-        Signature signature = joinPoint.getSignature();
-        MethodSignature methodSignature = (MethodSignature) signature;
-        Method method = methodSignature.getMethod();
-
-        if (method != null)
+        Object params = joinPoint.getArgs()[0];
+        if (StringUtils.isNotNull(params) && params instanceof BaseEntity)
         {
-            return method.getAnnotation(DataScope.class);
+            BaseEntity baseEntity = (BaseEntity) params;
+            baseEntity.getParams().put(DATA_SCOPE, "");
         }
-        return null;
     }
 }

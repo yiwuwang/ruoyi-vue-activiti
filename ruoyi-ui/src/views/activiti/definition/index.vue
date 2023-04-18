@@ -229,7 +229,7 @@
           return suspendOrActiveApply(data);
         }).then(() => {
           this.getList();
-          this.msgSuccess("转换成功");
+          this.$modal.msgSuccess("转换成功");
         }).catch(function () {
         });
 
@@ -278,7 +278,7 @@
           return delDefinition(row.deploymentId);
         }).then(() => {
           this.getList();
-          this.msgSuccess("删除成功");
+          this.$modal.msgSuccess("删除成功");
         }).catch(function () {
         });
       },

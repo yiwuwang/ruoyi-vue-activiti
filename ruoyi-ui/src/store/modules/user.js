@@ -5,7 +5,6 @@ const user = {
   state: {
     token: getToken(),
     name: '',
-    nickName:'',
     avatar: '',
     roles: [],
     permissions: []
@@ -17,9 +16,6 @@ const user = {
     },
     SET_NAME: (state, name) => {
       state.name = name
-    },
-    SET_NICK_NAME: (state, nickName) => {
-      state.nickName = nickName
     },
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
@@ -53,9 +49,9 @@ const user = {
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getInfo(state.token).then(res => {
+        getInfo().then(res => {
           const user = res.user
-          const avatar = user.avatar == "" ? require("@/assets/image/profile.jpg") : user.avatar.substr(0,4)=="http"?user.avatar: process.env.VUE_APP_BASE_API + user.avatar;
+          const avatar = (user.avatar == "" || user.avatar == null) ? require("@/assets/images/profile.jpg") : process.env.VUE_APP_BASE_API + user.avatar;
           if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
             commit('SET_ROLES', res.roles)
             commit('SET_PERMISSIONS', res.permissions)
@@ -63,7 +59,6 @@ const user = {
             commit('SET_ROLES', ['ROLE_DEFAULT'])
           }
           commit('SET_NAME', user.userName)
-          commit('SET_NICK_NAME', user.nickName)
           commit('SET_AVATAR', avatar)
           resolve(res)
         }).catch(error => {

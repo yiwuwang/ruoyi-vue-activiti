@@ -1,12 +1,11 @@
 <template>
   <div class="app-container">
-    <el-form :model="queryParams" ref="queryForm" :inline="true" v-show="showSearch" label-width="68px">
+    <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
       <el-form-item label="任务名称" prop="jobName">
         <el-input
           v-model="queryParams.jobName"
           placeholder="请输入任务名称"
           clearable
-          size="small"
           style="width: 240px"
           @keyup.enter.native="handleQuery"
         />
@@ -14,16 +13,15 @@
       <el-form-item label="任务组名" prop="jobGroup">
         <el-select
           v-model="queryParams.jobGroup"
-          placeholder="请任务组名"
+          placeholder="请选择任务组名"
           clearable
-          size="small"
           style="width: 240px"
         >
           <el-option
-            v-for="dict in jobGroupOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
+            v-for="dict in dict.type.sys_job_group"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
           />
         </el-select>
       </el-form-item>
@@ -32,21 +30,19 @@
           v-model="queryParams.status"
           placeholder="请选择执行状态"
           clearable
-          size="small"
           style="width: 240px"
         >
           <el-option
-            v-for="dict in statusOptions"
-            :key="dict.dictValue"
-            :label="dict.dictLabel"
-            :value="dict.dictValue"
+            v-for="dict in dict.type.sys_common_status"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
           />
         </el-select>
       </el-form-item>
       <el-form-item label="执行时间">
         <el-date-picker
           v-model="dateRange"
-          size="small"
           style="width: 240px"
           value-format="yyyy-MM-dd"
           type="daterange"
@@ -56,7 +52,7 @@
         ></el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="cyan" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
+        <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
       </el-form-item>
     </el-form>
@@ -65,6 +61,7 @@
       <el-col :span="1.5">
         <el-button
           type="danger"
+          plain
           icon="el-icon-delete"
           size="mini"
           :disabled="multiple"
@@ -75,6 +72,7 @@
       <el-col :span="1.5">
         <el-button
           type="danger"
+          plain
           icon="el-icon-delete"
           size="mini"
           @click="handleClean"
@@ -84,11 +82,21 @@
       <el-col :span="1.5">
         <el-button
           type="warning"
+          plain
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
           v-hasPermi="['monitor:job:export']"
         >导出</el-button>
+      </el-col>
+      <el-col :span="1.5">
+        <el-button
+          type="warning"
+          plain
+          icon="el-icon-close"
+          size="mini"
+          @click="handleClose"
+        >关闭</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
@@ -97,10 +105,18 @@
       <el-table-column type="selection" width="55" align="center" />
       <el-table-column label="日志编号" width="80" align="center" prop="jobLogId" />
       <el-table-column label="任务名称" align="center" prop="jobName" :show-overflow-tooltip="true" />
-      <el-table-column label="任务组名" align="center" prop="jobGroup" :formatter="jobGroupFormat" :show-overflow-tooltip="true" />
+      <el-table-column label="任务组名" align="center" prop="jobGroup" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_job_group" :value="scope.row.jobGroup"/>
+        </template>
+      </el-table-column>
       <el-table-column label="调用目标字符串" align="center" prop="invokeTarget" :show-overflow-tooltip="true" />
       <el-table-column label="日志信息" align="center" prop="jobMessage" :show-overflow-tooltip="true" />
-      <el-table-column label="执行状态" align="center" prop="status" :formatter="statusFormat" />
+      <el-table-column label="执行状态" align="center" prop="status">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_common_status" :value="scope.row.status"/>
+        </template>
+      </el-table-column>
       <el-table-column label="执行时间" align="center" prop="createTime" width="180">
         <template slot-scope="scope">
           <span>{{ parseTime(scope.row.createTime) }}</span>
@@ -164,10 +180,12 @@
 </template>
 
 <script>
-import { listJobLog, delJobLog, exportJobLog, cleanJobLog } from "@/api/monitor/jobLog";
+import { getJob} from "@/api/monitor/job";
+import { listJobLog, delJobLog, cleanJobLog } from "@/api/monitor/jobLog";
 
 export default {
   name: "JobLog",
+  dicts: ['sys_common_status', 'sys_job_group'],
   data() {
     return {
       // 遮罩层
@@ -188,10 +206,6 @@ export default {
       dateRange: [],
       // 表单参数
       form: {},
-      // 执行状态字典
-      statusOptions: [],
-      // 任务组名字典
-      jobGroupOptions: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
@@ -203,13 +217,16 @@ export default {
     };
   },
   created() {
-    this.getList();
-    this.getDicts("sys_job_status").then(response => {
-      this.statusOptions = response.data;
-    });
-    this.getDicts("sys_job_group").then(response => {
-      this.jobGroupOptions = response.data;
-    });
+    const jobId = this.$route.params && this.$route.params.jobId;
+    if (jobId !== undefined && jobId != 0) {
+      getJob(jobId).then(response => {
+        this.queryParams.jobName = response.data.jobName;
+        this.queryParams.jobGroup = response.data.jobGroup;
+        this.getList();
+      });
+    } else {
+      this.getList();
+    }
   },
   methods: {
     /** 查询调度日志列表 */
@@ -222,13 +239,10 @@ export default {
         }
       );
     },
-    // 执行状态字典翻译
-    statusFormat(row, column) {
-      return this.selectDictLabel(this.statusOptions, row.status);
-    },
-    // 任务组名字典翻译
-    jobGroupFormat(row, column) {
-      return this.selectDictLabel(this.jobGroupOptions, row.jobGroup);
+    // 返回按钮
+    handleClose() {
+      const obj = { path: "/monitor/job" };
+      this.$tab.closeOpenPage(obj);
     },
     /** 搜索按钮操作 */
     handleQuery() {
@@ -254,42 +268,27 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const jobLogIds = this.ids;
-      this.$confirm('是否确认删除调度日志编号为"' + jobLogIds + '"的数据项?', "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return delJobLog(jobLogIds);
-        }).then(() => {
-          this.getList();
-          this.msgSuccess("删除成功");
-        })
+      this.$modal.confirm('是否确认删除调度日志编号为"' + jobLogIds + '"的数据项？').then(function() {
+        return delJobLog(jobLogIds);
+      }).then(() => {
+        this.getList();
+        this.$modal.msgSuccess("删除成功");
+      }).catch(() => {});
     },
     /** 清空按钮操作 */
     handleClean() {
-      this.$confirm("是否确认清空所有调度日志数据项?", "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return cleanJobLog();
-        }).then(() => {
-          this.getList();
-          this.msgSuccess("清空成功");
-        })
+      this.$modal.confirm('是否确认清空所有调度日志数据项？').then(function() {
+        return cleanJobLog();
+      }).then(() => {
+        this.getList();
+        this.$modal.msgSuccess("清空成功");
+      }).catch(() => {});
     },
     /** 导出按钮操作 */
     handleExport() {
-      const queryParams = this.queryParams;
-      this.$confirm("是否确认导出所有调度日志数据项?", "警告", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        }).then(function() {
-          return exportJobLog(queryParams);
-        }).then(response => {
-          this.download(response.msg);
-        })
+      this.download('/monitor/jobLog/export', {
+        ...this.queryParams
+      }, `log_${new Date().getTime()}.xlsx`)
     }
   }
 };

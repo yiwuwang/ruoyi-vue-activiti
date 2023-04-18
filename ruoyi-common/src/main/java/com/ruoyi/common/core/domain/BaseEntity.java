@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * Entity基类
@@ -17,6 +18,7 @@ public class BaseEntity implements Serializable
     private static final long serialVersionUID = 1L;
 
     /** 搜索值 */
+    @JsonIgnore
     private String searchValue;
 
     /** 创建者 */
@@ -36,15 +38,8 @@ public class BaseEntity implements Serializable
     /** 备注 */
     private String remark;
 
-    /** 开始时间 */
-    @JsonIgnore
-    private String beginTime;
-
-    /** 结束时间 */
-    @JsonIgnore
-    private String endTime;
-
     /** 请求参数 */
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private Map<String, Object> params;
 
     public String getSearchValue()
@@ -105,26 +100,6 @@ public class BaseEntity implements Serializable
     public void setRemark(String remark)
     {
         this.remark = remark;
-    }
-
-    public String getBeginTime()
-    {
-        return beginTime;
-    }
-
-    public void setBeginTime(String beginTime)
-    {
-        this.beginTime = beginTime;
-    }
-
-    public String getEndTime()
-    {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime)
-    {
-        this.endTime = endTime;
     }
 
     public Map<String, Object> getParams()

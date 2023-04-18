@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ruoyi</artifactId>
         <groupId>com.ruoyi</groupId>
-        <version>3.2.0</version>
+        <version>3.8.5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -34,14 +34,10 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.1.2</version>
-        </dependency>
+
         <!-- 验证码 -->
         <dependency>
-            <groupId>com.github.penggle</groupId>
+            <groupId>pro.fessional</groupId>
             <artifactId>kaptcha</artifactId>
             <exclusions>
                 <exclusion>

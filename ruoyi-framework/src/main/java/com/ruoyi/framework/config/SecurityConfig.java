@@ -8,19 +8,21 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.filter.CorsFilter;
+import com.ruoyi.framework.config.properties.PermitAllUrlProperties;
 import com.ruoyi.framework.security.filter.JwtAuthenticationTokenFilter;
 import com.ruoyi.framework.security.handle.AuthenticationEntryPointImpl;
 import com.ruoyi.framework.security.handle.LogoutSuccessHandlerImpl;
 
 /**
  * spring security配置
- * 
+ *
  * @author ruoyi
  */
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -31,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
      */
     @Autowired
     private UserDetailsService userDetailsService;
-    
+
     /**
      * 认证失败处理类
      */
@@ -55,7 +57,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
      */
     @Autowired
     private CorsFilter corsFilter;
-    
+
+    /**
+     * 允许匿名访问的地址
+     */
+    @Autowired
+    private PermitAllUrlProperties permitAllUrl;
+
     /**
      * 解决 无法直接注入 AuthenticationManager
      *
@@ -87,38 +95,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception
     {
+        // 注解标记允许匿名访问的url
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry registry = httpSecurity.authorizeRequests();
+        permitAllUrl.getUrls().forEach(url -> registry.antMatchers(url).permitAll());
+
         httpSecurity
                 // CSRF禁用，因为不使用session
                 .csrf().disable()
+                // 禁用HTTP响应标头
+                .headers().cacheControl().disable().and()
                 // 认证失败处理类
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 // 基于token，所以不需要session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 过滤请求
                 .authorizeRequests()
-                // 对于登录login 验证码captchaImage 允许匿名访问
-                .antMatchers("/login", "/captchaImage").anonymous()
-                .antMatchers(
-                        HttpMethod.GET,
-                        "/*.html",
-                        "/**/*.html",
-                        "/**/*.css",
-                        "/**/*.js"
-                ).permitAll()
+                // 对于登录login 注册register 验证码captchaImage 允许匿名访问
+                .antMatchers("/login", "/register", "/captchaImage").permitAll()
+                // 静态资源，可匿名访问
+                .antMatchers(HttpMethod.GET, "/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/profile/**").permitAll()
+                .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/*/api-docs", "/druid/**").permitAll()
+
                 .antMatchers("/processDefinition/**").permitAll()
                 .antMatchers("/activitiHistory/**").permitAll()
-                .antMatchers("/profile/**").permitAll()
-                .antMatchers("/common/download**").anonymous()
-                .antMatchers("/common/download/resource**").anonymous()
-                .antMatchers("/swagger-ui.html").anonymous()
-                .antMatchers("/swagger-resources/**").anonymous()
-                .antMatchers("/webjars/**").anonymous()
-                .antMatchers("/*/api-docs").anonymous()
-                .antMatchers("/druid/**").anonymous()
+                .antMatchers("/common/download**").permitAll()
+                .antMatchers("/common/download/resource**").permitAll()
+
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated()
                 .and()
                 .headers().frameOptions().disable();
+        // 添加Logout filter
         httpSecurity.logout().logoutUrl("/logout").logoutSuccessHandler(logoutSuccessHandler);
         // 添加JWT filter
         httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
@@ -127,7 +134,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         httpSecurity.addFilterBefore(corsFilter, LogoutFilter.class);
     }
 
-    
     /**
      * 强散列哈希加密实现
      */

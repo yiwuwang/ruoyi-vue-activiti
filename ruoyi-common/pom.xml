@@ -5,7 +5,7 @@
     <parent>
         <artifactId>ruoyi</artifactId>
         <groupId>com.ruoyi</groupId>
-        <version>3.2.0</version>
+        <version>3.8.5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -43,8 +43,8 @@
 
         <!-- 自定义验证注解 -->
         <dependency>
-            <groupId>javax.validation</groupId>
-            <artifactId>validation-api</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
         <!--常用工具类 -->
@@ -52,29 +52,30 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-  
+
         <!-- JSON工具类 -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
+        <!-- 动态数据源 -->
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+			<version>3.5.2</version>
+		</dependency>
+
         <!-- 阿里JSON解析器 -->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
         </dependency>
 
         <!-- io常用工具类 -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-        </dependency>
-
-        <!-- 文件上传工具类 -->
-        <dependency>
-            <groupId>commons-fileupload</groupId>
-            <artifactId>commons-fileupload</artifactId>
         </dependency>
 
         <!-- excel工具 -->
@@ -89,10 +90,16 @@
             <artifactId>snakeyaml</artifactId>
         </dependency>
 
-        <!--Token生成与解析-->
+        <!-- Token生成与解析-->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
+        </dependency>
+
+        <!-- Jaxb -->
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
         </dependency>
 
         <!-- redis 缓存操作 -->
@@ -124,7 +131,6 @@
             <artifactId>esdk-obs-java</artifactId>
             <version>[3.20.6.1,)</version>
         </dependency>
-
     </dependencies>
 
 </project>
